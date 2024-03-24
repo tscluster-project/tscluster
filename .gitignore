@@ -1,0 +1,9 @@
+1D_TemporalAAA_k-Z_change_or_fixed_C_change_or_fixed_datapoint_cluster_fixed.ipynb
+__pycache__/
+tsclust/opttsclust/TemporalOptimalMILPClustering.py
+TemporalOptimalMILPClustering.py
+OptimalMILPClustering.py
+.ipynb_checkpoints/
+test_notebook.ipynb
+tscluster.egg-info/
+dist/
