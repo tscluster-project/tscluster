@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 from tslearn.generators import random_walks
 from tslearn.clustering import TimeSeriesKMeans
@@ -7,6 +9,8 @@ from tscluster.opttscluster import OptTSCluster
 from tscluster.tskmeans import TSKmeans, TSGlobalKmeans
 from tscluster.preprocessing import utils as preprocess_utils, TSStandardScaler, TSMinMaxScaler
 from tscluster.metrics import inertia, max_dist
+
+os.chdir("./Data")
 
 X_mini = np.load("./sythetic_data.npy")
 
@@ -122,21 +126,21 @@ print(sk_scaler.fit_transform(np.vstack(Xt))[:5])
 scaler = TSMinMaxScaler(per_time=False)
 print()
 print("trying fit(str) for csv")
-Xt = scaler.fit_transform("../synthetic_csv")
+Xt = scaler.fit_transform("./synthetic_csv")
 print(Xt[0, :5, :])
 print("Inverse tranform for csv")
 print(scaler.inverse_transform(Xt)[0, :5, :])
 
 print()
 print("trying fit(str) for json")
-Xt = scaler.fit_transform("../synthetic_json")
+Xt = scaler.fit_transform("./synthetic_json")
 print(Xt[0, :5, :])
 print("Inverse tranform for json")
 print(scaler.inverse_transform(Xt)[0, :5, :])
 
 print()
 print("trying fit(str) for npy")
-Xt = scaler.fit_transform("../synthetic_npy")
+Xt = scaler.fit_transform("./synthetic_npy")
 print(Xt[0, :5, :])
 print("Inverse tranform for npy")
 print(scaler.inverse_transform(Xt)[0, :5, :])
@@ -144,11 +148,11 @@ print(scaler.inverse_transform(Xt)[0, :5, :])
 print()
 print("trying fit(lst) for csv")
 file_list = [
-    "../synthetic_csv/timestep_0.csv",
-    "../synthetic_csv/timestep_1.csv",
-    "../synthetic_csv/timestep_2.csv",
-    "../synthetic_csv/timestep_3.csv",
-    "../synthetic_csv/timestep_4.csv"
+    "./synthetic_csv/timestep_0.csv",
+    "./synthetic_csv/timestep_1.csv",
+    "./synthetic_csv/timestep_2.csv",
+    "./synthetic_csv/timestep_3.csv",
+    "./synthetic_csv/timestep_4.csv"
 ]
 
 scaler.fit(file_list, read_file_args={'header': 0, 'sep': ","})
