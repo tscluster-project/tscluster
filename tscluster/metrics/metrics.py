@@ -2,7 +2,7 @@ import numpy as np
 
 from tscluster.preprocessing.utils import infer_data
 
-def broadcast_data(cluster_centers, labels, T):
+def _broadcast_data(cluster_centers, labels, T):
     if cluster_centers.ndim == 2:
         cluster_centers = np.array([z for z in range(T)])
 
@@ -19,7 +19,7 @@ def inertia(X, cluster_centers, labels, ord=2):
 
     X = _get_inferred_data(None, X)
 
-    cluster_centers, labels = broadcast_data(cluster_centers, labels, X.shape[0])
+    cluster_centers, labels = _broadcast_data(cluster_centers, labels, X.shape[0])
 
     running_sum = 0
 
@@ -36,7 +36,7 @@ def max_dist(X, cluster_centers, labels, ord=2):
 
     X = _get_inferred_data(None, X)
 
-    cluster_centers, labels = broadcast_data(cluster_centers, labels, X.shape[0])
+    cluster_centers, labels = _broadcast_data(cluster_centers, labels, X.shape[0])
 
     running_max = -np.inf
 
