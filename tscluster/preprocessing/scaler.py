@@ -10,12 +10,11 @@ from numpy import ndarray
 import numpy.typing as npt
 import pandas as pd
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
-from sklearn.base import TransformerMixin
 
 from tscluster.preprocessing.base import TSPreprocessor
 from tscluster.preprocessing.utils import reshape_for_transform, infer_data
 
-class TSScaler(TransformerMixin, TSPreprocessor):
+class TSScaler(TSPreprocessor):
     def __init__(self, scaler, per_time: bool = True, **kwargs) -> None:
         self._scaler = scaler
         self.per_time = per_time
@@ -45,6 +44,12 @@ class TSScaler(TransformerMixin, TSPreprocessor):
         X, _ = reshape_for_transform(X, self.per_time)
 
         return np.array([scaler.inverse_transform(X[i]) for i, scaler in enumerate(self._scalers)]).reshape(*_shape)
+
+    @infer_data
+    def fit_transform(self, X):
+        self.fit(X)
+
+        return self.transform(X)
 
 class TSStandardScaler(TSScaler):
     def __init__(self, per_time: bool = True, **kwargs) -> None:

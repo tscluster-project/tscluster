@@ -8,7 +8,19 @@ import pandas as pd
 valid_data_load_types = {np.ndarray, pd.DataFrame, str, list}
 valid_data_load_types_names = tuple(map(lambda x: x.__name__, valid_data_load_types))
 
-default_data_loader_args = {"arr_format": "TNF", "suffix_sep": "_", 'pd_read_csv_args': {}}
+default_data_loader_args = {
+    "arr_format": "TNF", 
+    "suffix_sep": "_", 
+    "read_file_args": {},
+    "file_reader": "infer" # can be one of ("infer", "np_load", "pd_read_csv", "pd_read_json", pd_read_excel)
+    }
+
+file_readers = {
+    "np_load": np.load,
+    "pd_read_csv": pd.read_csv,
+    "pd_read_json": pd.read_json,
+    "pd_read_excel": pd.read_excel
+}
 
 def TNF_to_NTF(X: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     T, N, F = X.shape 
@@ -57,23 +69,54 @@ def is_all_type(lst, data_type, type_checker=isinstance):
 def get_lst_of_filenames(dir):
     return [f for f in os.listdir(dir) if os.path.isfile(os.path.join(dir, f))]
 
-def pandas_read_all_files(lst, **kwargs):
-    return np.array([pd.read_csv(file_path, **kwargs).values for file_path in lst])
+def get_default_header(file_reader, kwargs):
+    if file_reader in ('pd_read_csv', 'pd_read_excel') and 'header' not in kwargs:
+        kwargs['header'] = None
+
+    return kwargs
+
+def read_all_files(lst, file_reader, **kwargs):
+
+    if file_reader == 'infer':
+
+        file_extension = {filename.split('.')[-1].lower() for filename in lst}
+
+        if 'npy' in file_extension or 'npz' in file_extension:
+            return np.array([file_readers['np_load'](file_path, **kwargs) for file_path in lst])
+
+        elif 'json' in file_extension:
+            return np.array([file_readers['pd_read_json'](file_path, **kwargs).values for file_path in lst])
+
+        elif 'xls' in file_extension or 'xlsx' in file_extension:
+            kwargs = get_default_header('pd_read_excel', kwargs)
+            return np.array([file_readers['pd_read_excel'](file_path, **kwargs).values for file_path in lst])
+        
+        else: # assume csv
+            kwargs = get_default_header('pd_read_csv', kwargs)
+            print(kwargs)
+            return np.array([file_readers['pd_read_csv'](file_path, **kwargs).values for file_path in lst])    
+        
+    elif file_reader == 'np_load': # if numpy
+        return np.array([file_readers['np_load'](file_path, **kwargs) for file_path in lst])
+    
+    else: # if pandas
+        kwargs = get_default_header(file_reader, kwargs)
+        return np.array([file_readers[file_reader](file_path, **kwargs).values for file_path in lst])    
 
 def get_infer_data_wrapper_args(arg, kwargs):
         try:
-            arr_format = kwargs.pop(arg)
+            arg_value = kwargs.pop(arg)
         except KeyError:
-            arr_format = default_data_loader_args[arg] 
+            arg_value = default_data_loader_args[arg] 
 
-        return arr_format   
+        return arg_value   
 
 def infer_data(func):
 
     def args_selector(self, X, *args, **kwargs):
     
-        def data_loader(self, X, arr_format, suffix_sep, pd_read_csv_args, *args, **kwargs):
-            """**pd_read_csv_args is passed to pd.read_csv"""
+        def data_loader(self, X, arr_format, suffix_sep, read_file_args, *args, **kwargs):
+            """**read_file_args is passed to pd.read_csv"""
 
             if isinstance(X, np.ndarray):
                 X_arr = X 
@@ -87,14 +130,18 @@ def infer_data(func):
                     X_arr = pd.concat(X, axis=0, sort=False).values
 
                 elif is_all_type(X, str):
-                    X_arr = pandas_read_all_files(X, **pd_read_csv_args)
+                    X_arr = read_all_files(X, file_reader, **read_file_args)
 
             elif isinstance(X, str):
-                file_paths = get_lst_of_filenames(X)
+                file_names = get_lst_of_filenames(X)
 
                 file_list_sort_key = lambda filename: int("".join(filename.split(".")[0]).split(suffix_sep)[-1])
 
-                X_arr = pandas_read_all_files(sorted(file_paths, key=file_list_sort_key), **pd_read_csv_args)
+                sorted_filenames = sorted(file_names, key=file_list_sort_key)
+
+                lst_of_filepaths = [os.path.join(X, f) for f in sorted_filenames]
+
+                X_arr = read_all_files(lst_of_filepaths, file_reader, **read_file_args)
             
             else:
                 raise TypeError(f"Invalid type! Expected any of {valid_data_load_types_names}, but got '{type(X).__name__}'")
@@ -105,8 +152,9 @@ def infer_data(func):
         
         arr_format = get_infer_data_wrapper_args('arr_format', kwargs)
         suffix_sep = get_infer_data_wrapper_args('suffix_sep', kwargs)
-        pd_read_csv_args = get_infer_data_wrapper_args('pd_read_csv_args', kwargs)
+        read_file_args = get_infer_data_wrapper_args('read_file_args', kwargs)
+        file_reader = get_infer_data_wrapper_args('file_reader', kwargs)
             
-        return data_loader(self, X, arr_format, suffix_sep, pd_read_csv_args, *args, **kwargs)
+        return data_loader(self, X, arr_format, suffix_sep, read_file_args, *args, **kwargs)
     
     return args_selector
