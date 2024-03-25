@@ -302,7 +302,7 @@ class OptTSCluster(TSCluster):
                 z_fixed = True
 
             solver_time_0 = time()
-            E_star, Z_ans, C_ans = OptTSCluster.solve_MILP_Z_change_C_fixed(I, self.k, 
+            E_star, Z_ans, C_ans = OptTSCluster.solve_ts_MILP(I, self.k, 
                                                                     n_allow_assignment_change=self.n_allow_assignment_change,
                                                                     z_fixed=z_fixed,
                             constant_assigment_constraint_violation_scheme=self.constant_assigment_constraint_violation_scheme,
@@ -434,7 +434,7 @@ class OptTSCluster(TSCluster):
         return np.argmax(self.Cs_hats_[-1], axis=-1).T
 
     @staticmethod
-    def solve_MILP_Z_change_C_fixed(
+    def solve_ts_MILP(
         I: npt.NDArray[np.float64] | npt.NDArray[np.int64], 
         k: int, 
         init_Z: npt.NDArray[np.float64] | npt.NDArray[np.int64] | None = None, 

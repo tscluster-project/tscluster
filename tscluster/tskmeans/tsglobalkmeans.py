@@ -35,7 +35,7 @@ class TSGlobalKmeans(KMeans, TSCluster):
 
     @property
     def cluster_centers_(self): 
-         return self._cluster_centers_
+        return self._cluster_centers_
     
     @cluster_centers_.setter
     def cluster_centers_(self, new_value):

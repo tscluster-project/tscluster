@@ -10,7 +10,7 @@ import numpy.typing as npt
 from tslearn.clustering import TimeSeriesKMeans
 
 from tscluster.base import TSCluster
-from tscluster.preprocessing.utils import TNF_to_NTF, infer_data
+from tscluster.preprocessing.utils import TNF_to_NTF, NTF_to_TNF, infer_data
 
 class TSKmeans(TimeSeriesKMeans, TSCluster):
 
@@ -18,14 +18,18 @@ class TSKmeans(TimeSeriesKMeans, TSCluster):
     def fit(self, X):
         self._labels_ = None
         self._cluster_centers_ = None
+
         self.Xt = TNF_to_NTF(X)
+        
         super().fit(self.Xt) 
+
+        self._cluster_centers_ = NTF_to_TNF(self._cluster_centers_)
 
         return self
 
     @property
     def cluster_centers_(self): 
-         return self._cluster_centers_
+        return self._cluster_centers_
     
     @cluster_centers_.setter
     def cluster_centers_(self, new_value):

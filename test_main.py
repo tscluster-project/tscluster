@@ -1,22 +1,24 @@
 import numpy as np
-
-from tscluster.opttscluster import OptTSCluster
-
 from tslearn.generators import random_walks
 from tslearn.clustering import TimeSeriesKMeans
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
+from tscluster.opttscluster import OptTSCluster
 from tscluster.tskmeans import TSKmeans, TSGlobalKmeans
 from tscluster.preprocessing import utils as preprocess_utils, TSStandardScaler, TSMinMaxScaler
+from tscluster.metrics import inertia, max_dist
 
 X_mini = np.load("./sythetic_data.npy")
 
 kc_opt_model = OptTSCluster(3, random_state=42, use_full_constraints=1, warm_start=1, 
                           scheme='z1c1', n_allow_assignment_change=None,
-                             use_MILP_centroid=False, is_tight_constraints=False, is_Z_positive=True,
+                             use_MILP_centroid=True, is_tight_constraints=False, is_Z_positive=True,
                              init_with_prev=False, use_sum_distance=False)
-kc_opt_model.fit(X_mini, verbose=False)
 
+kc_opt_model.fit(X_mini, verbose=True)
+
+print(f"inertia score is {inertia(X_mini, kc_opt_model.cluster_centers_, kc_opt_model.labels_, ord=1)}")
+print(f"max_dist score is {max_dist(X_mini, kc_opt_model.cluster_centers_, kc_opt_model.labels_, ord=1)}")
 print(f"shape of labels_ is {kc_opt_model.labels_.shape}")
 print("head of labels_ is:")
 print(kc_opt_model.labels_[:5, :])
@@ -34,14 +36,17 @@ Xt = preprocess_utils.NTF_to_TNF(X)
 
 km = TSKmeans(n_clusters=3, metric="euclidean", max_iter=5, random_state=0)
 km.fit(X, arr_format="NTF")
-print(km.cluster_centers_.shape)
 print(km.Xt.shape)
 print(km.labels_)
 print(len(km.labels_))
+print(km.cluster_centers_.shape)
+print(km.cluster_centers_[0, :5, :])
+print()
 
 km2 = TimeSeriesKMeans(n_clusters=3, metric="euclidean", max_iter=5, random_state=0).fit(X)
 print(km2.labels_)
 print(len(km2.labels_))
+print(km2.cluster_centers_[:5, 0, :])
 
 km3 = TSGlobalKmeans(n_clusters=3)
 km3.fit(Xt)
