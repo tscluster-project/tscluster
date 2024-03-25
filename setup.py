@@ -5,7 +5,7 @@ with open("README.md", 'r') as f:
 
 setup(
    name='tscluster',
-   version='0.1.0',
+   version='1.0.0',
    description='A useful package for temporal clustering',
    license="MIT",
    long_description=long_description,
