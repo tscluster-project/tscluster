@@ -1,8 +1,18 @@
+from __future__ import annotations
+from typing import Tuple, Any, List
+
 import numpy as np
+import numpy.typing as npt
 
 from tscluster.preprocessing.utils import infer_data
 
-def _broadcast_data(cluster_centers, labels, T):
+def _broadcast_data(
+        cluster_centers: npt.NDArray[np.float64], 
+        labels: npt.NDArray[np.int], 
+        T: int
+        ) -> Tuple[npt.NDArray[np.float64], npt.NDArray[np.int64]]:
+    
+    "function to make cluster_centers and labels both of size T x N x F"
     if cluster_centers.ndim == 2:
         cluster_centers = np.array([z for z in range(T)])
 
@@ -12,10 +22,20 @@ def _broadcast_data(cluster_centers, labels, T):
     return cluster_centers, labels
 
 @infer_data
-def _get_inferred_data(_, X):
+def _get_inferred_data(_: Any, X: npt.NDArray[np.float64]|str|List) -> np.float64:
+    """
+    function to replace arguments
+    """
     return X
 
-def inertia(X, cluster_centers, labels, ord=2):
+def inertia(
+        X: npt.NDArray[np.float64], 
+        cluster_centers: npt.NDArray[np.float64], 
+        labels:npt.NDArray[np.int64], 
+        ord: int = 2
+        ) -> np.float64:
+    
+    """Calculate the inertia score"""
 
     X = _get_inferred_data(None, X)
 
@@ -32,7 +52,13 @@ def inertia(X, cluster_centers, labels, ord=2):
 
     return running_sum
 
-def max_dist(X, cluster_centers, labels, ord=2):
+def max_dist(
+        X: npt.NDArray[np.float64], 
+        cluster_centers: npt.NDArray[np.float64], 
+        labels: npt.NDArray[np.int64], 
+        ord: int = 2) -> np.float64:
+
+    """Calculate the max_dist score"""
 
     X = _get_inferred_data(None, X)
 

@@ -1,4 +1,5 @@
-
+from __future__ import annotations
+from typing import List, Callable, Any, Tuple
 import os 
 
 import numpy as np 
@@ -6,7 +7,7 @@ import numpy.typing as npt
 import pandas as pd
 
 valid_data_load_types = {np.ndarray, pd.DataFrame, str, list}
-valid_data_load_types_names = tuple(map(lambda x: x.__name__, valid_data_load_types))
+valid_data_load_types_names = tuple[npt.NDArray, int](map(lambda x: x.__name__, valid_data_load_types))
 
 default_data_loader_args = {
     "arr_format": "TNF", 
@@ -23,6 +24,9 @@ file_readers = {
 }
 
 def TNF_to_NTF(X: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
+    """Utility function to convert an array from Time x Number of observation x Feature format to 
+        Number of observation x Time x Feature format
+    """
     T, N, F = X.shape 
 
     Xt = np.zeros(shape=(N, T, F))
@@ -33,6 +37,9 @@ def TNF_to_NTF(X: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     return Xt 
 
 def NTF_to_TNF(X: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
+    """Utility function to convert an array from Number of observation x Time x Feature format to 
+       Time x Number of observation x Feature format         
+    """
     N, T, F = X.shape 
 
     Xt = np.zeros(shape=(T, N, F))
@@ -42,7 +49,7 @@ def NTF_to_TNF(X: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
 
     return Xt 
 
-def reshape_for_transform(X, per_time):
+def reshape_for_transform(X: npt.NDArray[np.float64], per_time: bool) -> Tuple[npt.NDArray, int]:
     """
     Reshape to appropriate shape for transformation. Assumes input shape is TNF
     """
@@ -55,7 +62,10 @@ def reshape_for_transform(X, per_time):
 
     return X, n 
 
-def to_TNF(X, arr_format):
+def to_TNF(X: npt.NDArray[np.float64], arr_format: str) -> npt.NDArray[np.float64]:
+    """
+    Utility function to check the format of an array and converts it to TNF format. Raises ValueError if the array is not 3d.
+    """
     if X.ndim != 3:
         raise ValueError(f"Invalid dimension of array. Expected array with 3 dimensions but got {X.ndim}")
     
@@ -64,20 +74,31 @@ def to_TNF(X, arr_format):
     
     return X
 
-def is_all_type(lst, data_type, type_checker=isinstance):
+def is_all_type(lst: List, data_type: type, type_checker: Callable[[Any, type], bool]=isinstance) -> bool:
+    """
+    Utility function to check if all elements of a list are of the same data type
+    """
     return all(map(lambda x: type_checker(x, data_type), lst))
 
-def get_lst_of_filenames(dir):
+def get_lst_of_filenames(dir: str) -> List[str]:
+    """
+    Utility function to return a list of all filenames in a directory
+    """
     return [f for f in os.listdir(dir) if os.path.isfile(os.path.join(dir, f))]
 
-def get_default_header(file_reader, kwargs):
+def get_default_header(file_reader: str, kwargs: dict) -> dict:
+    """
+    Utility function to set the default value header for pandas.read_csv or read_excel to None
+    """
     if file_reader in ('pd_read_csv', 'pd_read_excel') and 'header' not in kwargs:
         kwargs['header'] = None
 
     return kwargs
 
-def read_all_files(lst, file_reader, **kwargs):
-
+def read_all_files(lst: List[str], file_reader: str, **kwargs) -> npt.NDArray[np.float64]:
+    """
+    Utility function to read all the files in a list
+    """
     if file_reader == 'infer':
 
         file_extension = {filename.split('.')[-1].lower() for filename in lst}
@@ -103,21 +124,64 @@ def read_all_files(lst, file_reader, **kwargs):
         kwargs = get_default_header(file_reader, kwargs)
         return np.array([file_readers[file_reader](file_path, **kwargs).values for file_path in lst])    
 
-def get_infer_data_wrapper_args(arg, kwargs):
-        try:
-            arg_value = kwargs.pop(arg)
-        except KeyError:
-            arg_value = default_data_loader_args[arg] 
+def get_infer_data_wrapper_args(arg: str, kwargs: dict) -> Any:
+    """
+    Utility function to get the value of arg if arg is an argument for the decorator e.g. argument for data loader
+    """
+    try:
+        arg_value = kwargs.pop(arg)
+    except KeyError:
+        arg_value = default_data_loader_args[arg] 
 
-        return arg_value   
+    return arg_value   
 
-def infer_data(func):
+def infer_data(func: Callable) -> Callable:
+    """
+    Decorator to infer the data type of X, load it and return it in TNF format.
+    """
 
-    def args_selector(self, X, *args, **kwargs):
+    def args_selector(
+            self: Any, 
+            X: npt.NDArray[np.float64]|str|List, 
+            *args, 
+            **kwargs
+            ) -> Any:
     
-        def data_loader(self, X, arr_format, suffix_sep, read_file_args, *args, **kwargs):
-            """**read_file_args is passed to pd.read_csv"""
+        def data_loader(
+                self: Any, 
+                X: npt.NDArray[np.float64]|str|List, 
+                arr_format: str, 
+                suffix_sep: str, 
+                file_reader: str,
+                read_file_args: dict, 
+                *args, 
+                **kwargs
+                ) -> Any:
+            """
+            X: ndarray, string or list. 
+                Input time series data. If ndarray, should be a 3 dimensional array. If str and a file name, will use numpy to load file.
+                If str and a directory name, will load all the files in the directory in ascending order of the suffix of the filenames.
+                Use suffix_sep as a keyword argument to indicate the suffix separator. Default is "_". So, file_0.csv will be read first before file_1.csv and so on.
+                Supported files in the directory are any file that can be read using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
+                If list, assumes the list is a list of files or filepaths. If file, each should be a numpy array or pandas DataFrame of data for the different time steps.
+                If list of filepaths, data is read in the order in the list using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
 
+            arr_format: str, default 'TNF'
+                format of the loaded data. 'TNF' means the data dimension is Time x Number of observations x Features
+                'NTF' means the data dimension is Number OF  observations x Time x Features
+            suffix_sep: str, default '_'
+                separator separating the file number from the filename.
+            file_reader: str, default 'infer'
+                file loader to use. Can be any of np.load, pd.read_csv, pd.read_json, and pd.read_excel. If 'infer', decorator will attempt to infer the file type from the file name 
+                and use the approproate loader.
+            read_file_args: dict, default empty dictionary.
+                parameters to be passed to the data loader.
+            args: 
+                any other positional arguments for fit method or function to be decorated.
+
+            kwargs:
+                any keyword argument for fit method, or function to be decorated.
+            """
             if isinstance(X, np.ndarray):
                 X_arr = X 
             
@@ -157,9 +221,9 @@ def infer_data(func):
         
         arr_format = get_infer_data_wrapper_args('arr_format', kwargs)
         suffix_sep = get_infer_data_wrapper_args('suffix_sep', kwargs)
-        read_file_args = get_infer_data_wrapper_args('read_file_args', kwargs)
         file_reader = get_infer_data_wrapper_args('file_reader', kwargs)
+        read_file_args = get_infer_data_wrapper_args('read_file_args', kwargs)
             
-        return data_loader(self, X, arr_format, suffix_sep, read_file_args, *args, **kwargs)
+        return data_loader(self, X, arr_format, suffix_sep, file_reader, read_file_args, *args, **kwargs)
     
     return args_selector
