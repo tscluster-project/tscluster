@@ -17,8 +17,8 @@ kc_opt_model = OptTSCluster(3, random_state=42, use_full_constraints=1, warm_sta
 
 kc_opt_model.fit(X_mini, verbose=True)
 
-print(f"inertia score is {inertia(X_mini, kc_opt_model.cluster_centers_, kc_opt_model.labels_, ord=1)}")
-print(f"max_dist score is {max_dist(X_mini, kc_opt_model.cluster_centers_, kc_opt_model.labels_, ord=1)}")
+print(f"inertia score is {inertia('./sythetic_data.npy', kc_opt_model.cluster_centers_, kc_opt_model.labels_, ord=1)}")
+print(f"max_dist score is {max_dist('./sythetic_data.npy', kc_opt_model.cluster_centers_, kc_opt_model.labels_, ord=1)}")
 print(f"shape of labels_ is {kc_opt_model.labels_.shape}")
 print("head of labels_ is:")
 print(kc_opt_model.labels_[:5, :])
@@ -152,7 +152,7 @@ file_list = [
 ]
 
 scaler.fit(file_list, read_file_args={'header': 0, 'sep': ","})
-Xt = scaler.transform(file_list, read_file_args={'header': 0, 'sep': ","})
+Xt = scaler.transform(file_list, read_file_args={'header': None, 'sep': ","})
 print(Xt[0, :5, :])
 print("Inverse tranform for csv")
 print(scaler.inverse_transform(Xt)[0, :5, :])
@@ -160,7 +160,7 @@ print(scaler.inverse_transform(Xt)[0, :5, :])
 print()
 print("fit_transform")
 # scaler.fit(file_list, read_file_args={'header': None, 'sep': ","})
-Xt = scaler.fit_transform(file_list, read_file_args={'header': 0, 'sep': ","})
+Xt = scaler.fit_transform(file_list, read_file_args={'header': None, 'sep': ","})
 print(Xt[0, :5, :])
 print("Inverse tranform for csv")
 print(scaler.inverse_transform(Xt)[0, :5, :])

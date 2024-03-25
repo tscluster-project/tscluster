@@ -12,7 +12,13 @@ def broadcast_data(cluster_centers, labels, T):
     return cluster_centers, labels
 
 @infer_data
+def _get_inferred_data(_, X):
+    return X
+
 def inertia(X, cluster_centers, labels, ord=2):
+
+    X = _get_inferred_data(None, X)
+
     cluster_centers, labels = broadcast_data(cluster_centers, labels, X.shape[0])
 
     running_sum = 0
@@ -26,8 +32,10 @@ def inertia(X, cluster_centers, labels, ord=2):
 
     return running_sum
 
-@infer_data
 def max_dist(X, cluster_centers, labels, ord=2):
+
+    X = _get_inferred_data(None, X)
+
     cluster_centers, labels = broadcast_data(cluster_centers, labels, X.shape[0])
 
     running_max = -np.inf

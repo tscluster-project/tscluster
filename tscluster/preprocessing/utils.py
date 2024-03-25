@@ -61,6 +61,7 @@ def to_TNF(X, arr_format):
     
     elif arr_format.upper() == 'NTF':
         return NTF_to_TNF(X)
+    
     return X
 
 def is_all_type(lst, data_type, type_checker=isinstance):
@@ -93,7 +94,6 @@ def read_all_files(lst, file_reader, **kwargs):
         
         else: # assume csv
             kwargs = get_default_header('pd_read_csv', kwargs)
-            print(kwargs)
             return np.array([file_readers['pd_read_csv'](file_path, **kwargs).values for file_path in lst])    
         
     elif file_reader == 'np_load': # if numpy
@@ -133,15 +133,20 @@ def infer_data(func):
                     X_arr = read_all_files(X, file_reader, **read_file_args)
 
             elif isinstance(X, str):
-                file_names = get_lst_of_filenames(X)
 
-                file_list_sort_key = lambda filename: int("".join(filename.split(".")[0]).split(suffix_sep)[-1])
+                if os.path.isfile(X):
+                    X_arr = file_readers['np_load'](X, **read_file_args)
 
-                sorted_filenames = sorted(file_names, key=file_list_sort_key)
+                else:
+                    file_names = get_lst_of_filenames(X)
 
-                lst_of_filepaths = [os.path.join(X, f) for f in sorted_filenames]
+                    file_list_sort_key = lambda filename: int("".join(filename.split(".")[0]).split(suffix_sep)[-1])
 
-                X_arr = read_all_files(lst_of_filepaths, file_reader, **read_file_args)
+                    sorted_filenames = sorted(file_names, key=file_list_sort_key)
+
+                    lst_of_filepaths = [os.path.join(X, f) for f in sorted_filenames]
+
+                    X_arr = read_all_files(lst_of_filepaths, file_reader, **read_file_args)
             
             else:
                 raise TypeError(f"Invalid type! Expected any of {valid_data_load_types_names}, but got '{type(X).__name__}'")
