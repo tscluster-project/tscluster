@@ -1,3 +1,6 @@
-gurobipy==11.0.1
-numpy==1.26.4
-scipy==1.12.0
+numpy>=1.26
+scipy>=1.10
+gurobipy>=11.0
+tslearn>=0.6.3
+h5py>=3.10
+pandas>=2.2
