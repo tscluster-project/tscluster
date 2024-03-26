@@ -17,6 +17,10 @@ class tsplot():
             X: npt.NDArray[np.float64]|str|List|None = None, 
             cluster_centers: npt.NDArray[np.float64]|None = None, 
             labels: npt.NDArray[np.float64]|None = None, 
+            entity_idx: List[int]|None = None,
+            entities_labels: List[int]|None = None,
+            annot_fontsize: float = 10,
+            show_all_entities: bool = True,
             figsize: Tuple[float, float] | None = None,
             shape_of_subplot: Tuple[int, int]|None = None, 
             xlabel: str|None = 'timesteps', 
@@ -94,19 +98,31 @@ class tsplot():
             ax = fig.add_subplot(*shape_of_subplot, f+1)
 
             if X is not None:
-                # plot all data for feature f
-                plt.plot(range(X.shape[0]), X[:, :, f], c='k', ls='--', alpha=0.5)
+                if show_all_entities:
+                    idx = np.arange(X.shape[1])
+                else:
+                    idx = entity_idx
 
+                # plot all data for feature f
+                plt.plot(range(X.shape[0]), X[:, idx, f], c='k', ls='--', alpha=0.5)
+
+                if entities_labels is not None:
+                    for li, i in enumerate(entity_idx):
+                        annot_i = np.random.choice(np.arange(len(X[:, i, f])), 1)[0]
+                        annot_xy = list(enumerate(X[:, i, f]))[annot_i]
+                        plt.annotate(entities_labels[li], xy=annot_xy, xytext=(annot_xy[0]+0.5, annot_xy[1]+0.5), fontsize=annot_fontsize,
+                                    arrowprops=dict(facecolor='green',shrink=0))
+                        
                 if labels is not None:
                 # scatter plot for marker for label assignment of data points. 
-                    for i in range(X.shape[1]):
+                    for i in idx:
                         c = labels[i] #np.argmax(out[2][-1][:, i, :], axis=-1)
                         plt.scatter(range(X.shape[0]), X[:, i, f], color=cmap(norm(c)), s=10)
 
-                        if cluster_centers is None:
-                            for j in range(k):
-                                plt.plot([], [], color=cmap(norm(j)), label=cluster_labels[j])
-                
+                    if cluster_centers is None:
+                        for j in range(k):
+                            plt.plot([], [], color=cmap(norm(j)), label=cluster_labels[j])
+            
             # # if len(out[1][-1].shape) == 2:
             # #     for j in range(out[1][-1].shape[0]):
             # #         plt.plot(range(X.shape[0]), [out[1][-1][j, f]]*X.shape[0], color=cmap(norm(j)))
@@ -128,6 +144,7 @@ class tsplot():
             if set_xticklabels is not None:
                 ax.set_xticklabels(set_xticklabels, rotation=rotation)  
 
-            plt.legend()
+            if cluster_centers is not None or labels is not None:
+                plt.legend()
 
         plt.show()
