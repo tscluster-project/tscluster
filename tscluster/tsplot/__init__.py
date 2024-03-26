@@ -1,1 +1,1 @@
-from tscluster.tsplot import tsplot
+from tscluster.tsplot.tsplot import tsplot

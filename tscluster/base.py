@@ -25,7 +25,7 @@ class TSCluster():
 
         Return: A list of k pandas DataFrames. Where k is the number of clusters. The i-th dataframe in the list is a T x F dataframe of the values of the cluster centers of the i-th cluster.   
         """
-        cluster_centers, _ = broadcast_data(self.cluster_centers_, self.labels_, self.fitted_data_shape_[0])
+        cluster_centers, _ = broadcast_data(self.fitted_data_shape_[0], self.cluster_centers_, self.labels_)
 
         cluster_centers = tnf_to_ntf(cluster_centers)
     
@@ -46,6 +46,6 @@ class TSCluster():
 
         Return: A pandas DataFrame with shape (N, T). The value in the n-th row and t-th column is an integer indicating the custer assignment of the n-th entity/observation at time t.  
         """
-        _, labels = broadcast_data(self.cluster_centers_, self.labels_, self.fitted_data_shape_[0])
+        _, labels = broadcast_data(self.fitted_data_shape_[0], self.cluster_centers_, self.labels_)
     
         return pd.DataFrame(labels, columns=time, index=entities)

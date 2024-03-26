@@ -13,7 +13,7 @@ import gurobipy as gp
 from tscluster.interface import TSClusterInterface
 from tscluster.base import TSCluster
 from tscluster.opttscluster import optcluster
-from tscluster.preprocessing.utils import infer_data, broadcast_data
+from tscluster.preprocessing.utils import infer_data
 
 class OptTSCluster(TSCluster, TSClusterInterface):
     def __init__(

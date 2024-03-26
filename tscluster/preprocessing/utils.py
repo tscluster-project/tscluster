@@ -76,17 +76,20 @@ def to_tnf(X: npt.NDArray[np.float64], arr_format: str) -> npt.NDArray[np.float6
 
 
 def broadcast_data(
-        cluster_centers: npt.NDArray[np.float64], 
-        labels: npt.NDArray[np.int], 
-        T: int
+        T: int,
+        cluster_centers: npt.NDArray[np.float64]|None = None, 
+        labels: npt.NDArray[np.int]|None = None, 
         ) -> Tuple[npt.NDArray[np.float64], npt.NDArray[np.int64]]:
     
     "function to make cluster_centers and labels both of size T x N x F"
-    if cluster_centers.ndim == 2:
-        cluster_centers = np.array([cluster_centers for _ in range(T)])
 
-    if labels.ndim == 1:
-        labels = np.array([labels for _ in range(T)]).T
+    if cluster_centers is not None:
+        if cluster_centers.ndim == 2:
+            cluster_centers = np.array([cluster_centers for _ in range(T)])
+
+    if labels is not None:
+        if labels.ndim == 1:
+            labels = np.array([labels for _ in range(T)]).T
 
     return cluster_centers, labels
 
@@ -244,3 +247,10 @@ def infer_data(func: Callable) -> Callable:
         return data_loader(self, X, arr_format, suffix_sep, file_reader, read_file_args, *args, **kwargs)
     
     return args_selector
+
+@infer_data
+def _get_inferred_data(_: Any, X: npt.NDArray[np.float64]|str|List) -> np.float64:
+    """
+    function to replace self argument
+    """
+    return X
