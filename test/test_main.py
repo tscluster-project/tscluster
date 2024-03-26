@@ -10,7 +10,7 @@ from tscluster.tskmeans import TSKmeans, TSGlobalKmeans
 from tscluster.preprocessing import utils as preprocess_utils, TSStandardScaler, TSMinMaxScaler
 from tscluster.metrics import inertia, max_dist
 
-os.chdir("./Data")
+os.chdir("./sample_data")
 
 X_mini = np.load("./sythetic_data.npy")
 
