@@ -1,14 +1,15 @@
 from __future__ import annotations
-from typing import List, Any
+from typing import List, Any, Tuple
 
 import numpy as np
 import numpy.typing as npt
 from tslearn.clustering import TimeSeriesKMeans
 
+from tscluster.interface import TSClusterInterface
 from tscluster.base import TSCluster
 from tscluster.preprocessing.utils import TNF_to_NTF, NTF_to_TNF, infer_data
 
-class TSKmeans(TimeSeriesKMeans, TSCluster):
+class TSKmeans(TimeSeriesKMeans, TSCluster, TSClusterInterface):
 
     @infer_data
     def fit(self, X: npt.NDArray[np.float64]|str|List) -> 'TSKmeans':
@@ -16,6 +17,8 @@ class TSKmeans(TimeSeriesKMeans, TSCluster):
         self._cluster_centers_ = None
 
         self.Xt = TNF_to_NTF(X)
+
+        self.N_, self.T_, self.F_ = self.Xt.shape
 
         super().fit(self.Xt) 
 
@@ -38,3 +41,11 @@ class TSKmeans(TimeSeriesKMeans, TSCluster):
     @labels_.setter
     def labels_(self, new_value: npt.NDArray[np.int64]) -> npt.NDArray[np.int64]:
         self._labels_ = new_value
+
+    @property
+    def fitted_data_shape_(self) -> Tuple[int, int, int]:
+        """
+        returns a tuple of the shape of the fitted data in TNF format. E.g (T, N, F) where T, N, and F are the number of timesteps,
+        observations, and features respectively. 
+        """
+        return self.T_, self.N_, self.F_

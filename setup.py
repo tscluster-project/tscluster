@@ -21,7 +21,8 @@ setup(
        'gurobipy>=11.0', 
        'tslearn>=0.6.3',   
        'h5py>=3.10',
-       'pandas>=2.2'
+       'pandas>=2.2',
+       'matplotlib>=3.8'
        ], #external packages as dependencies on TEST pypi
    #ToDo: on real pypi: ['numpy==1.26.4', 'scipy==1.12.0', 'gurobipy==11.0.1']. Also considering using >= a lowerbound
 )

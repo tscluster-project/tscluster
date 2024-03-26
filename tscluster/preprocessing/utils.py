@@ -74,6 +74,23 @@ def to_TNF(X: npt.NDArray[np.float64], arr_format: str) -> npt.NDArray[np.float6
     
     return X
 
+
+def broadcast_data(
+        cluster_centers: npt.NDArray[np.float64], 
+        labels: npt.NDArray[np.int], 
+        T: int
+        ) -> Tuple[npt.NDArray[np.float64], npt.NDArray[np.int64]]:
+    
+    "function to make cluster_centers and labels both of size T x N x F"
+    if cluster_centers.ndim == 2:
+        cluster_centers = np.array([cluster_centers for _ in range(T)])
+
+    if labels.ndim == 1:
+        labels = np.array([labels for _ in range(T)]).T
+
+    return cluster_centers, labels
+
+
 def is_all_type(lst: List, data_type: type, type_checker: Callable[[Any, type], bool]=isinstance) -> bool:
     """
     Utility function to check if all elements of a list are of the same data type

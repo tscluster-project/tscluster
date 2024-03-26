@@ -1,15 +1,16 @@
 from __future__ import annotations
-from typing import List, Any
+from typing import List, Any, Tuple
 
 
 import numpy as np
 import numpy.typing as npt
 from sklearn.cluster import KMeans
 
+from tscluster.interface import TSClusterInterface
 from tscluster.base import TSCluster
 from tscluster.preprocessing.utils import TNF_to_NTF, infer_data
 
-class TSGlobalKmeans(KMeans, TSCluster):
+class TSGlobalKmeans(KMeans, TSCluster, TSClusterInterface):
     # def __init__(self, *args, **kwargs):
     #     self._labels_ = None
     #     self._cluster_centers_ = None
@@ -22,7 +23,7 @@ class TSGlobalKmeans(KMeans, TSCluster):
 
         self.Xt = TNF_to_NTF(X)
 
-        self.N, self.T, _ = self.Xt.shape
+        self.N, self.T, self.F = self.Xt.shape
 
         self.Xt = np.vstack(self.Xt)
 
@@ -48,3 +49,11 @@ class TSGlobalKmeans(KMeans, TSCluster):
     @labels_.setter
     def labels_(self, new_value: Any) -> npt.NDArray[np.int64]:
         self._labels_ = new_value
+
+    @property
+    def fitted_data_shape_(self) -> Tuple[int, int, int]:
+        """
+        returns a tuple of the shape of the fitted data in TNF format. E.g (T, N, F) where T, N, and F are the number of timesteps,
+        observations, and features respectively. 
+        """
+        return self.T, self.N, self.F

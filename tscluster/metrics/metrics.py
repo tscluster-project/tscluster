@@ -4,22 +4,7 @@ from typing import Tuple, Any, List
 import numpy as np
 import numpy.typing as npt
 
-from tscluster.preprocessing.utils import infer_data
-
-def _broadcast_data(
-        cluster_centers: npt.NDArray[np.float64], 
-        labels: npt.NDArray[np.int], 
-        T: int
-        ) -> Tuple[npt.NDArray[np.float64], npt.NDArray[np.int64]]:
-    
-    "function to make cluster_centers and labels both of size T x N x F"
-    if cluster_centers.ndim == 2:
-        cluster_centers = np.array([z for z in range(T)])
-
-    if labels.ndim == 1:
-        labels = np.array([l for l in range(T)]).T
-
-    return cluster_centers, labels
+from tscluster.preprocessing.utils import infer_data, broadcast_data
 
 @infer_data
 def _get_inferred_data(_: Any, X: npt.NDArray[np.float64]|str|List) -> np.float64:
@@ -39,7 +24,7 @@ def inertia(
 
     X = _get_inferred_data(None, X)
 
-    cluster_centers, labels = _broadcast_data(cluster_centers, labels, X.shape[0])
+    cluster_centers, labels = broadcast_data(cluster_centers, labels, X.shape[0])
 
     running_sum = 0
 
@@ -62,7 +47,7 @@ def max_dist(
 
     X = _get_inferred_data(None, X)
 
-    cluster_centers, labels = _broadcast_data(cluster_centers, labels, X.shape[0])
+    cluster_centers, labels = broadcast_data(cluster_centers, labels, X.shape[0])
 
     running_max = -np.inf
 

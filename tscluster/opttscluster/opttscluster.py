@@ -10,11 +10,12 @@ import numpy.typing as npt
 from scipy.cluster.vq import kmeans, vq
 import gurobipy as gp
 
+from tscluster.interface import TSClusterInterface
 from tscluster.base import TSCluster
 from tscluster.opttscluster import optcluster
-from tscluster.preprocessing.utils import infer_data
+from tscluster.preprocessing.utils import infer_data, broadcast_data
 
-class OptTSCluster(TSCluster):
+class OptTSCluster(TSCluster, TSClusterInterface):
     def __init__(
             self, 
             k: int, 
@@ -432,6 +433,14 @@ class OptTSCluster(TSCluster):
     @property
     def labels_(self):
         return np.argmax(self.Cs_hats_[-1], axis=-1).T
+
+    @property
+    def fitted_data_shape_(self) -> Tuple[int, int, int]:
+        """
+        returns a tuple of the shape of the fitted data in TNF format. E.g (T, N, F) where T, N, and F are the number of timesteps,
+        observations, and features respectively. 
+        """
+        return self.T_, self.N_, self.F_
 
     @staticmethod
     def solve_ts_MILP(
