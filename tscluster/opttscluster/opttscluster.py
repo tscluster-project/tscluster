@@ -411,24 +411,27 @@ class OptTSCluster(TSCluster, TSClusterInterface):
         if self.verbose:
             print(f"Total time is {np.round(time() - t0, 2)}secs", file=print_to, flush=verbose_flush)  
             print(file=print_to, flush=verbose_flush)
+        
+        self.Zs_ans_avg = None 
 
+        if not self.use_MILP_centroid:
+            labels = self.labels_
+
+            self.Zs_ans_avg = np.zeros((self.T_, self.k, self.F_))
+
+            for t in range(self.T_):
+                for j in range(self.k):
+                    _idx = labels[:, t] == j
+                    self.Zs_ans_avg[t, j, :] = np.mean(self.X_[t, _idx, :], axis=0)
+    
         return self 
         
     @property
     def cluster_centers_(self):
         if self.use_MILP_centroid:
             return self.Zs_ans_[-1]
-        
-        labels_ = self.labels_
-
-        Zs_ans_ = np.zeros((self.T_, self.k, self.F_))
-
-        for t in range(self.T_):
-            for j in range(self.k):
-                idx = labels_[:, t] == j
-                Zs_ans_[t, j, :] = np.mean(self.X_[t, idx, :], axis=0)
-
-        return Zs_ans_
+        else:
+            return self.Zs_ans_avg
 
     @property
     def labels_(self):
