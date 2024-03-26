@@ -5,10 +5,10 @@ import numpy.typing as npt
 import numpy as np
 import pandas as pd 
 
-from tscluster.preprocessing.utils import broadcast_data, TNF_to_NTF
+from tscluster.preprocessing.utils import broadcast_data, tnf_to_ntf
 
 class TSCluster():
-    """Class that contains common implementation of methods for a temporal clustering model"""
+    """Class that contains common implementations of methods for a temporal clustering model"""
 
     def get_named_cluster_centers(self, 
                                    time: List[str]|None = None, 
@@ -27,7 +27,7 @@ class TSCluster():
         """
         cluster_centers, _ = broadcast_data(self.cluster_centers_, self.labels_, self.fitted_data_shape_[0])
 
-        cluster_centers = TNF_to_NTF(cluster_centers)
+        cluster_centers = tnf_to_ntf(cluster_centers)
     
         return [pd.DataFrame(cluster_centers_k, columns=features, index=time) for cluster_centers_k in cluster_centers]
 

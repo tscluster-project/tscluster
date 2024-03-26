@@ -7,7 +7,7 @@ from tslearn.clustering import TimeSeriesKMeans
 
 from tscluster.interface import TSClusterInterface
 from tscluster.base import TSCluster
-from tscluster.preprocessing.utils import TNF_to_NTF, NTF_to_TNF, infer_data
+from tscluster.preprocessing.utils import tnf_to_ntf, ntf_to_tnf, infer_data
 
 class TSKmeans(TimeSeriesKMeans, TSCluster, TSClusterInterface):
 
@@ -16,13 +16,13 @@ class TSKmeans(TimeSeriesKMeans, TSCluster, TSClusterInterface):
         self._labels_ = None
         self._cluster_centers_ = None
 
-        self.Xt = TNF_to_NTF(X)
+        self.Xt = tnf_to_ntf(X)
 
         self.N_, self.T_, self.F_ = self.Xt.shape
 
         super().fit(self.Xt) 
 
-        self._cluster_centers_ = NTF_to_TNF(self._cluster_centers_)
+        self._cluster_centers_ = ntf_to_tnf(self._cluster_centers_)
 
         return self
 

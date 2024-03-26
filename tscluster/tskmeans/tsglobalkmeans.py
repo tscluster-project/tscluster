@@ -8,7 +8,7 @@ from sklearn.cluster import KMeans
 
 from tscluster.interface import TSClusterInterface
 from tscluster.base import TSCluster
-from tscluster.preprocessing.utils import TNF_to_NTF, infer_data
+from tscluster.preprocessing.utils import tnf_to_ntf, infer_data
 
 class TSGlobalKmeans(KMeans, TSCluster, TSClusterInterface):
     # def __init__(self, *args, **kwargs):
@@ -21,7 +21,7 @@ class TSGlobalKmeans(KMeans, TSCluster, TSClusterInterface):
         self._labels_ = None
         self._cluster_centers_ = None
 
-        self.Xt = TNF_to_NTF(X)
+        self.Xt = tnf_to_ntf(X)
 
         self.N, self.T, self.F = self.Xt.shape
 

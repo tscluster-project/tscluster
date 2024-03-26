@@ -4,3 +4,4 @@ gurobipy>=11.0
 tslearn>=0.6.3
 h5py>=3.10
 pandas>=2.2
+matplotlib>=3.8

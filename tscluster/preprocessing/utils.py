@@ -23,7 +23,7 @@ file_readers = {
     "pd_read_excel": pd.read_excel
 }
 
-def TNF_to_NTF(X: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
+def tnf_to_ntf(X: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     """Utility function to convert an array from Time x Number of observation x Feature format to 
         Number of observation x Time x Feature format
     """
@@ -36,7 +36,7 @@ def TNF_to_NTF(X: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
 
     return Xt 
 
-def NTF_to_TNF(X: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
+def ntf_to_tnf(X: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     """Utility function to convert an array from Number of observation x Time x Feature format to 
        Time x Number of observation x Feature format         
     """
@@ -62,7 +62,7 @@ def reshape_for_transform(X: npt.NDArray[np.float64], per_time: bool) -> Tuple[n
 
     return X, n 
 
-def to_TNF(X: npt.NDArray[np.float64], arr_format: str) -> npt.NDArray[np.float64]:
+def to_tnf(X: npt.NDArray[np.float64], arr_format: str) -> npt.NDArray[np.float64]:
     """
     Utility function to check the format of an array and converts it to TNF format. Raises ValueError if the array is not 3d.
     """
@@ -70,7 +70,7 @@ def to_TNF(X: npt.NDArray[np.float64], arr_format: str) -> npt.NDArray[np.float6
         raise ValueError(f"Invalid dimension of array. Expected array with 3 dimensions but got {X.ndim}")
     
     elif arr_format.upper() == 'NTF':
-        return NTF_to_TNF(X)
+        return ntf_to_tnf(X)
     
     return X
 
@@ -232,7 +232,7 @@ def infer_data(func: Callable) -> Callable:
             else:
                 raise TypeError(f"Invalid type! Expected any of {valid_data_load_types_names}, but got '{type(X).__name__}'")
             
-            X_arr = to_TNF(X_arr, arr_format) 
+            X_arr = to_tnf(X_arr, arr_format) 
 
             return func(self, X_arr, *args, **kwargs)
         
