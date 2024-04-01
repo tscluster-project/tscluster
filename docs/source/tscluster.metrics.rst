@@ -3,11 +3,10 @@ metrics subpackage
 
 .. tscluster.metrics module
 .. ------------------------
-.. currentmodule:: tscluster.metrics
-
-.. autofunction:: inertia
-.. autofunction:: max_dist
-
+.. automodule:: tscluster.metrics.metrics
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
 .. Module contents
 .. ---------------

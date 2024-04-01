@@ -14,7 +14,7 @@ setup(
    author_email='tjolomi@gmail.com',
    #url="...",
    packages=find_packages(), 
-   #python_requires='>=3.9',
+   #python_requires='>=3.9.18',
    install_requires=[
        'numpy>=1.26', 
        'scipy>=1.10', 
