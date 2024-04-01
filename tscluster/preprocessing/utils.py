@@ -25,9 +25,10 @@ file_readers = {
 }
 
 def tnf_to_ntf(X: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
-    """Utility function to convert an array from Time x Number of observation x Feature format to 
-        Number of observation x Time x Feature format
     """
+    Utility function to convert an array from Time x Number of observation x Feature format to Number of observation x Time x Feature format
+    """
+
     T, N, F = X.shape 
 
     Xt = np.zeros(shape=(N, T, F))
@@ -38,9 +39,10 @@ def tnf_to_ntf(X: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
     return Xt 
 
 def ntf_to_tnf(X: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
-    """Utility function to convert an array from Number of observation x Time x Feature format to 
-       Time x Number of observation x Feature format         
     """
+    Utility function to convert an array from Number of observation x Time x Feature format to Time x Number of observation x Feature format         
+    """
+
     N, T, F = X.shape 
 
     Xt = np.zeros(shape=(T, N, F))
@@ -317,7 +319,7 @@ def get_inferred_data(
         If list of filepaths, data is read in the order in the list using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
     output_arr_format : str, default='TNF'
         The format of the output array. Can be any of {'TNF', 'NTF'}.
-    **kwargs keyword arguments, can be any of the following:
+    **kwargs : keyword arguments, can be any of the following:
         - arr_format : str, default 'TNF'
             format of the loaded data. 'TNF' means the data dimension is Time x Number of observations x Features
             'NTF' means the data dimension is Number OF  observations x Time x Features
@@ -330,7 +332,7 @@ def get_inferred_data(
             parameters to be passed to the data loader.
 
     Returns
-    -------
+    --------
     np.array, dict 
         a numpy array of the inferred data in 'TNF' or 'NTF' format (depending on the value of `output_arr_format`), and a dictionary whose keys are 'T', 'N', and 'F'; and values are lists of the labels of each key. 
     """
