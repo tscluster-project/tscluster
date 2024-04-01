@@ -91,7 +91,7 @@
              
   <section id="metrics-subpackage">
 <h1>metrics subpackage<a class="headerlink" href="#metrics-subpackage" title="Link to this heading"></a></h1>
-<dl class="py function">
+<span class="target" id="module-tscluster.metrics"></span><dl class="py function">
 <dt class="sig sig-object py" id="tscluster.metrics.inertia">
 <span class="sig-prename descclassname"><span class="pre">tscluster.metrics.</span></span><span class="sig-name descname"><span class="pre">inertia</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_centers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ord</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arr_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'TNF'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix_sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_reader</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'infer'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_file_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tscluster.metrics.inertia" title="Link to this definition"></a></dt>
 <dd><p>Calculates the inertia score</p>
@@ -145,10 +145,10 @@ and use the approproate loader.</p>
 \[\sum_{t=1}^{T} \sum_{i=1}^{N} d(X_{ti}, Z_t) \]</div>
 <p>Where 
 <cite>T</cite>, <cite>N</cite> are the number of time steps and entities respectively, 
-<cite>d</cite> is a distance function (or metric e.g :math: <cite>L_1</cite>, :math: <cite>L_2</cite> etc), 
-:math: <cite>X_{ti} in mathbf{R}^f</cite> is the feature vector of entity <cite>i</cite> at time <cite>t</cite>,
+<cite>d</cite> is a distance function (or metric e.g <span class="math notranslate nohighlight">\(L_1\)</span>, <span class="math notranslate nohighlight">\(L_2\)</span> etc), 
+<span class="math notranslate nohighlight">\(X_{ti} \in \mathbf{R}^f\)</span> is the feature vector of entity <cite>i</cite> at time <cite>t</cite>,
 <cite>f</cite> is the number of features, and 
-:math: <cite>Z_t in mathbf{R}^f</cite> is the cluster center :math: <cite>X_{ti}</cite> is assigned to at time <cite>t</cite></p>
+<span class="math notranslate nohighlight">\(Z_t \in \mathbf{R}^f\)</span> is the cluster center <span class="math notranslate nohighlight">\(X_{ti}\)</span> is assigned to at time <cite>t</cite></p>
 </dd></dl>
 
 <dl class="py function">
@@ -206,10 +206,10 @@ and use the approproate loader.</p>
 <div class="math notranslate nohighlight">
 \[max(d(X_{ti}, Z_t)) \]</div>
 <p>Where 
-<cite>d</cite> is a distance function (or metric e.g :math: <cite>L_1</cite>, :math: <cite>L_2</cite> etc), 
-:math: <cite>X_{ti} in mathbf{R}^f</cite> is the feature vector of entity <cite>i</cite> at time <cite>t</cite>,
+<cite>d</cite> is a distance function (or metric e.g <span class="math notranslate nohighlight">\(L_1\)</span>, <span class="math notranslate nohighlight">\(L_2\)</span> etc), 
+<span class="math notranslate nohighlight">\(X_{ti} \in \mathbf{R}^f\)</span> is the feature vector of entity <cite>i</cite> at time <cite>t</cite>,
 <cite>f</cite> is the number of features, and 
-:math: <cite>Z_t in mathbf{R}^f</cite> is the cluster center :math: <cite>X_{ti}</cite> is assigned to at time <cite>t</cite></p>
+<span class="math notranslate nohighlight">\(Z_t \in \mathbf{R}^f\)</span> is the cluster center <span class="math notranslate nohighlight">\(X_{ti}\)</span> is assigned to at time <cite>t</cite></p>
 </dd></dl>
 
 </section>

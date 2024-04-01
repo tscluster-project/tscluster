@@ -61,10 +61,10 @@ def inertia(
         \sum_{t=1}^{T} \sum_{i=1}^{N} d(X_{ti}, Z_t) 
     Where 
     `T`, `N` are the number of time steps and entities respectively, 
-    `d` is a distance function (or metric e.g :math: `L_1`, :math: `L_2` etc), 
-    :math: `X_{ti} \in \mathbf{R}^f` is the feature vector of entity `i` at time `t`,
+    `d` is a distance function (or metric e.g :math:`L_1`, :math:`L_2` etc), 
+    :math:`X_{ti} \in \mathbf{R}^f` is the feature vector of entity `i` at time `t`,
     `f` is the number of features, and 
-    :math: `Z_t \in \mathbf{R}^f` is the cluster center :math: `X_{ti}` is assigned to at time `t`
+    :math:`Z_t \in \mathbf{R}^f` is the cluster center :math:`X_{ti}` is assigned to at time `t`
 
     See Also
     --------
@@ -146,10 +146,10 @@ def max_dist(
         max(d(X_{ti}, Z_t)) 
 
     Where 
-    `d` is a distance function (or metric e.g :math: `L_1`, :math: `L_2` etc), 
-    :math: `X_{ti} \in \mathbf{R}^f` is the feature vector of entity `i` at time `t`,
+    `d` is a distance function (or metric e.g :math:`L_1`, :math:`L_2` etc), 
+    :math:`X_{ti} \in \mathbf{R}^f` is the feature vector of entity `i` at time `t`,
     `f` is the number of features, and 
-    :math: `Z_t \in \mathbf{R}^f` is the cluster center :math: `X_{ti}` is assigned to at time `t`
+    :math:`Z_t \in \mathbf{R}^f` is the cluster center :math:`X_{ti}` is assigned to at time `t`
 
     See Also
     --------
