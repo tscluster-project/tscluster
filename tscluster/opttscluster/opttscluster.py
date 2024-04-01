@@ -16,6 +16,67 @@ from tscluster.opttscluster import optcluster
 from tscluster.preprocessing.utils import infer_data
 
 class OptTSCluster(TSCluster, TSClusterInterface):
+
+    """
+    Class for optimal time-series clustering. Throughout this doc and code, 'z' refers to cluster centers, while 'c' to label assignment.
+    This creates an OptTSCluster object
+
+    Parameters
+    -----------
+    k: int
+        number of clusters
+    scheme: {'z0c0', 'z0c1', 'z1c0', 'z1c1'}, default='z1c0'
+        The scheme to use for tsclustering. Could be one of:
+            - 'z0c0' means fixed center, fixed assignment
+            - 'z0c1' means fixed center, changing assignment
+            - 'z1c0' means changing center, fixed assignment
+            - 'z1c1' means changing center, changing assignment
+    n_allow_assignment_change: int or None, default=None
+        total number of label changes to allow
+    is_Z_positive: bool, default=True
+        True means assume non-negativity constraint for z. The scale of the final results are not affected since OptTSCluster will return solutions in the original scale of the input data.
+        Setting this to True often leads to speedup. See ... for more details.  
+    is_tight_constraints: bool, default=True
+        Indicate if to use use tight bounds (the bounding box of the data) for z and the objective value
+    lagrangian_multiplier: int, default=0
+        The penalty term for constrained label changes. Value should be in range [0, np.inf], the higher the value, the less
+        the number of label changes allowed
+    use_sum_distance: bool, default=False
+        Indicate if to use sum of distance to cluster as the objective. This is the sum of the distances between points in a time series
+        and their centroids. 
+    warm_start: bool, default=True
+        Indicates if to use k-means to initialize the centroids (Z) and their assignments (C).
+    normalise_assignment_penalty: bool, default=True
+        Indicate if to normalize the penalty term when using lagrangian_multiplier
+    strictly_n_allow_assignment_change: bool, default=False
+        If True, indicate if to use n_allow_assignment_change constraint as an active constraint.
+    use_MILP_centroid: bool, default=True
+        If True, cluster_centers_ atrribute will be cluster centers obtained from MILP solution, else the average of the 
+        datapoints per timestep
+    use_full_constraints: bool, default=True
+        If True, use all the samples as constraints. If False, use constraint generation. When using constraint generation, 
+        subsamples are being used as constraints with samples added to the constraints until optimal solution is found.
+    IFrac: float, default=0.2
+        fraction of samples to use as initial constraints when using constraint generation.
+    top_n_percentile: foat, default=0.0
+        percentile of most violated constraints to add to constraints when using constraint generation. 
+        Value should in range [0, 1]. Note that a value of 0 means to use the most violated constraint. 
+    max_iter: int, default=10
+        Maximum number of iterations to use when using constraint violation.
+    random_state: int, default=None
+        Set the random seed used when initializing with k-means or when initializing samples when using constraint generation.
+    add_constraint_per_cluster: bool, default=True
+        If True, top_n_percentile constraints are being from each cluster when using constraint generation. 
+    init_with_prev: bool, default=True
+        If True, use the solution from previous iteration as initial solution for the next iteration when using constraint generation            
+    
+    Attributes
+    ----------
+    cluster_centers_
+    fitted_data_shape_
+    labels_
+    """
+
     def __init__(
             self, 
             k: int, 
@@ -37,54 +98,6 @@ class OptTSCluster(TSCluster, TSClusterInterface):
             add_constraint_per_cluster: bool = True,
             init_with_prev: bool = True
             ) -> None:
-
-        """
-        Class for optimal time-series clustering. Throughout this doc and code, 'z' refers to cluster centers, while 'c' to label assignment.
-        This creates an OptTSCluster object
-
-        k: int
-            number of clusters
-        scheme: {'z0c0', 'z0c1', 'z1c0', 'z1c1'}, default='z1c0'
-            the scheme to use for tsclustering
-        n_allow_assignment_change: int or None, default=None
-            total number of label changes to allow
-        is_Z_positive: bool, default=True
-            True means assume non-negativity constraint for z. The scale of the final results are not affected since OptTSCluster will return solutions in the original scale of the input data.
-            Setting this to True often leads to speedup. See ... for more details.  
-        is_tight_constraints: bool, default=True
-            Indicate if to use use tight bounds (the bounding box of the data) for z and the objective value
-        lagrangian_multiplier: int, default=0
-            The penalty term for constrained label changes. Value should be in range [0, np.inf], the higher the value, the less
-            the number of label changes allowed
-        use_sum_distance: bool, default=False
-            Indicate if to use sum of distance to cluster as the objective. This is the sum of the distances between points in a time series
-            and their centroids. 
-        warm_start: bool, default=True
-            Indicates if to use k-means to initialize the centroids (Z) and their assignments (C).
-        normalise_assignment_penalty: bool, default=True
-            Indicate if to normalize the penalty term when using lagrangian_multiplier
-        strictly_n_allow_assignment_change: bool, default=False
-            If True, indicate if to use n_allow_assignment_change constraint as an active constraint.
-        use_MILP_centroid: bool, default=True
-            If True, cluster_centers_ atrribute will be cluster centers obtained from MILP solution, else the average of the 
-            datapoints per timestep
-        use_full_constraints: bool, default=True
-            If True, use all the samples as constraints. If False, use constraint generation. When using constraint generation, 
-            subsamples are being used as constraints with samples added to the constraints until optimal solution is found.
-        IFrac: float, default=0.2
-            fraction of samples to use as initial constraints when using constraint generation.
-        top_n_percentile: foat, default=0.0
-            percentile of most violated constraints to add to constraints when using constraint generation. 
-            Value should in range [0, 1]. Note that a value of 0 means to use the most violated constraint. 
-        max_iter: int, default=10
-            Maximum number of iterations to use when using constraint violation.
-        random_state: int, default=None
-            Set the random seed used when initializing with k-means or when initializing samples when using constraint generation.
-        add_constraint_per_cluster: bool, default=True
-            If True, top_n_percentile constraints are being from each cluster when using constraint generation. 
-        init_with_prev: bool, default=True
-            If True, use the solution from previous iteration as initial solution for the next iteration when using constraint generation        
-        """
 
         self.k = k
         self.scheme = scheme.lower()
@@ -135,18 +148,41 @@ class OptTSCluster(TSCluster, TSClusterInterface):
             ) -> "OptTSCluster": 
 
         """
-        Method for solving the MILP model.
-
-        X: np.ndarray of shape (T, N, F)
-            T is the number of timesteps, N is the number of timeseries entities, F is the number of features. The input data to cluster
-        y: ignored, not used. Only present as a convention for fit methods of most models.
-        verbose: bool, default=True
+        Method for fitting the model by solving the MILP model.
+        
+        Parameters
+        -----------
+        X : numpy array, string or list
+            Input time series data. If ndarray, should be a 3 dimensional array, use `arr_format` to specify its format. If str and a file name, will use numpy to load file.
+            If str and a directory name, will load all the files in the directory in ascending order of the suffix of the filenames.
+            Use suffix_sep as a keyword argument to indicate the suffix separator. Default is "_". So, file_0.csv will be read first before file_1.csv and so on.
+            Supported files in the directory are any file that can be read using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
+            If list, assumes the list is a list of files or filepaths. If file, each should be a numpy array or pandas DataFrame of data for the different time steps.
+            If list of filepaths, data is read in the order in the list using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
+        y : None
+            Ignored, not used. Only present as a convention for fit methods of most models.
+        verbose : bool, default=True
             If True, some model training information will be printed out. Set to False to surpress printouts
-        print_to: TextIO, default=sys.stdout
+        print_to : TextIO, default=sys.stdout
             An object with a write method to write model's printout information during training. Default is standard output.
+        **kwargs keyword arguments, can be any of the following:
+            - arr_format : str, default 'TNF'
+                format of the loaded data. 'TNF' means the data dimension is Time x Number of observations x Features
+                'NTF' means the data dimension is Number OF  observations x Time x Features
+            - suffix_sep : str, default '_'
+                separator separating the file number from the filename.
+            - file_reader : str, default 'infer'
+                file loader to use. Can be any of np.load, pd.read_csv, pd.read_json, and pd.read_excel. If 'infer', decorator will attempt to infer the file type from the file name 
+                and use the approproate loader.
+            - read_file_args : dict, default empty dictionary.
+                parameters to be passed to the data loader.
 
-        Return: self, fitted OptTSCluster object. 
+        Returns
+        --------
+        self: 
+            The fitted OptTSCluster object.
         """
+
         epsilon = 1e-4
         verbose_flush = True 
 

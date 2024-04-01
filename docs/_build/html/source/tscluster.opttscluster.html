@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>opttscluster subpackage &mdash; tscluster  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="tscluster.preprocessing package" href="tscluster.preprocessing.html" />
+    <link rel="prev" title="metrics package" href="tscluster.metrics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            tscluster
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../API.html">API Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html">tscluster</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="tscluster.html">tscluster package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="tscluster.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tscluster.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tscluster.html#module-tscluster.base">tscluster.base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tscluster.html#module-tscluster.interface">tscluster.interface module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tscluster.html#module-tscluster">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">tscluster</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../API.html">API Guide</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">tscluster</a></li>
+          <li class="breadcrumb-item"><a href="tscluster.html">tscluster package</a></li>
+      <li class="breadcrumb-item active">opttscluster subpackage</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/tscluster.opttscluster.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="opttscluster-subpackage">
+<h1>opttscluster subpackage<a class="headerlink" href="#opttscluster-subpackage" title="Link to this heading"></a></h1>
+<section id="opttscluster-class">
+<h2>OptTSCluster class<a class="headerlink" href="#opttscluster-class" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="tscluster.opttscluster.OptTSCluster">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tscluster.opttscluster.</span></span><span class="sig-name descname"><span class="pre">OptTSCluster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'z1c0'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_allow_assignment_change</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_Z_positive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_tight_constraints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lagrangian_multiplier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_sum_distance</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">warm_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalise_assignment_penalty</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strictly_n_allow_assignment_change</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_MILP_centroid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_full_constraints</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">IFrac</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">top_n_percentile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_constraint_per_cluster</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_with_prev</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tscluster.opttscluster.OptTSCluster" title="Link to this definition"></a></dt>
+<dd><p>Class for optimal time-series clustering. Throughout this doc and code, ‘z’ refers to cluster centers, while ‘c’ to label assignment.
+This creates an OptTSCluster object</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>k: int</strong></dt><dd><p>number of clusters</p>
+</dd>
+<dt><strong>scheme: {‘z0c0’, ‘z0c1’, ‘z1c0’, ‘z1c1’}, default=’z1c0’</strong></dt><dd><dl class="simple">
+<dt>The scheme to use for tsclustering. Could be one of:</dt><dd><ul class="simple">
+<li><p>‘z0c0’ means fixed center, fixed assignment</p></li>
+<li><p>‘z0c1’ means fixed center, changing assignment</p></li>
+<li><p>‘z1c0’ means changing center, fixed assignment</p></li>
+<li><p>‘z1c1’ means changing center, changing assignment</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt><strong>n_allow_assignment_change: int or None, default=None</strong></dt><dd><p>total number of label changes to allow</p>
+</dd>
+<dt><strong>is_Z_positive: bool, default=True</strong></dt><dd><p>True means assume non-negativity constraint for z. The scale of the final results are not affected since OptTSCluster will return solutions in the original scale of the input data.
+Setting this to True often leads to speedup. See … for more details.</p>
+</dd>
+<dt><strong>is_tight_constraints: bool, default=True</strong></dt><dd><p>Indicate if to use use tight bounds (the bounding box of the data) for z and the objective value</p>
+</dd>
+<dt><strong>lagrangian_multiplier: int, default=0</strong></dt><dd><p>The penalty term for constrained label changes. Value should be in range [0, np.inf], the higher the value, the less
+the number of label changes allowed</p>
+</dd>
+<dt><strong>use_sum_distance: bool, default=False</strong></dt><dd><p>Indicate if to use sum of distance to cluster as the objective. This is the sum of the distances between points in a time series
+and their centroids.</p>
+</dd>
+<dt><strong>warm_start: bool, default=True</strong></dt><dd><p>Indicates if to use k-means to initialize the centroids (Z) and their assignments (C).</p>
+</dd>
+<dt><strong>normalise_assignment_penalty: bool, default=True</strong></dt><dd><p>Indicate if to normalize the penalty term when using lagrangian_multiplier</p>
+</dd>
+<dt><strong>strictly_n_allow_assignment_change: bool, default=False</strong></dt><dd><p>If True, indicate if to use n_allow_assignment_change constraint as an active constraint.</p>
+</dd>
+<dt><strong>use_MILP_centroid: bool, default=True</strong></dt><dd><p>If True, <a href="#id1"><span class="problematic" id="id2">cluster_centers_</span></a> atrribute will be cluster centers obtained from MILP solution, else the average of the 
+datapoints per timestep</p>
+</dd>
+<dt><strong>use_full_constraints: bool, default=True</strong></dt><dd><p>If True, use all the samples as constraints. If False, use constraint generation. When using constraint generation, 
+subsamples are being used as constraints with samples added to the constraints until optimal solution is found.</p>
+</dd>
+<dt><strong>IFrac: float, default=0.2</strong></dt><dd><p>fraction of samples to use as initial constraints when using constraint generation.</p>
+</dd>
+<dt><strong>top_n_percentile: foat, default=0.0</strong></dt><dd><p>percentile of most violated constraints to add to constraints when using constraint generation. 
+Value should in range [0, 1]. Note that a value of 0 means to use the most violated constraint.</p>
+</dd>
+<dt><strong>max_iter: int, default=10</strong></dt><dd><p>Maximum number of iterations to use when using constraint violation.</p>
+</dd>
+<dt><strong>random_state: int, default=None</strong></dt><dd><p>Set the random seed used when initializing with k-means or when initializing samples when using constraint generation.</p>
+</dd>
+<dt><strong>add_constraint_per_cluster: bool, default=True</strong></dt><dd><p>If True, top_n_percentile constraints are being from each cluster when using constraint generation.</p>
+</dd>
+<dt><strong>init_with_prev: bool, default=True</strong></dt><dd><p>If True, use the solution from previous iteration as initial solution for the next iteration when using constraint generation</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">cluster_centers_</span></code></dt><dd><p>returns the cluster centers. If scheme is fixed centers, returns a k x F 2D array. Where k is the number of clusters and F is the number of features. If scheme is changing centers, returns a T x k x F 3D array. Where T is the number of time stesp, k is the number of clusters and F is the number of features.</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">fitted_data_shape_</span></code></dt><dd><p>returns a tuple of the shape of the fitted data in TNF format. E.g (T, N, F) where T, N, and F are the number of timesteps,</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">labels_</span></code></dt><dd><p>returns the assignment labels. values are integers in range [0, k-1], where k is the number of clusters. If scheme is fixed assignment, returns a 1D array of size N. Where N is the number of entities. A value of j at the i-th index means that entity i is assigned to the j-th cluster at all time steps. If scheme is changing assignment, returns a N x T 2D array. Where N is the number of entities and T is the number of time steps. A value of j at the i-th row and t-th column means that entity i is assigned to the j-th cluster at the t-th time step.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tscluster.opttscluster.OptTSCluster.fit" title="tscluster.opttscluster.OptTSCluster.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[, y, verbose, print_to])</p></td>
+<td><p>Method for fitting the model by solving the MILP model.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tscluster.opttscluster.OptTSCluster.get_named_cluster_centers" title="tscluster.opttscluster.OptTSCluster.get_named_cluster_centers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_named_cluster_centers</span></code></a>([time, features])</p></td>
+<td><p>Method to return the cluster centers with custom names of time steps and features.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tscluster.opttscluster.OptTSCluster.get_named_labels" title="tscluster.opttscluster.OptTSCluster.get_named_labels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_named_labels</span></code></a>([time, entities])</p></td>
+<td><p>Method to return the a data frame of the label assignments with custom names of time steps and entities.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.opttscluster.OptTSCluster.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">X:</span> <span class="pre">npt.NDArray[np.float64]</span> <span class="pre">|</span> <span class="pre">npt.NDArray[np.int64],</span> <span class="pre">y:</span> <span class="pre">npt.NDArray[np.float64]</span> <span class="pre">|</span> <span class="pre">npt.NDArray[np.int64]</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">verbose:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True,</span> <span class="pre">print_to:</span> <span class="pre">TextIO</span> <span class="pre">=</span> <span class="pre">&lt;_io.TextIOWrapper</span> <span class="pre">name='&lt;stdout&gt;'</span> <span class="pre">mode='w'</span> <span class="pre">encoding='utf-8'&gt;</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#tscluster.opttscluster.OptTSCluster" title="tscluster.opttscluster.OptTSCluster"><span class="pre">OptTSCluster</span></a></span></span><a class="headerlink" href="#tscluster.opttscluster.OptTSCluster.fit" title="Link to this definition"></a></dt>
+<dd><p>Method for fitting the model by solving the MILP model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X</strong><span class="classifier">numpy array, string or list</span></dt><dd><p>Input time series data. If ndarray, should be a 3 dimensional array, use <cite>arr_format</cite> to specify its format. If str and a file name, will use numpy to load file.
+If str and a directory name, will load all the files in the directory in ascending order of the suffix of the filenames.
+Use suffix_sep as a keyword argument to indicate the suffix separator. Default is “_”. So, file_0.csv will be read first before file_1.csv and so on.
+Supported files in the directory are any file that can be read using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
+If list, assumes the list is a list of files or filepaths. If file, each should be a numpy array or pandas DataFrame of data for the different time steps.
+If list of filepaths, data is read in the order in the list using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.</p>
+</dd>
+<dt><strong>y</strong><span class="classifier">None</span></dt><dd><p>Ignored, not used. Only present as a convention for fit methods of most models.</p>
+</dd>
+<dt><strong>verbose</strong><span class="classifier">bool, default=True</span></dt><dd><p>If True, some model training information will be printed out. Set to False to surpress printouts</p>
+</dd>
+<dt><strong>print_to</strong><span class="classifier">TextIO, default=sys.stdout</span></dt><dd><p>An object with a write method to write model’s printout information during training. Default is standard output.</p>
+</dd>
+<dt><strong>**kwargs keyword arguments, can be any of the following:</strong></dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>arr_format<span class="classifier">str, default ‘TNF’</span></dt><dd><p>format of the loaded data. ‘TNF’ means the data dimension is Time x Number of observations x Features
+‘NTF’ means the data dimension is Number OF  observations x Time x Features</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>suffix_sep<span class="classifier">str, default ‘_’</span></dt><dd><p>separator separating the file number from the filename.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>file_reader<span class="classifier">str, default ‘infer’</span></dt><dd><p>file loader to use. Can be any of np.load, pd.read_csv, pd.read_json, and pd.read_excel. If ‘infer’, decorator will attempt to infer the file type from the file name 
+and use the approproate loader.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>read_file_args<span class="classifier">dict, default empty dictionary.</span></dt><dd><p>parameters to be passed to the data loader.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>self:</dt><dd><p>The fitted OptTSCluster object.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.opttscluster.OptTSCluster.get_named_cluster_centers">
+<span class="sig-name descname"><span class="pre">get_named_cluster_centers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">pd.DataFrame</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tscluster.opttscluster.OptTSCluster.get_named_cluster_centers" title="Link to this definition"></a></dt>
+<dd><p>Method to return the cluster centers with custom names of time steps and features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>time</strong><span class="classifier">list, default</span><span class="classifier">None.</span></dt><dd><p>A list of names/labels of each time step to be used as index of each dataframe. If None, range(0, T) is used. Where T is the number of time steps in the fitted data</p>
+</dd>
+<dt><strong>features</strong><span class="classifier">list, default</span><span class="classifier">None</span></dt><dd><p>A list of names/labels of each feature to be used as column of each dataframe. If None, range(0, F) is used. Where F is the number of features in the fitted data</p>
+</dd>
+<dt><strong>Returns</strong></dt><dd></dd>
+<dt><strong>——</strong></dt><dd></dd>
+<dt><strong>list</strong></dt><dd><p>A list of k pandas DataFrames. Where k is the number of clusters. The i-th dataframe in the list is a T x F dataframe of the values of the cluster centers of the i-th cluster.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.opttscluster.OptTSCluster.get_named_labels">
+<span class="sig-name descname"><span class="pre">get_named_labels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pd.DataFrame</span></span></span><a class="headerlink" href="#tscluster.opttscluster.OptTSCluster.get_named_labels" title="Link to this definition"></a></dt>
+<dd><p>Method to return the a data frame of the label assignments with custom names of time steps and entities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>time</strong><span class="classifier">list, default</span><span class="classifier">None</span></dt><dd><p>A list of names/labels of each time step to be used as column names of the dataframe. If None, range(0, T) is used. Where T is the number of time steps in the fitted data</p>
+</dd>
+<dt><strong>entities</strong><span class="classifier">list, default</span><span class="classifier">None</span></dt><dd><p>A list of names/labels of each entity to be used as index of the dataframe. If None, range(0, N) is used. Where N is the number of entities/observations in the fitted data</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>pd.DataFrame</dt><dd><p>A pandas DataFrame with shape (N, T). The value in the n-th row and t-th column is an integer indicating the custer assignment of the n-th entity/observation at time t.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tscluster.metrics.html" class="btn btn-neutral float-left" title="metrics package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tscluster.preprocessing.html" class="btn btn-neutral float-right" title="tscluster.preprocessing package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, tscluster.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

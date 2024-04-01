@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>preprocessing subpackage &mdash; tscluster  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=888ff710"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="tskmeans subpackage" href="tscluster.tskmeans.html" />
+    <link rel="prev" title="opttscluster subpackage" href="tscluster.opttscluster.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            tscluster
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../API.html">API Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html">tscluster</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="tscluster.html">tscluster package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="tscluster.html#subpackages">Subpackages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">tscluster</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../API.html">API Guide</a></li>
+          <li class="breadcrumb-item"><a href="modules.html">tscluster</a></li>
+          <li class="breadcrumb-item"><a href="tscluster.html">tscluster package</a></li>
+      <li class="breadcrumb-item active">preprocessing subpackage</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/tscluster.preprocessing.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="preprocessing-subpackage">
+<h1>preprocessing subpackage<a class="headerlink" href="#preprocessing-subpackage" title="Link to this heading"></a></h1>
+<section id="tsstandardscaler-class">
+<h2>TSStandardScaler class<a class="headerlink" href="#tsstandardscaler-class" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="tscluster.preprocessing.TSStandardScaler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tscluster.preprocessing.</span></span><span class="sig-name descname"><span class="pre">TSStandardScaler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">per_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tscluster.preprocessing.TSStandardScaler" title="Link to this definition"></a></dt>
+<dd><p>Uses sklearn’s StandardScaler to scale a time series data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>per_time</strong><span class="classifier">bool, default=True</span></dt><dd><p>If True, compute zscore per time step. If False, compute zscore per feature across all timesteps.</p>
+</dd>
+<dt><strong>**kwargs</strong><span class="classifier">keyword arugments to be passed to sklearn’s StandardScaler.</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tscluster.preprocessing.TSStandardScaler.fit" title="tscluster.preprocessing.TSStandardScaler.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X)</p></td>
+<td><p>Fit method of transformer.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tscluster.preprocessing.TSStandardScaler.fit_transform" title="tscluster.preprocessing.TSStandardScaler.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(X)</p></td>
+<td><p>fit and transform the data</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tscluster.preprocessing.TSStandardScaler.inverse_transform" title="tscluster.preprocessing.TSStandardScaler.inverse_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform</span></code></a>(X)</p></td>
+<td><p>inverse transform method for  transformer.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tscluster.preprocessing.TSStandardScaler.transform" title="tscluster.preprocessing.TSStandardScaler.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(X)</p></td>
+<td><p>transform method for  transformer.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.preprocessing.TSStandardScaler.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">TSScaler</span></span></span><a class="headerlink" href="#tscluster.preprocessing.TSStandardScaler.fit" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Fit method of transformer.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X: ndarray, string or list.</strong></dt><dd><p>Input time series data. If ndarray, should be a 3 dimensional array. If str and a file name, will use numpy to load file.
+If str and a directory name, will load all the files in the directory in ascending order of the suffix of the filenames.
+Use suffix_sep as a keyword argument to indicate the suffix separator. Default is “_”. So, file_0.csv will be read first before file_1.csv and so on.
+Supported files in the directory are any file that can be read using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
+If list, assumes the list is a list of files or filepaths. If file, each should be a numpy array or pandas DataFrame of data for the different time steps.
+If list of filepaths, data is read in the order in the list using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.</p>
+</dd>
+<dt><strong>**kwargs keyword arguments, can be any of the following:</strong></dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>arr_format<span class="classifier">str, default ‘TNF’</span></dt><dd><p>format of the loaded data. ‘TNF’ means the data dimension is Time x Number of observations x Features
+‘NTF’ means the data dimension is Number OF  observations x Time x Features</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>suffix_sep<span class="classifier">str, default ‘_’</span></dt><dd><p>separator separating the file number from the filename.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>file_reader<span class="classifier">str, default ‘infer’</span></dt><dd><p>file loader to use. Can be any of np.load, pd.read_csv, pd.read_json, and pd.read_excel. If ‘infer’, decorator will attempt to infer the file type from the file name 
+and use the approproate loader.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>read_file_args<span class="classifier">dict, default empty dictionary.</span></dt><dd><p>parameters to be passed to the data loader.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>self</dt><dd><p>the fitted transformer object</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.preprocessing.TSStandardScaler.fit_transform">
+<span class="sig-name descname"><span class="pre">fit_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tscluster.preprocessing.TSStandardScaler.fit_transform" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>fit and transform the data</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X: ndarray, string or list.</strong></dt><dd><p>Input time series data. If ndarray, should be a 3 dimensional array. If str and a file name, will use numpy to load file.
+If str and a directory name, will load all the files in the directory in ascending order of the suffix of the filenames.
+Use suffix_sep as a keyword argument to indicate the suffix separator. Default is “_”. So, file_0.csv will be read first before file_1.csv and so on.
+Supported files in the directory are any file that can be read using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
+If list, assumes the list is a list of files or filepaths. If file, each should be a numpy array or pandas DataFrame of data for the different time steps.
+If list of filepaths, data is read in the order in the list using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.</p>
+</dd>
+<dt><strong>**kwargs keyword arguments, can be any of the following:</strong></dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>arr_format<span class="classifier">str, default ‘TNF’</span></dt><dd><p>format of the loaded data. ‘TNF’ means the data dimension is Time x Number of observations x Features
+‘NTF’ means the data dimension is Number OF  observations x Time x Features</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>suffix_sep<span class="classifier">str, default ‘_’</span></dt><dd><p>separator separating the file number from the filename.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>file_reader<span class="classifier">str, default ‘infer’</span></dt><dd><p>file loader to use. Can be any of np.load, pd.read_csv, pd.read_json, and pd.read_excel. If ‘infer’, decorator will attempt to infer the file type from the file name 
+and use the approproate loader.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>read_file_args<span class="classifier">dict, default empty dictionary.</span></dt><dd><p>parameters to be passed to the data loader.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>numpy array</dt><dd><p>the transformed data in TNF format</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.preprocessing.TSStandardScaler.inverse_transform">
+<span class="sig-name descname"><span class="pre">inverse_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tscluster.preprocessing.TSStandardScaler.inverse_transform" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>inverse transform method for  transformer.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X: ndarray, string or list.</strong></dt><dd><p>Input time series data. If ndarray, should be a 3 dimensional array. If str and a file name, will use numpy to load file.
+If str and a directory name, will load all the files in the directory in ascending order of the suffix of the filenames.
+Use suffix_sep as a keyword argument to indicate the suffix separator. Default is “_”. So, file_0.csv will be read first before file_1.csv and so on.
+Supported files in the directory are any file that can be read using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
+If list, assumes the list is a list of files or filepaths. If file, each should be a numpy array or pandas DataFrame of data for the different time steps.
+If list of filepaths, data is read in the order in the list using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.</p>
+</dd>
+<dt><strong>**kwargs keyword arguments, can be any of the following:</strong></dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>arr_format<span class="classifier">str, default ‘TNF’</span></dt><dd><p>format of the loaded data. ‘TNF’ means the data dimension is Time x Number of observations x Features
+‘NTF’ means the data dimension is Number OF  observations x Time x Features</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>suffix_sep<span class="classifier">str, default ‘_’</span></dt><dd><p>separator separating the file number from the filename.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>file_reader<span class="classifier">str, default ‘infer’</span></dt><dd><p>file loader to use. Can be any of np.load, pd.read_csv, pd.read_json, and pd.read_excel. If ‘infer’, decorator will attempt to infer the file type from the file name 
+and use the approproate loader.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>read_file_args<span class="classifier">dict, default empty dictionary.</span></dt><dd><p>parameters to be passed to the data loader.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>numpy array</dt><dd><p>the inverse-transform of the data in TNF format</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.preprocessing.TSStandardScaler.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tscluster.preprocessing.TSStandardScaler.transform" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>transform method for  transformer.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X: ndarray, string or list.</strong></dt><dd><p>Input time series data. If ndarray, should be a 3 dimensional array. If str and a file name, will use numpy to load file.
+If str and a directory name, will load all the files in the directory in ascending order of the suffix of the filenames.
+Use suffix_sep as a keyword argument to indicate the suffix separator. Default is “_”. So, file_0.csv will be read first before file_1.csv and so on.
+Supported files in the directory are any file that can be read using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
+If list, assumes the list is a list of files or filepaths. If file, each should be a numpy array or pandas DataFrame of data for the different time steps.
+If list of filepaths, data is read in the order in the list using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.</p>
+</dd>
+<dt><strong>**kwargs keyword arguments, can be any of the following:</strong></dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>arr_format<span class="classifier">str, default ‘TNF’</span></dt><dd><p>format of the loaded data. ‘TNF’ means the data dimension is Time x Number of observations x Features
+‘NTF’ means the data dimension is Number OF  observations x Time x Features</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>suffix_sep<span class="classifier">str, default ‘_’</span></dt><dd><p>separator separating the file number from the filename.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>file_reader<span class="classifier">str, default ‘infer’</span></dt><dd><p>file loader to use. Can be any of np.load, pd.read_csv, pd.read_json, and pd.read_excel. If ‘infer’, decorator will attempt to infer the file type from the file name 
+and use the approproate loader.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>read_file_args<span class="classifier">dict, default empty dictionary.</span></dt><dd><p>parameters to be passed to the data loader.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>numpy array</dt><dd><p>the transformed data in TNF format</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="tsminmaxscaler-class">
+<h2>TSMinMaxScaler class<a class="headerlink" href="#tsminmaxscaler-class" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="tscluster.preprocessing.TSMinMaxScaler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tscluster.preprocessing.</span></span><span class="sig-name descname"><span class="pre">TSMinMaxScaler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">per_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tscluster.preprocessing.TSMinMaxScaler" title="Link to this definition"></a></dt>
+<dd><p>Uses sklearn’s MinMaxScaler to scale a time series data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>per_time</strong><span class="classifier">bool, default=True</span></dt><dd><p>If True, compute zscore per time step. If False, compute zscore per feature across all timesteps.</p>
+</dd>
+<dt><strong>**kwargs</strong><span class="classifier">keyword arugments to be passed to sklearn’s MinMaxScaler.</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tscluster.preprocessing.TSMinMaxScaler.fit" title="tscluster.preprocessing.TSMinMaxScaler.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X)</p></td>
+<td><p>Fit method of transformer.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tscluster.preprocessing.TSMinMaxScaler.fit_transform" title="tscluster.preprocessing.TSMinMaxScaler.fit_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_transform</span></code></a>(X)</p></td>
+<td><p>fit and transform the data</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tscluster.preprocessing.TSMinMaxScaler.inverse_transform" title="tscluster.preprocessing.TSMinMaxScaler.inverse_transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse_transform</span></code></a>(X)</p></td>
+<td><p>inverse transform method for  transformer.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tscluster.preprocessing.TSMinMaxScaler.transform" title="tscluster.preprocessing.TSMinMaxScaler.transform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">transform</span></code></a>(X)</p></td>
+<td><p>transform method for  transformer.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.preprocessing.TSMinMaxScaler.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">TSScaler</span></span></span><a class="headerlink" href="#tscluster.preprocessing.TSMinMaxScaler.fit" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>Fit method of transformer.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X: ndarray, string or list.</strong></dt><dd><p>Input time series data. If ndarray, should be a 3 dimensional array. If str and a file name, will use numpy to load file.
+If str and a directory name, will load all the files in the directory in ascending order of the suffix of the filenames.
+Use suffix_sep as a keyword argument to indicate the suffix separator. Default is “_”. So, file_0.csv will be read first before file_1.csv and so on.
+Supported files in the directory are any file that can be read using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
+If list, assumes the list is a list of files or filepaths. If file, each should be a numpy array or pandas DataFrame of data for the different time steps.
+If list of filepaths, data is read in the order in the list using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.</p>
+</dd>
+<dt><strong>**kwargs keyword arguments, can be any of the following:</strong></dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>arr_format<span class="classifier">str, default ‘TNF’</span></dt><dd><p>format of the loaded data. ‘TNF’ means the data dimension is Time x Number of observations x Features
+‘NTF’ means the data dimension is Number OF  observations x Time x Features</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>suffix_sep<span class="classifier">str, default ‘_’</span></dt><dd><p>separator separating the file number from the filename.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>file_reader<span class="classifier">str, default ‘infer’</span></dt><dd><p>file loader to use. Can be any of np.load, pd.read_csv, pd.read_json, and pd.read_excel. If ‘infer’, decorator will attempt to infer the file type from the file name 
+and use the approproate loader.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>read_file_args<span class="classifier">dict, default empty dictionary.</span></dt><dd><p>parameters to be passed to the data loader.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>self</dt><dd><p>the fitted transformer object</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.preprocessing.TSMinMaxScaler.fit_transform">
+<span class="sig-name descname"><span class="pre">fit_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tscluster.preprocessing.TSMinMaxScaler.fit_transform" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>fit and transform the data</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X: ndarray, string or list.</strong></dt><dd><p>Input time series data. If ndarray, should be a 3 dimensional array. If str and a file name, will use numpy to load file.
+If str and a directory name, will load all the files in the directory in ascending order of the suffix of the filenames.
+Use suffix_sep as a keyword argument to indicate the suffix separator. Default is “_”. So, file_0.csv will be read first before file_1.csv and so on.
+Supported files in the directory are any file that can be read using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
+If list, assumes the list is a list of files or filepaths. If file, each should be a numpy array or pandas DataFrame of data for the different time steps.
+If list of filepaths, data is read in the order in the list using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.</p>
+</dd>
+<dt><strong>**kwargs keyword arguments, can be any of the following:</strong></dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>arr_format<span class="classifier">str, default ‘TNF’</span></dt><dd><p>format of the loaded data. ‘TNF’ means the data dimension is Time x Number of observations x Features
+‘NTF’ means the data dimension is Number OF  observations x Time x Features</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>suffix_sep<span class="classifier">str, default ‘_’</span></dt><dd><p>separator separating the file number from the filename.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>file_reader<span class="classifier">str, default ‘infer’</span></dt><dd><p>file loader to use. Can be any of np.load, pd.read_csv, pd.read_json, and pd.read_excel. If ‘infer’, decorator will attempt to infer the file type from the file name 
+and use the approproate loader.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>read_file_args<span class="classifier">dict, default empty dictionary.</span></dt><dd><p>parameters to be passed to the data loader.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>numpy array</dt><dd><p>the transformed data in TNF format</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.preprocessing.TSMinMaxScaler.inverse_transform">
+<span class="sig-name descname"><span class="pre">inverse_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tscluster.preprocessing.TSMinMaxScaler.inverse_transform" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>inverse transform method for  transformer.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X: ndarray, string or list.</strong></dt><dd><p>Input time series data. If ndarray, should be a 3 dimensional array. If str and a file name, will use numpy to load file.
+If str and a directory name, will load all the files in the directory in ascending order of the suffix of the filenames.
+Use suffix_sep as a keyword argument to indicate the suffix separator. Default is “_”. So, file_0.csv will be read first before file_1.csv and so on.
+Supported files in the directory are any file that can be read using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
+If list, assumes the list is a list of files or filepaths. If file, each should be a numpy array or pandas DataFrame of data for the different time steps.
+If list of filepaths, data is read in the order in the list using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.</p>
+</dd>
+<dt><strong>**kwargs keyword arguments, can be any of the following:</strong></dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>arr_format<span class="classifier">str, default ‘TNF’</span></dt><dd><p>format of the loaded data. ‘TNF’ means the data dimension is Time x Number of observations x Features
+‘NTF’ means the data dimension is Number OF  observations x Time x Features</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>suffix_sep<span class="classifier">str, default ‘_’</span></dt><dd><p>separator separating the file number from the filename.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>file_reader<span class="classifier">str, default ‘infer’</span></dt><dd><p>file loader to use. Can be any of np.load, pd.read_csv, pd.read_json, and pd.read_excel. If ‘infer’, decorator will attempt to infer the file type from the file name 
+and use the approproate loader.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>read_file_args<span class="classifier">dict, default empty dictionary.</span></dt><dd><p>parameters to be passed to the data loader.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>numpy array</dt><dd><p>the inverse-transform of the data in TNF format</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.preprocessing.TSMinMaxScaler.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">npt.NDArray</span><span class="p"><span class="pre">[</span></span><span class="pre">np.float64</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tscluster.preprocessing.TSMinMaxScaler.transform" title="Link to this definition"></a></dt>
+<dd><blockquote>
+<div><p>transform method for  transformer.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X: ndarray, string or list.</strong></dt><dd><p>Input time series data. If ndarray, should be a 3 dimensional array. If str and a file name, will use numpy to load file.
+If str and a directory name, will load all the files in the directory in ascending order of the suffix of the filenames.
+Use suffix_sep as a keyword argument to indicate the suffix separator. Default is “_”. So, file_0.csv will be read first before file_1.csv and so on.
+Supported files in the directory are any file that can be read using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
+If list, assumes the list is a list of files or filepaths. If file, each should be a numpy array or pandas DataFrame of data for the different time steps.
+If list of filepaths, data is read in the order in the list using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.</p>
+</dd>
+<dt><strong>**kwargs keyword arguments, can be any of the following:</strong></dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>arr_format<span class="classifier">str, default ‘TNF’</span></dt><dd><p>format of the loaded data. ‘TNF’ means the data dimension is Time x Number of observations x Features
+‘NTF’ means the data dimension is Number OF  observations x Time x Features</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>suffix_sep<span class="classifier">str, default ‘_’</span></dt><dd><p>separator separating the file number from the filename.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>file_reader<span class="classifier">str, default ‘infer’</span></dt><dd><p>file loader to use. Can be any of np.load, pd.read_csv, pd.read_json, and pd.read_excel. If ‘infer’, decorator will attempt to infer the file type from the file name 
+and use the approproate loader.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>read_file_args<span class="classifier">dict, default empty dictionary.</span></dt><dd><p>parameters to be passed to the data loader.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>numpy array</dt><dd><p>the transformed data in TNF format</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tscluster.opttscluster.html" class="btn btn-neutral float-left" title="opttscluster subpackage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tscluster.tskmeans.html" class="btn btn-neutral float-right" title="tskmeans subpackage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, tscluster.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

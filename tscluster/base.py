@@ -8,7 +8,9 @@ import pandas as pd
 from tscluster.preprocessing.utils import broadcast_data, tnf_to_ntf
 
 class TSCluster():
-    """Class that contains common implementations of methods for a temporal clustering model"""
+    """
+    Class that contains implementations of common methods for a temporal clustering model
+    """
 
     def get_named_cluster_centers(self, 
                                    time: List[str]|None = None, 
@@ -17,14 +19,19 @@ class TSCluster():
         """
         Method to return the cluster centers with custom names of time steps and features.
 
-        Args:
-            time: list, default: None.
-                A list of names of each time step to be used as index of each dataframe. If None, range(0, T) is used. Where T is the number of time steps in the fitted data
-            features: list, default: None
-                A list of names of each feature to be used as column of each dataframe. If None, range(0, F) is used. Where F is the number of features in the fitted data 
+        Parameters
+        ----------
+        time : list, default : None.
+            A list of names/labels of each time step to be used as index of each dataframe. If None, range(0, T) is used. Where T is the number of time steps in the fitted data
+        features : list, default : None
+            A list of names/labels of each feature to be used as column of each dataframe. If None, range(0, F) is used. Where F is the number of features in the fitted data 
 
-        Return: A list of k pandas DataFrames. Where k is the number of clusters. The i-th dataframe in the list is a T x F dataframe of the values of the cluster centers of the i-th cluster.   
+        Returns
+        ------ 
+        list    
+            A list of k pandas DataFrames. Where k is the number of clusters. The i-th dataframe in the list is a T x F dataframe of the values of the cluster centers of the i-th cluster.   
         """
+
         cluster_centers, _ = broadcast_data(self.fitted_data_shape_[0], self.cluster_centers_, self.labels_)
 
         cluster_centers = tnf_to_ntf(cluster_centers)
@@ -38,14 +45,19 @@ class TSCluster():
         """
         Method to return the a data frame of the label assignments with custom names of time steps and entities.
 
-        Args:
-            time: list, default: None.
-                A list of names of each time step to be used as column names of the dataframe. If None, range(0, T) is used. Where T is the number of time steps in the fitted data
-            entities: list, default: None
-                A list of names of each entity to be used as index of the dataframe. If None, range(0, N) is used. Where N is the number of entities/observations in the fitted data 
+        Parameters
+        -----------
+        time : list, default : None
+            A list of names/labels of each time step to be used as column names of the dataframe. If None, range(0, T) is used. Where T is the number of time steps in the fitted data
+        entities : list, default : None
+            A list of names/labels of each entity to be used as index of the dataframe. If None, range(0, N) is used. Where N is the number of entities/observations in the fitted data 
 
-        Return: A pandas DataFrame with shape (N, T). The value in the n-th row and t-th column is an integer indicating the custer assignment of the n-th entity/observation at time t.  
+        Returns
+        -------
+        pd.DataFrame
+            A pandas DataFrame with shape (N, T). The value in the n-th row and t-th column is an integer indicating the custer assignment of the n-th entity/observation at time t.  
         """
+        
         _, labels = broadcast_data(self.fitted_data_shape_[0], self.cluster_centers_, self.labels_)
     
         return pd.DataFrame(labels, columns=time, index=entities)

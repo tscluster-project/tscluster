@@ -1,6 +1,7 @@
 from __future__ import annotations
 from typing import List, Callable, Any, Tuple
 import os 
+from functools import wraps
 
 import numpy as np 
 import numpy.typing as npt
@@ -74,14 +75,13 @@ def to_tnf(X: npt.NDArray[np.float64], arr_format: str) -> npt.NDArray[np.float6
     
     return X
 
-
 def broadcast_data(
         T: int,
         cluster_centers: npt.NDArray[np.float64]|None = None, 
         labels: npt.NDArray[np.int]|None = None, 
         ) -> Tuple[npt.NDArray[np.float64], npt.NDArray[np.int64]]:
     
-    "function to make cluster_centers and labels both of size T x N x F"
+    """function to make cluster_centers of shape T x N x F and labels of shape N x F """
 
     if cluster_centers is not None:
         if cluster_centers.ndim == 2:
@@ -156,16 +156,18 @@ def get_infer_data_wrapper_args(arg: str, kwargs: dict) -> Any:
     return arg_value   
 
 def infer_data(func: Callable) -> Callable:
-    """
-    Decorator to infer the data type of X, load it and return it in TNF format.
-    """
-
+    
+    # Decorator to infer the data type of X, load it and return it in TNF format.
+    
+    @wraps(func)
     def args_selector(
             self: Any, 
             X: npt.NDArray[np.float64]|str|List, 
             *args, 
             **kwargs
             ) -> Any:
+        
+        # Decorator to infer the data type of X, load it and return it in TNF format.
     
         def data_loader(
                 self: Any, 
@@ -177,7 +179,10 @@ def infer_data(func: Callable) -> Callable:
                 *args, 
                 **kwargs
                 ) -> Any:
+            
             """
+            Parameters
+            -----------
             X: ndarray, string or list. 
                 Input time series data. If ndarray, should be a 3 dimensional array. If str and a file name, will use numpy to load file.
                 If str and a directory name, will load all the files in the directory in ascending order of the suffix of the filenames.
@@ -196,12 +201,13 @@ def infer_data(func: Callable) -> Callable:
                 and use the approproate loader.
             read_file_args: dict, default empty dictionary.
                 parameters to be passed to the data loader.
-            args: 
+            *args: 
                 any other positional arguments for fit method or function to be decorated.
 
-            kwargs:
+            **kwargs:
                 any keyword argument for fit method, or function to be decorated.
             """
+
             if isinstance(X, np.ndarray):
                 X_arr = X 
             
