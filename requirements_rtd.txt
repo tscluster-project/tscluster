@@ -6,4 +6,4 @@ h5py>=3.10
 pandas>=2.2
 matplotlib>=3.8
 numpydoc>=1.7
-pyximport
+cython
