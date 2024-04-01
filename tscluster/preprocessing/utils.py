@@ -63,7 +63,7 @@ def reshape_for_transform(X: npt.NDArray[np.float64], per_time: bool) -> Tuple[n
 
     return X, n 
 
-def to_tnf(X: npt.NDArray[np.float64], arr_format: str) -> npt.NDArray[np.float64]:
+def to_tnf(X: npt.NDArray[np.float64], arr_format: str, label_dict: dict) -> Tuple[npt.NDArray[np.float64], dict]:
     """
     Utility function to check the format of an array and converts it to TNF format. Raises ValueError if the array is not 3d.
     """
@@ -71,9 +71,11 @@ def to_tnf(X: npt.NDArray[np.float64], arr_format: str) -> npt.NDArray[np.float6
         raise ValueError(f"Invalid dimension of array. Expected array with 3 dimensions but got {X.ndim}")
     
     elif arr_format.upper() == 'NTF':
-        return ntf_to_tnf(X)
+        label_dict['T'], label_dict['N'] = label_dict['N'], label_dict['T']
+        
+        return ntf_to_tnf(X), label_dict
     
-    return X
+    return X, label_dict
 
 def broadcast_data(
         T: int,
@@ -115,7 +117,7 @@ def get_default_header(file_reader: str, kwargs: dict) -> dict:
 
     return kwargs
 
-def read_all_files(lst: List[str], file_reader: str, **kwargs) -> npt.NDArray[np.float64]:
+def read_all_files(lst: List[str], file_reader: str, **kwargs) -> Tuple[npt.NDArray[np.float64], dict]:
     """
     Utility function to read all the files in a list
     """
@@ -124,25 +126,34 @@ def read_all_files(lst: List[str], file_reader: str, **kwargs) -> npt.NDArray[np
         file_extension = {filename.split('.')[-1].lower() for filename in lst}
 
         if 'npy' in file_extension or 'npz' in file_extension:
-            return np.array([file_readers['np_load'](file_path, **kwargs) for file_path in lst])
+            df_lst = [pd.DataFrame(file_readers['np_load'](file_path, **kwargs)) for file_path in lst]
 
         elif 'json' in file_extension:
-            return np.array([file_readers['pd_read_json'](file_path, **kwargs).values for file_path in lst])
+            df_lst = [file_readers['pd_read_json'](file_path, **kwargs).sort_index() for file_path in lst]
+
 
         elif 'xls' in file_extension or 'xlsx' in file_extension:
             kwargs = get_default_header('pd_read_excel', kwargs)
-            return np.array([file_readers['pd_read_excel'](file_path, **kwargs).values for file_path in lst])
+            df_lst = [file_readers['pd_read_excel'](file_path, **kwargs).sort_index() for file_path in lst]
         
         else: # assume csv
             kwargs = get_default_header('pd_read_csv', kwargs)
-            return np.array([file_readers['pd_read_csv'](file_path, **kwargs).values for file_path in lst])    
+            df_lst = [file_readers['pd_read_csv'](file_path, **kwargs).sort_index() for file_path in lst]   
         
     elif file_reader == 'np_load': # if numpy
-        return np.array([file_readers['np_load'](file_path, **kwargs) for file_path in lst])
+        df_lst = [pd.DataFrame(file_readers['np_load'](file_path, **kwargs)) for file_path in lst]
     
     else: # if pandas
         kwargs = get_default_header(file_reader, kwargs)
-        return np.array([file_readers[file_reader](file_path, **kwargs).values for file_path in lst])    
+        df_lst = [file_readers[file_reader](file_path, **kwargs).sort_index() for file_path in lst]   
+
+    df = pd.concat(df_lst, axis=0, sort=False)
+    label_dict = {
+        'T': list(range(len(lst))),
+        'N': list(df_lst[0].index),
+        'F': list(df.columns)
+        }
+    return df.values.reshape(len(lst), -1, df.shape[1]), label_dict 
 
 def get_infer_data_wrapper_args(arg: str, kwargs: dict) -> Any:
     """
@@ -210,22 +221,44 @@ def infer_data(func: Callable) -> Callable:
 
             if isinstance(X, np.ndarray):
                 X_arr = X 
+                label_dict = {
+                    'T': list(range(X_arr.shape[0])),
+                    'N': list(range(X_arr.shape[1])),
+                    'F': list(range(X_arr.shape[2]))
+                }
             
             elif isinstance(X, list):
 
                 if is_all_type(X, np.ndarray):
                     X_arr = np.array(X)
+                    label_dict = {
+                        'T': list(range(X_arr.shape[0])),
+                        'N': list(range(X_arr.shape[1])),
+                        'F': list(range(X_arr.shape[2]))
+                    }
 
                 elif is_all_type(X, pd.DataFrame):
-                    X_arr = pd.concat(X, axis=0, sort=False).values
-
+                    df_lst = [df.sort_index() for df in X]
+                    df = pd.concat(df_lst, axis=0, sort=False)
+                    label_dict = {
+                        'T': list(range(len(X))),
+                        'N': list(df_lst[0].index),
+                        'F': list(df.columns)
+                        }
+                    X_arr = df.values.reshape(len(X), -1, df.shape[1])
+                    
                 elif is_all_type(X, str):
-                    X_arr = read_all_files(X, file_reader, **read_file_args)
+                    X_arr, label_dict = read_all_files(X, file_reader, **read_file_args)
 
             elif isinstance(X, str):
 
                 if os.path.isfile(X):
                     X_arr = file_readers['np_load'](X, **read_file_args)
+                    label_dict = {
+                        'T': list(range(X_arr.shape[0])),
+                        'N': list(range(X_arr.shape[1])),
+                        'F': list(range(X_arr.shape[2]))
+                    }
 
                 else:
                     file_names = get_lst_of_filenames(X)
@@ -236,12 +269,17 @@ def infer_data(func: Callable) -> Callable:
 
                     lst_of_filepaths = [os.path.join(X, f) for f in sorted_filenames]
 
-                    X_arr = read_all_files(lst_of_filepaths, file_reader, **read_file_args)
+                    X_arr, label_dict = read_all_files(lst_of_filepaths, file_reader, **read_file_args)
             
             else:
                 raise TypeError(f"Invalid type! Expected any of {valid_data_load_types_names}, but got '{type(X).__name__}'")
             
-            X_arr = to_tnf(X_arr, arr_format) 
+            X_arr, label_dict = to_tnf(X_arr, arr_format, label_dict) 
+
+            try:
+                self._label_dict_ = label_dict
+            except AttributeError:
+                self.append(label_dict)
 
             return func(self, X_arr, *args, **kwargs)
         
@@ -255,8 +293,120 @@ def infer_data(func: Callable) -> Callable:
     return args_selector
 
 @infer_data
-def _get_inferred_data(_: Any, X: npt.NDArray[np.float64]|str|List) -> np.float64:
+def _get_inferred_data(label_dict: dict, X: npt.NDArray[np.float64]|str|List, **kwargs) -> np.float64:
     """
     function to replace self argument
     """
     return X
+
+def get_inferred_data(
+        X: npt.NDArray[np.float64]|str|List, 
+        output_arr_format: str = 'TNF',
+        **kwargs) -> Tuple[np.float64, dict]:
+    """
+    function to get inferred data, can also be used to convert dataframes to (numpy, label_dict)
+
+    Parameters
+    ----------
+    X : numpy array, string or list
+        Input time series data. If ndarray, should be a 3 dimensional array, use `arr_format` to specify its format. If str and a file name, will use numpy to load file.
+        If str and a directory name, will load all the files in the directory in ascending order of the suffix of the filenames.
+        Use suffix_sep as a keyword argument to indicate the suffix separator. Default is "_". So, file_0.csv will be read first before file_1.csv and so on.
+        Supported files in the directory are any file that can be read using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
+        If list, assumes the list is a list of files or filepaths. If file, each should be a numpy array or pandas DataFrame of data for the different time steps.
+        If list of filepaths, data is read in the order in the list using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
+    output_arr_format : str, default='TNF'
+        The format of the output array. Can be any of {'TNF', 'NTF'}.
+    **kwargs keyword arguments, can be any of the following:
+        - arr_format : str, default 'TNF'
+            format of the loaded data. 'TNF' means the data dimension is Time x Number of observations x Features
+            'NTF' means the data dimension is Number OF  observations x Time x Features
+        - suffix_sep : str, default '_'
+            separator separating the file number from the filename.
+        - file_reader : str, default 'infer'
+            file loader to use. Can be any of np.load, pd.read_csv, pd.read_json, and pd.read_excel. If 'infer', decorator will attempt to infer the file type from the file name 
+            and use the approproate loader.
+        - read_file_args : dict, default empty dictionary.
+            parameters to be passed to the data loader.
+
+    Returns
+    -------
+    np.array, dict 
+        a numpy array of the inferred data in 'TNF' or 'NTF' format (depending on the value of `output_arr_format`), and a dictionary whose keys are 'T', 'N', and 'F'; and values are lists of the labels of each key. 
+    """
+
+    label_dict = []
+    X_arr = _get_inferred_data(label_dict, X, **kwargs)
+
+    if output_arr_format == 'NTF':
+        X_arr = tnf_to_ntf(X_arr)
+
+    return X_arr, label_dict[0]
+
+def to_dfs(
+        X: npt.NDArray[np.float64],
+        label_dict: dict|None = None,
+        arr_format: str = 'TNF',
+        output_df_format: str = 'TNF'
+):
+    """
+    Function to convert from (numpy, label_dict) to dataframes
+
+    Parameters
+    ----------
+    X : numpy array
+        The array to be converted to list of dataframes. Should be a 3D array.
+    label_dict dict, default=None
+        a dictionary whose keys are 'T', 'N', and 'F' (which are the number of time steps, entities, and features respectively). Value of each key is a list such that the value of key:
+        - 'T' is a list of names/labels of each time step to be used as index of each dataframe. If None, range(0, T) is used. Where T is the number of time steps in the fitted data
+        - 'N' is a list of names/labels of each entity to be used as index of the dataframe. If None, range(0, N) is used. Where N is the number of entities/observations in the fitted data 
+        - 'F' is a list of names/labels of each feature to be used as column of each dataframe. If None, range(0, F) is used. Where F is the number of features in the fitted data 
+        If label_dict is None, a linear range of the dimensions of the array is used.
+    arr_format : str, default 'TNF'
+        format of the array. 'TNF' means the data dimension is Time x Number of observations x Features
+        'NTF' means the data dimension is Number OF  observations x Time x Features
+    output_df_format : str, default='TNF'
+        The format of the output dataframes. Can be any of {'TNF', 'NTF'}. If 'TNF', output is a list of T dataframes each of shape (N, F). If 'NTF', output is a list of N dataframes each of shape (T, F).
+
+    Returns
+    -------
+    list[pd.DataFrame]
+        A list of T pandas DataFrames. Where T is the number of time steps. The t-th dataframe in the list is a N x F dataframe of the values of the time series data of all entities at the t-th timestep.    
+    """
+
+    # arr_format will help us to interpret the array and convert it to a common format i.e TNF
+    if arr_format == 'NTF':
+        Xt = ntf_to_tnf(X)
+
+        arr_lst = [Xt[t] for t in range(Xt.shape[0])]
+
+    elif arr_format == 'TNF':
+        arr_lst = [X[t] for t in range(X.shape[0])]
+
+    else:
+        raise ValueError(f"Expected arr_format to be any of {'TNF', 'NTF'} but got '{arr_format}'")
+
+    dimensions = ('T', 'N', 'F')
+
+    # get label_dict ready
+    if label_dict is None:
+        label_dict = {k: list(range(np.array(arr_lst).shape[i])) for i, k in enumerate(dimensions)}
+
+    else:
+        for i, k in enumerate(dimensions):
+            if label_dict[k] is None:
+                label_dict[k] = list(range(np.array(arr_lst).shape[i]))
+
+    # output to required format
+    if output_df_format == 'NTF':
+        Xt = tnf_to_ntf(np.array(arr_lst))
+
+        df_lst = [pd.DataFrame(Xt[i], index=label_dict['T'], columns=label_dict['F']) for i in range(Xt.shape[0])]
+
+    elif output_df_format == 'TNF':
+        df_lst = [pd.DataFrame(Xt, index=label_dict['N'], columns=label_dict['F']) for Xt in arr_lst]
+
+    else:
+        raise ValueError(f"Expected output_df_format to be any of {'TNF', 'NTF'} but got '{output_df_format}'")
+
+    return df_lst

@@ -1,4 +1,4 @@
-tscluster.tsplot package
+tscluster.tsplot module
 ========================
 
 Submodules

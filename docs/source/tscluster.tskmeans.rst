@@ -1,4 +1,4 @@
-tskmeans subpackage
+tskmeans module
 ==========================
 
 TSGlobalKmeans class

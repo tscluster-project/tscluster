@@ -4,4 +4,6 @@ opttsclust is a subpackage for optimal temporal clustering. See this paper for t
 
 to install, run:
 
-````pip install tscluster==1.0.0````
+````pip install tscluster````
+
+doc: https://tscluster.readthedocs.io/en/latest/index.html

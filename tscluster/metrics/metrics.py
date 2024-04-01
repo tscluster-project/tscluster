@@ -5,7 +5,7 @@ import numpy as np
 import numpy.typing as npt
 import pandas as pd
 
-from tscluster.preprocessing.utils import _get_inferred_data, broadcast_data
+from tscluster.preprocessing.utils import get_inferred_data, broadcast_data
 
 def inertia(
         X: npt.NDArray[np.float64]|str|List, 
@@ -71,7 +71,7 @@ def inertia(
     max_dist : Calculates the maximum distance
     """
 
-    X = _get_inferred_data(None, X)
+    X, _ = get_inferred_data(X)
 
     if isinstance(cluster_centers, list):
         cluster_centers = np.array([df.values for df in cluster_centers])
@@ -156,7 +156,7 @@ def max_dist(
     interia : Calculates the inertia score
     """
 
-    X = _get_inferred_data(None, X)
+    X, _ = get_inferred_data(X)
 
     if isinstance(cluster_centers, list):
         cluster_centers = np.array([df.values for df in cluster_centers])

@@ -1,4 +1,4 @@
-opttscluster subpackage
+opttscluster module
 ==============================
 
 OptTSCluster class

@@ -1,4 +1,4 @@
-metrics subpackage
+metrics module
 =========================
 
 .. tscluster.metrics module

@@ -145,6 +145,7 @@ class OptTSCluster(TSCluster, TSClusterInterface):
             y: npt.NDArray[np.float64] | npt.NDArray[np.int64] | None = None, 
             verbose: bool = True, 
             print_to: TextIO = sys.stdout, 
+            **kwargs
             ) -> "OptTSCluster": 
 
         """

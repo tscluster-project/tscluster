@@ -5,13 +5,13 @@ from abc import ABC, abstractmethod
 import numpy.typing as npt
 import numpy as np
 
-class TSPreprocessor(ABC):
+class TSPreprocessorInterface(ABC):
     @abstractmethod
     def fit(self, 
             X: npt.NDArray[np.float64]|str|List,
             *args, 
             **kwargs
-            ) -> 'TSPreprocessor':
+            ) -> 'TSPreprocessorInterface':
        """
         Fit method of transformer. Should be deocrated with infer_data function located in tscluster.preprocessing.utils
         X: ndarray, string or list. 
@@ -38,6 +38,7 @@ class TSPreprocessor(ABC):
             read_file_args: dict, default empty dictionary.
                 parameters to be passed to the data loader.
         """
+       
        raise NotImplementedError
     
     @abstractmethod
@@ -72,6 +73,7 @@ class TSPreprocessor(ABC):
         return
             A numpy array of dimension T x N x F
         """
+
         raise NotImplementedError
 
     @abstractmethod
@@ -106,4 +108,5 @@ class TSPreprocessor(ABC):
         return
             A numpy array of dimension T x N x F
         """
+        
         raise NotImplementedError

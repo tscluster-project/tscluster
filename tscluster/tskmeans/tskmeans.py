@@ -67,7 +67,8 @@ class TSKmeans(TimeSeriesKMeans, TSCluster, TSClusterInterface):
     def fit(
         self, 
         X: npt.NDArray[np.float64]|str|List,
-        y: npt.NDArray[np.float64] | npt.NDArray[np.int64] | None = None 
+        y: npt.NDArray[np.float64] | npt.NDArray[np.int64] | None = None,
+        **kwargs
         ) -> 'TSKmeans':
         """
         Method for fitting the model on the data.
@@ -119,7 +120,7 @@ class TSKmeans(TimeSeriesKMeans, TSCluster, TSClusterInterface):
         return self._cluster_centers_
     
     @cluster_centers_.setter
-    def cluster_centers_(self, new_value: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
+    def cluster_centers_(self, new_value: npt.NDArray[np.float64]) -> None:
         self._cluster_centers_ = new_value
 
     @property
@@ -130,7 +131,7 @@ class TSKmeans(TimeSeriesKMeans, TSCluster, TSClusterInterface):
         return self._labels_ 
     
     @labels_.setter
-    def labels_(self, new_value: npt.NDArray[np.int64]) -> npt.NDArray[np.int64]:
+    def labels_(self, new_value: npt.NDArray[np.int64]) -> None:
         self._labels_ = new_value
 
     @property

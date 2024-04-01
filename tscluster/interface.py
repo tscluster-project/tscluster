@@ -77,19 +77,23 @@ class TSClusterInterface(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_named_cluster_centers(self, 
-                                   time: List[str]|None = None, 
-                                   features: List|None = None
+    def get_named_cluster_centers(
+                                self, 
+                                label_dict: dict|None = None
                                    ) -> List[pd.DataFrame]:
         """
         Method to return the cluster centers with custom names of time steps and features.
 
+        Method to return the a data frame of the label assignments with custom names of time steps and entities.
+
         Parameters
-        ----------
-        time : list, default : None.
-            A list of names of each time step to be used as index of each dataframe. If None, range(0, T) is used. Where T is the number of time steps in the fitted data
-        features : list, default : None
-            A list of names of each feature to be used as column of each dataframe. If None, range(0, F) is used. Where F is the number of features in the fitted data 
+        -----------
+        label_dict dict, default=None
+            a dictionary whose keys are 'T', 'N', and 'F' (which are the number of time steps, entities, and features respectively). Value of each key is a list such that the value of key:
+            - 'T' is a list of names/labels of each time step to be used as index of each dataframe. If None, range(0, T) is used. Where T is the number of time steps in the fitted data
+            - 'N' is a list of names/labels of each entity to be used as index of the dataframe. If None, range(0, N) is used. Where N is the number of entities/observations in the fitted data 
+            - 'F' is a list of names/labels of each feature to be used as column of each dataframe. If None, range(0, F) is used. Where F is the number of features in the fitted data 
+            If label_dict is None, the result of self.label_dict_ is used.
 
         Returns
         --------
@@ -100,19 +104,21 @@ class TSClusterInterface(ABC):
         raise NotImplementedError 
 
     @abstractmethod
-    def get_named_labels(self, 
-                        time: List[str]|None = None, 
-                        entities: List|None = None
+    def get_named_labels(
+                        self, 
+                        label_dict: dict|None = None
                         ) -> pd.DataFrame:
         """
         Method to return the a data frame of the label assignments with custom names of time steps and entities.
 
         Parameters
         -----------
-        time : list, default : None.
-            A list of names of each time step to be used as column names of the dataframe. If None, range(0, T) is used. Where T is the number of time steps in the fitted data
-        entities : list, default : None
-            A list of names of each entity to be used as index of the dataframe. If None, range(0, N) is used. Where N is the number of entities/observations in the fitted data 
+        label_dict dict, default=None
+            a dictionary whose keys are 'T', 'N', and 'F' (which are the number of time steps, entities, and features respectively). Value of each key is a list such that the value of key:
+            - 'T' is a list of names/labels of each time step to be used as index of each dataframe. If None, range(0, T) is used. Where T is the number of time steps in the fitted data
+            - 'N' is a list of names/labels of each entity to be used as index of the dataframe. If None, range(0, N) is used. Where N is the number of entities/observations in the fitted data 
+            - 'F' is a list of names/labels of each feature to be used as column of each dataframe. If None, range(0, F) is used. Where F is the number of features in the fitted data 
+            If label_dict is None, the result of self.label_dict_ is used.
 
         Returns
         -------- 

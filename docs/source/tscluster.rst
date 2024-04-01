@@ -1,7 +1,7 @@
 tscluster package
 =================
 
-Subpackages
+modules
 -----------
 
 .. toctree::
