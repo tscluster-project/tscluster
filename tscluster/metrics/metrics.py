@@ -9,8 +9,8 @@ from tscluster.preprocessing.utils import broadcast_data
 
 def inertia(
         X: npt.NDArray[np.float64], 
-        cluster_centers: npt.NDArray[np.float64]|List, 
-        labels:npt.NDArray[np.int64]|pd.DataFrame, 
+        cluster_centers: npt.NDArray[np.float64], 
+        labels:npt.NDArray[np.int64], 
         ord: int = 2
         ) -> np.float64:
     
@@ -25,11 +25,12 @@ def inertia(
     -----------
     X : numpy array
         Input time series data. Should be a 3 dimensional array in TNF fromat.
-    cluster_centers : numpy array or list
-        If numpy array, it is expected to a 3D, use `arr_format` to specify its format.
-        A list of k pandas DataFrames. Where k is the number of clusters. The i-th dataframe in the list is a T x F dataframe of the values of the cluster centers of the i-th cluster. 
-    labels : numpy array or pandas dataframe
-        It is expected to be a N x T 2D array or pandas DataFrame. Where N is the number of entities and T is the number of time steps. The value of the ith row at the t-th column is the label (cluster index) entity i was assigned to at time t.
+    cluster_centers : numpy array
+        If numpy array, it is expected to a 3D in TNF format. Here, N is the number of clusters. 
+        If 2-D array, then it is interpreted as a K x F array where K is the number of clusters, and F is the number of features. Suitable for fixed cluster centers clustering.
+    labels : numpy array 
+        It is expected to be a N x T 2D array. Where N is the number of entities and T is the number of time steps. The value of the ith row at the t-th column is the label (cluster index) entity i was assigned to at time t.
+        If 1-D array, it is interpreted as an array of length N. Where N is the number of entities. In such case, the i-th element is the cluster the i-th entit was assigned to across all time steps. Suitable for fixed assignment clustering.
     ord : int, default : 2
         The distance metric to use. 1 is l1 distance, 2 is l2 distance etc.
 
@@ -64,7 +65,7 @@ def inertia(
     if isinstance(labels, pd.DataFrame):
         labels = labels.values
 
-    cluster_centers, labels = broadcast_data(X.shape[0], cluster_centers, labels)
+    cluster_centers, labels = broadcast_data(X.shape[0], cluster_centers=cluster_centers, labels=labels)
 
     running_sum = 0
 
@@ -92,23 +93,14 @@ def max_dist(
     -----------
     X : numpy array
         Input time series data. Should be a 3 dimensional array in TNF fromat.
-    cluster_centers : numpy array or list
-        If numpy array, it is expected to a 3D, use `arr_format` to specify its format.
-        A list of k pandas DataFrames. Where k is the number of clusters. The i-th dataframe in the list is a T x F dataframe of the values of the cluster centers of the i-th cluster. 
-    labels : numpy array or pandas dataframe
-        It is expected to be a N x T 2D array or pandas DataFrame. Where N is the number of entities and T is the number of time steps. The value of the ith row at the t-th column is the label (cluster index) entity i was assigned to at time t.
+    cluster_centers : numpy array
+        If numpy array, it is expected to a 3D in TNF format. Here, N is the number of clusters. 
+        If 2-D array, then it is interpreted as a K x F array where K is the number of clusters, and F is the number of features. Suitable for fixed cluster centers clustering.
+    labels : numpy array 
+        It is expected to be a N x T 2D array. Where N is the number of entities and T is the number of time steps. The value of the ith row at the t-th column is the label (cluster index) entity i was assigned to at time t.
+        If 1-D array, it is interpreted as an array of length N. Where N is the number of entities. In such case, the i-th element is the cluster the i-th entit was assigned to across all time steps. Suitable for fixed assignment clustering.
     ord : int, default : 2
         The distance metric to use. 1 is l1 distance, 2 is l2 distance etc
-    arr_format : str, default 'TNF'
-        format of the loaded data. 'TNF' means the data dimension is Time x Number of observations x Features
-        'NTF' means the data dimension is Number OF  observations x Time x Features
-    suffix_sep : str, default '_'
-        separator separating the file number from the filename.
-    file_reader : str, default 'infer'
-        file loader to use. Can be any of np.load, pd.read_csv, pd.read_json, and pd.read_excel. If 'infer', decorator will attempt to infer the file type from the file name 
-        and use the approproate loader.
-    read_file_args : dict, default empty dictionary.
-        parameters to be passed to the data loader.
 
     Returns
     --------
@@ -141,7 +133,7 @@ def max_dist(
     if isinstance(labels, pd.DataFrame):
         labels = labels.values
 
-    cluster_centers, labels = broadcast_data(X.shape[0], cluster_centers, labels)
+    cluster_centers, labels = broadcast_data(X.shape[0], cluster_centers=cluster_centers, labels=labels)
 
     running_max = -np.inf
 

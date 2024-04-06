@@ -9,13 +9,16 @@ from matplotlib.widgets import Slider
 
 from tscluster.preprocessing.utils import broadcast_data
 
-# class tsplot():
-#     def __init__(self):
-#         pass 
+# def _data_validator(
+#         X: npt.NDArray[np.float64]|None = None, 
+#         cluster_centers: npt.NDArray[np.float64]|None = None, 
+#         labels: npt.NDArray[np.float64]|None = None        
+# ):
+#     if cluster_centers is not None and labels is not None:
+#         if cluster_centers.ndim == 3 and labels.
 
-# @staticmethod
 def plot(
-        X: npt.NDArray[np.float64]|str|List|None = None, 
+        X: npt.NDArray[np.float64]|None = None, 
         cluster_centers: npt.NDArray[np.float64]|None = None, 
         labels: npt.NDArray[np.float64]|None = None, 
         entity_idx: List[int]|None = None,
@@ -74,7 +77,7 @@ def plot(
             label_dict['T'] = list(range(T))
 
     # broadcast cluster centers and labels if need be
-    cluster_centers, labels = broadcast_data(T, cluster_centers, labels)
+    cluster_centers, labels = broadcast_data(T, cluster_centers=cluster_centers, labels=labels)
 
     # determine number of clusters
     k = 1 # assumes all data belongs to one cluster 

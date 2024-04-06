@@ -81,6 +81,7 @@ def to_tnf(X: npt.NDArray[np.float64], arr_format: str, label_dict: dict) -> Tup
 
 def broadcast_data(
         T: int,
+        *,
         cluster_centers: npt.NDArray[np.float64]|None = None, 
         labels: npt.NDArray[np.int]|None = None, 
         ) -> Tuple[npt.NDArray[np.float64], npt.NDArray[np.int64]]:

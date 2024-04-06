@@ -323,14 +323,18 @@ class OptTSCluster(TSCluster, TSClusterInterface):
 
         while ((E_hat > E_star+epsilon).sum() > 0 or has_any_new_constraint) and count < self.max_iter+1:
 
-            z_fixed = False
+            self.z_fixed = False
             if re.search("z0", self.scheme, flags=re.IGNORECASE):
-                z_fixed = True
+                self.z_fixed = True
+
+            self.c_fixed = False
+            if re.search("c0", self.scheme, flags=re.IGNORECASE):
+                self.c_fixed = True        
 
             solver_time_0 = time()
             E_star, Z_ans, C_ans = OptTSCluster.solve_ts_MILP(I, self.k, 
                                                                     n_allow_assignment_change=self.n_allow_assignment_change,
-                                                                    z_fixed=z_fixed,
+                                                                    z_fixed=self.z_fixed,
                             constant_assigment_constraint_violation_scheme=self.constant_assigment_constraint_violation_scheme,
                                                                     init_Z=init_Zs,
                                                                     init_C=init_Cs,
@@ -460,7 +464,11 @@ class OptTSCluster(TSCluster, TSClusterInterface):
 
     @property
     def labels_(self):
-        return np.argmax(self.Cs_hats_[-1], axis=-1).T
+        c = np.argmax(self.Cs_hats_[-1], axis=-1).T
+
+        if self.c_fixed:
+            return c[:, 0]
+        return c
 
     @property
     def fitted_data_shape_(self) -> Tuple[int, int, int]:
