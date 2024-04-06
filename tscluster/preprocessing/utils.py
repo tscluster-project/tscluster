@@ -303,8 +303,12 @@ def _get_inferred_data(label_dict: dict, X: npt.NDArray[np.float64]|str|List, **
 
 def load_data(
         X: npt.NDArray[np.float64]|str|List, 
-        output_arr_format: str = 'TNF',
-        **kwargs) -> Tuple[np.float64, dict]:
+        arr_format: str = 'TNF',
+        suffix_sep: str = '_',
+        file_reader: str = 'infer',
+        read_file_args: dict|None = None,
+        output_arr_format: str = 'TNF'
+        ) -> Tuple[np.float64, dict]:
     """
     function to load data
 
@@ -317,19 +321,18 @@ def load_data(
         Supported files in the directory are any file that can be read using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
         If list, assumes the list is a list of files or filepaths. If file, each should be a numpy array or pandas DataFrame of data for the different time steps.
         If list of filepaths, data is read in the order in the list using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
+    arr_format : str, default='TNF'
+        format of the input data. 'TNF' means the data dimension is Time x Number of observations x Features
+        'NTF' means the data dimension is Number OF  observations x Time x Features
+    suffix_sep : str, default='_'
+        separator separating the file number from the filename.
+    file_reader : str, default='infer'
+        file loader to use. Can be any of np.load, pd.read_csv, pd.read_json, and pd.read_excel. If 'infer', decorator will attempt to infer the file type from the file name 
+        and use the approproate loader.
+    read_file_args : dict, default=None.
+        parameters to be passed to the data loader. Keys of the dictionary should be parameter names as keys in str, values should be the values of the parameter keys.
     output_arr_format : str, default='TNF'
         The format of the output array. Can be any of {'TNF', 'NTF'}.
-    **kwargs : keyword arguments, can be any of the following:
-        - arr_format : str, default 'TNF'
-            format of the loaded data. 'TNF' means the data dimension is Time x Number of observations x Features
-            'NTF' means the data dimension is Number OF  observations x Time x Features
-        - suffix_sep : str, default '_'
-            separator separating the file number from the filename.
-        - file_reader : str, default 'infer'
-            file loader to use. Can be any of np.load, pd.read_csv, pd.read_json, and pd.read_excel. If 'infer', decorator will attempt to infer the file type from the file name 
-            and use the approproate loader.
-        - read_file_args : dict, default empty dictionary.
-            parameters to be passed to the data loader.
 
     Returns
     --------
@@ -338,7 +341,18 @@ def load_data(
     """
 
     label_dict = []
-    X_arr = _get_inferred_data(label_dict, X, **kwargs)
+
+    if read_file_args is None:
+        read_file_args = {}
+
+    X_arr = _get_inferred_data(
+        label_dict, 
+        X, 
+        arr_format=arr_format, 
+        suffix_sep=suffix_sep,
+        file_reader=file_reader,
+        read_file_args=read_file_args
+        )
 
     if output_arr_format == 'NTF':
         X_arr = tnf_to_ntf(X_arr)
