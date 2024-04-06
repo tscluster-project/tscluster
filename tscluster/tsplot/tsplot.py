@@ -9,15 +9,70 @@ from matplotlib.widgets import Slider
 
 from tscluster.preprocessing.utils import broadcast_data
 
-# def _data_validator(
-#         X: npt.NDArray[np.float64]|None = None, 
-#         cluster_centers: npt.NDArray[np.float64]|None = None, 
-#         labels: npt.NDArray[np.float64]|None = None        
-# ):
-#     if cluster_centers is not None and labels is not None:
-#         if cluster_centers.ndim == 3 and labels.
+def _data_validator(
+        X: npt.NDArray[np.float64]|None = None, 
+        cluster_centers: npt.NDArray[np.float64]|None = None, 
+        labels: npt.NDArray[np.float64]|None = None        
+    ) -> None:
+
+    data = (X, cluster_centers, labels)
+    valid_shapes = [{3}, {2, 3}, {2, 1}]
+    names = ('X', 'cluster_centers', 'labels') 
+
+    for i, j, k in zip(data, valid_shapes, names):
+        if i is not None:
+            if i.ndim not in j:
+                raise TypeError(f"Invalid ndim. Expected {k}'s dimension to be any of {j} but got {i.ndim}")
+
+    if cluster_centers is not None and labels is not None:
+        if cluster_centers.shape[-2] != len(np.unique(labels)):
+            raise ValueError(f"Number of clusters in cluster_centers and labels are not the same, they are {cluster_centers.shape[-2]} and {len(np.unique(labels))} respectively")
+        elif cluster_centers.ndim == 3 and labels.ndim == 2 and cluster_centers.shape[0] != labels.shape[1]:
+            raise ValueError(f"Number of timesteps in cluster_centers and labels are not the same, they are {cluster_centers.shape[0]} and {labels.shape[1]} respectively")
+
+    if cluster_centers is not None and X is not None:
+        if cluster_centers.shape[-1] != X.shape[-1]:
+            raise ValueError(f"Number of features in cluster_centers and input data (X) are not the same, they are {cluster_centers.shape[-1]} and {X.shape[-1]} respectively")
+        elif cluster_centers.ndim == 3 and cluster_centers.shape[0] != X.shape[0]:
+            raise ValueError(f"Number of timesteps in cluster_centers and input data (X) are not the same, they are {cluster_centers.shape[0]} and {X.shape[0]} respectively")
+     
+    if labels is not None and X is not None:
+        if labels.shape[0] != X.shape[1]:
+            raise ValueError(f"Number of entities in labels and input data (X) are not the same, they are {labels.shape[0]} and {X.shape[1]} respectively")
+        elif labels.ndim == 2 and labels.shape[1] != X.shape[0]:
+            raise ValueError(f"Number of timesteps in labels and input data (X) are not the same, they are {labels.shape[1]} and {X.shape[0]} respectively")
+
+def _get_shape(
+        X: npt.NDArray[np.float64]|None = None, 
+        cluster_centers: npt.NDArray[np.float64]|None = None, 
+        labels: npt.NDArray[np.float64]|None = None 
+    ) -> Tuple[Tuple[int, int, int], Tuple[int, int, int], Tuple[int, int]]:
+
+    if X is not None:
+        X_shape = X.shape
+    else:
+        X_shape = (0, 0, 0)
+
+    if cluster_centers is not None:
+        if cluster_centers.ndim == 3:
+            cc_shape = cluster_centers.shape 
+        elif cluster_centers.ndim == 2:
+            cc_shape = (0, *cluster_centers.shape)
+    else:
+        cc_shape = (0, 0, 0)
+
+    if labels is not None:
+        if labels.ndim == 2:
+            l_shape = labels.shape 
+        elif labels.ndim == 1:
+            l_shape = (labels.shape[0], 0)
+    else:
+        l_shape = (0, 0)
+
+    return X_shape, cc_shape, l_shape
 
 def plot(
+        *,
         X: npt.NDArray[np.float64]|None = None, 
         cluster_centers: npt.NDArray[np.float64]|None = None, 
         labels: npt.NDArray[np.float64]|None = None, 
@@ -37,64 +92,38 @@ def plot(
         # out_parent_dir, data_file, year_labels=None, 
         ) -> None:
     
+    _data_validator(X=X, cluster_centers=cluster_centers, labels=labels)
+
+    X_shape, cc_shape, l_shape = _get_shape(X=X, cluster_centers=cluster_centers, labels=labels)
+
+    # determine T. Should be the longest in X, cluster_centers and labels. this is to allow for variable number of input variables ie X, cluster_centers and labels
+    T = max(X_shape[0], cc_shape[0], l_shape[1])
+    N = max(X_shape[1], l_shape[0])
+    F = max(X_shape[2], cc_shape[2])
+    K = cc_shape[1]
     
-    cmap = pl.cm.get_cmap('rainbow')
-        
-    # determine T. Should be the longest in X, cluster_centers and labels. this is to allow for variable timesteps for X, ad cluster centers
-    T = 1 
-    F = 0 
-
-    if X is not None:
-
-        # X, _label_dict = get_inferred_data(X)
-
-        # if label_dict is None:
-        #     label_dict = _label_dict
-
-        # if X.shape[0] > T:
-        T = X.shape[0]
-        F = X.shape[2] # determine the number of features
-
-    if cluster_centers is not None:
-        if cluster_centers.shape[-1] > F:
-            F = cluster_centers.shape[-1] # determine the number of features
-
-        if cluster_centers.ndim == 3 and cluster_centers.shape[0] > T:
-            T = cluster_centers.shape[0]
-
-        if label_dict is None:
-            label_dict = {}
-            label_dict['T'] = list(range(T))
-            label_dict['F'] = list(range(F))
-
-    # in case cluster_centers was not passed
     if labels is not None:
-        if labels.ndim == 2 and labels.shape[1] > T:
-            T = labels.shape[1]
+        K = max(K, len(np.unique(labels)))
 
-        if label_dict is None:
-            label_dict = {}
-            label_dict['T'] = list(range(T))
+    K = max(K, 1)
 
-    # broadcast cluster centers and labels if need be
+    label_dict_init = {'T': T, 'N': N, 'F': F}
+
+    if label_dict is None:
+        label_dict = {}
+    
+    for key, val in label_dict_init.items():
+            _ = label_dict.setdefault(key, list(range(val)))
+
+    cmap = pl.cm.get_cmap('rainbow')
+
+    # broadcast cluster centers and labels if need be. This is done at this point because we need to compute T before now
     cluster_centers, labels = broadcast_data(T, cluster_centers=cluster_centers, labels=labels)
 
-    # determine number of clusters
-    k = 1 # assumes all data belongs to one cluster 
-
-    if cluster_centers is not None:
-        k = cluster_centers.shape[1]
-
-    # in case cluster_centers was not passed
-    if labels is not None:
-        if np.unique(labels).shape[0] > k:
-            k = np.unique(labels).shape[0]
-
-    norm = plt.Normalize(vmin=0, vmax=k-1)
+    norm = plt.Normalize(vmin=0, vmax=K-1)
     
     if cluster_labels is None:
-        cluster_labels = list(map(str, range(k)))
-
+        cluster_labels = list(map(str, range(K)))
 
     # determine the number of feature
 
@@ -132,17 +161,17 @@ def plot(
             if labels is not None:
             # scatter plot for marker for label assignment of data points. 
                 for i in idx:
-                    c = labels[i] #np.argmax(out[2][-1][:, i, :], axis=-1)
+                    c = labels[i] 
                     plt.scatter(range(X.shape[0]), X[:, i, f], color=cmap(norm(c)), s=10)
 
+                # label legend for cluster centers to match that of label assignment
                 if cluster_centers is None:
-                    for j in range(k):
+                    for j in range(K):
                         plt.plot([], [], color=cmap(norm(j)), label=cluster_labels[j])  
 
         # plot of cluster centers
-
         if cluster_centers is not None:
-            for j in range(k):
+            for j in range(K):
                 plt.plot(range(cluster_centers.shape[0]), cluster_centers[:, j, f], color=cmap(norm(j)), label=cluster_labels[j])
 
         ax.set_xlabel(xlabel)
@@ -163,6 +192,7 @@ def plot(
 def waterfall_plot(
         time_series: npt.NDArray[np.float64],
         label_dict: dict|None = None,
+        *,
         xlabel: str = 'time-axis',
         ylabel: str = 'Features-axis',
         zlabel: str = 'Feature Values',
@@ -173,8 +203,6 @@ def waterfall_plot(
     y = np.arange(time_series.shape[1]) # features
     
     X, Y = np.meshgrid(x, y)
-
-    
 
     # Creating a 3D plot
     fig = plt.figure()
