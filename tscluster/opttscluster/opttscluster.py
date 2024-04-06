@@ -138,14 +138,12 @@ class OptTSCluster(TSCluster, TSClusterInterface):
 
         self.x_min = 0
 
-    @infer_data
     def fit(
             self, 
-            X: npt.NDArray[np.float64] | npt.NDArray[np.int64], 
-            y: npt.NDArray[np.float64] | npt.NDArray[np.int64] | None = None, 
+            X: npt.NDArray[np.float64], 
+            label_dict: dict|None = None, 
             verbose: bool = True, 
-            print_to: TextIO = sys.stdout, 
-            **kwargs
+            print_to: TextIO = sys.stdout
             ) -> "OptTSCluster": 
 
         """
@@ -153,36 +151,26 @@ class OptTSCluster(TSCluster, TSClusterInterface):
         
         Parameters
         -----------
-        X : numpy array, string or list
-            Input time series data. If ndarray, should be a 3 dimensional array, use `arr_format` to specify its format. If str and a file name, will use numpy to load file.
-            If str and a directory name, will load all the files in the directory in ascending order of the suffix of the filenames.
-            Use suffix_sep as a keyword argument to indicate the suffix separator. Default is "_". So, file_0.csv will be read first before file_1.csv and so on.
-            Supported files in the directory are any file that can be read using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
-            If list, assumes the list is a list of files or filepaths. If file, each should be a numpy array or pandas DataFrame of data for the different time steps.
-            If list of filepaths, data is read in the order in the list using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
-        y : None
-            Ignored, not used. Only present as a convention for fit methods of most models.
+        X : numpy array
+            Input time series data. Should be a 3 dimensional array in TNF fromat.
+        label_dict : dict, default=None
+            A dictionary of the labels of X. Keys should be 'T', 'N', and 'F' (which are the number of time steps, entities, and features respectively). Value of each key is a list such that the value of key:
+                - 'T' is a list of names/labels of each time step used as index of each dataframe during fit. Default is range(0, T). Where T is the number of time steps in the fitted data
+                - 'N' is a list of names/labels of each entity used as index of the dataframe. Default is range(0, N). Where N is the number of entities/observations in the fitted data 
+                - 'F' is a list of names/labels of each feature used as column of each dataframe. Default is range(0, F). Where F is the number of features in the fitted data 
+            data_loader function from tscluster.preprocessing.utils can help in getting label_dict of a data. 
         verbose : bool, default=True
             If True, some model training information will be printed out. Set to False to surpress printouts
         print_to : TextIO, default=sys.stdout
             An object with a write method to write model's printout information during training. Default is standard output.
-        **kwargs keyword arguments, can be any of the following:
-            - arr_format : str, default 'TNF'
-                format of the loaded data. 'TNF' means the data dimension is Time x Number of observations x Features
-                'NTF' means the data dimension is Number OF  observations x Time x Features
-            - suffix_sep : str, default '_'
-                separator separating the file number from the filename.
-            - file_reader : str, default 'infer'
-                file loader to use. Can be any of np.load, pd.read_csv, pd.read_json, and pd.read_excel. If 'infer', decorator will attempt to infer the file type from the file name 
-                and use the approproate loader.
-            - read_file_args : dict, default empty dictionary.
-                parameters to be passed to the data loader.
 
         Returns
         --------
-        self: 
+        self : 
             The fitted OptTSCluster object.
         """
+
+        self._label_dict_ = label_dict
 
         epsilon = 1e-4
         verbose_flush = True 

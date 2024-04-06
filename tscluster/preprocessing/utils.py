@@ -301,12 +301,12 @@ def _get_inferred_data(label_dict: dict, X: npt.NDArray[np.float64]|str|List, **
     """
     return X
 
-def get_inferred_data(
+def load_data(
         X: npt.NDArray[np.float64]|str|List, 
         output_arr_format: str = 'TNF',
         **kwargs) -> Tuple[np.float64, dict]:
     """
-    function to get inferred data, can also be used to convert dataframes to (numpy, label_dict)
+    function to load data
 
     Parameters
     ----------
@@ -334,7 +334,7 @@ def get_inferred_data(
     Returns
     --------
     np.array, dict 
-        a numpy array of the inferred data in 'TNF' or 'NTF' format (depending on the value of `output_arr_format`), and a dictionary whose keys are 'T', 'N', and 'F'; and values are lists of the labels of each key. 
+        a numpy array of the data in 'TNF' or 'NTF' format (depending on the value of `output_arr_format`); and a dictionary whose keys are 'T', 'N', and 'F', and whose values are lists of the labels of each key. 
     """
 
     label_dict = []
@@ -350,7 +350,8 @@ def to_dfs(
         label_dict: dict|None = None,
         arr_format: str = 'TNF',
         output_df_format: str = 'TNF'
-):
+        ):
+    
     """
     Function to convert from (numpy, label_dict) to dataframes
 

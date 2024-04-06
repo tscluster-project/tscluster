@@ -17,5 +17,5 @@ TSMinMaxScaler class
 utils module
 -------------
 .. automodule:: tscluster.preprocessing.utils
-   :members: to_dfs, get_inferred_data, ntf_to_tnf, tnf_to_ntf
+   :members: load_data, to_dfs, ntf_to_tnf, tnf_to_ntf
 

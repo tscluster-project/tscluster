@@ -9,42 +9,28 @@ import pandas as pd
 class TSClusterInterface(ABC):
     @abstractmethod
     def fit(self, 
-            X: npt.NDArray[np.float64]|str|List, 
-            *args, 
-            **kwargs
+            X: npt.NDArray[np.float64], 
+            label_dict: dict|None = None
             ) -> 'TSClusterInterface':
         """
-        Fit method of model. Should be decorated with infer_data function located in tscluster.preprocessing.utils
+        Fit method of model. 
 
         Parameters
         ----------
-        X : ndarray, string or list. 
-            Input time series data. If ndarray, should be a 3 dimensional array. If str and a file name, will use numpy to load file.
-            If str and a directory name, will load all the files in the directory in ascending order of the suffix of the filenames.
-            Use suffix_sep as a keyword argument to indicate the suffix separator. Default is "_". So, file_0.csv will be read first before file_1.csv and so on.
-            Supported files in the directory are any file that can be read using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
-            If list, assumes the list is a list of files or filepaths. If file, each should be a numpy array or pandas DataFrame of data for the different time steps.
-            If list of filepaths, data is read in the order in the list using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
+        X : ndarray
+            Input time series data. Should be a 3 dimensional array in TNF fromat.
+        label_dict : dict, default=None
+            A dictionary of the labels of X. Keys should be 'T', 'N', and 'F' (which are the number of time steps, entities, and features respectively). Value of each key is a list such that the value of key:
+                - 'T' is a list of names/labels of each time step used as index of each dataframe during fit. Default is range(0, T). Where T is the number of time steps in the fitted data
+                - 'N' is a list of names/labels of each entity used as index of the dataframe. Default is range(0, N). Where N is the number of entities/observations in the fitted data 
+                - 'F' is a list of names/labels of each feature used as column of each dataframe. Default is range(0, F). Where F is the number of features in the fitted data 
 
-        *args 
-            any other positional arguments for fit method.
-
-        **kwargs
-            Any keyword argument for fit method or infer_data. Keyword arguments to be passed to the decorator (infer_data) are
-            arr_format : str, default 'TNF'
-                format of the loaded data. 'TNF' means the data dimension is Time x Number of observations x Features
-                'NTF' means the data dimension is Number OF  observations x Time x Features
-            suffix_sep : str, default '_'
-                separator separating the file number from the filename.
-            file_reader : str, default 'infer'
-                file loader to use. Can be any of np.load, pd.read_csv, pd.read_json, and pd.read_excel. If 'infer', decorator will attempt to infer the file type from the file name 
-                and use the approproate loader.
-            read_file_args : dict, default empty dictionary.
-                parameters to be passed to the data loader.
-
+            data_loader function from tscluster.preprocessing.utils can help in getting label_dict of a data. 
+            
         Returns
         -------
         self
+            The fitted model object
         """
         
         raise NotImplementedError
@@ -76,6 +62,31 @@ class TSClusterInterface(ABC):
         
         raise NotImplementedError
 
+    @property
+    @abstractmethod
+    def label_dict_(self) -> dict:
+        """
+        returns a dictionary of the labels whose keys are 'T', 'N', and 'F' (which are the number of time steps, entities, and features respectively). Value of each key is a list such that the value of key:
+            - 'T' is a list of names/labels of each time step used as index of each dataframe during fit. Default is range(0, T). Where T is the number of time steps in the fitted data
+            - 'N' is a list of names/labels of each entity used as index of the dataframe. Default is range(0, N). Where N is the number of entities/observations in the fitted data 
+            - 'F' is a list of names/labels of each feature used as column of each dataframe. Default is range(0, F). Where F is the number of features in the fitted data 
+        """
+
+        raise NotImplementedError
+    
+    @abstractmethod
+    def set_label_dict_(self, value: dict) -> None:
+        """
+        Method to manually set the label_dict_.
+
+        Parameters
+        ----------
+        value : dict
+            the value to set as label_dict_. Should be a dict with all of 'T', 'N', and 'F' (case sensitive, which are number of time steps, entities, and features respectively) as key. The value of each key is a list of labels for the key in the data.  If your data don't have values for any of the keys, set its value to None.
+        """
+
+        raise NotImplementedError
+
     @abstractmethod
     def get_named_cluster_centers(
                                 self, 
@@ -83,8 +94,6 @@ class TSClusterInterface(ABC):
                                    ) -> List[pd.DataFrame]:
         """
         Method to return the cluster centers with custom names of time steps and features.
-
-        Method to return the a data frame of the label assignments with custom names of time steps and entities.
 
         Parameters
         -----------

@@ -22,6 +22,11 @@ class TSCluster():
             - 'F' is a list of names/labels of each feature used as column of each dataframe. Default is range(0, F). Where F is the number of features in the fitted data 
 
         """
+
+        if self._label_dict_ is None:
+            keys = ('T', 'N', 'F')
+            return {k: list(range(i)) for k, i in zip(keys, self.fitted_data_shape_)}
+        
         return self._label_dict_
     
     def set_label_dict_(self, value: dict) -> None:
@@ -64,6 +69,7 @@ class TSCluster():
             - 'N' is a list of names/labels of each entity to be used as index of the dataframe. If None, range(0, N) is used. Where N is the number of entities/observations in the fitted data 
             - 'F' is a list of names/labels of each feature to be used as column of each dataframe. If None, range(0, F) is used. Where F is the number of features in the fitted data 
             If label_dict is None, the result of self.label_dict_ is used.
+
         Returns
         ------ 
         list    
@@ -89,7 +95,7 @@ class TSCluster():
 
     def get_named_labels(
                         self, 
-                        label_dict: dict|None =None
+                        label_dict: dict|None = None
                         ) -> pd.DataFrame:
         """
         Method to return the a data frame of the label assignments with custom names of time steps and entities.

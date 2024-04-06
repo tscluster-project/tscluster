@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib.pylab as pl
 from matplotlib.widgets import Slider
 
-from tscluster.preprocessing.utils import broadcast_data, get_inferred_data
+from tscluster.preprocessing.utils import broadcast_data
 
 # class tsplot():
 #     def __init__(self):
@@ -19,7 +19,7 @@ def plot(
         cluster_centers: npt.NDArray[np.float64]|None = None, 
         labels: npt.NDArray[np.float64]|None = None, 
         entity_idx: List[int]|None = None,
-        # entities_labels: List[int]|None = None,
+        entities_labels: List[str]|None = None,
         label_dict: dict|None = None,
         annot_fontsize: float = 10,
         show_all_entities: bool = True,
@@ -43,10 +43,10 @@ def plot(
 
     if X is not None:
 
-        X, _label_dict = get_inferred_data(X)
+        # X, _label_dict = get_inferred_data(X)
 
-        if label_dict is None:
-            label_dict = _label_dict
+        # if label_dict is None:
+        #     label_dict = _label_dict
 
         # if X.shape[0] > T:
         T = X.shape[0]
@@ -60,6 +60,7 @@ def plot(
             T = cluster_centers.shape[0]
 
         if label_dict is None:
+            label_dict = {}
             label_dict['T'] = list(range(T))
             label_dict['F'] = list(range(F))
 
@@ -69,6 +70,7 @@ def plot(
             T = labels.shape[1]
 
         if label_dict is None:
+            label_dict = {}
             label_dict['T'] = list(range(T))
 
     # broadcast cluster centers and labels if need be
@@ -103,7 +105,7 @@ def plot(
     # if feature_idx is not None:
     #     Fs = feature_idx
 
-    entities_labels = label_dict['N']
+    # entities_labels = label_dict['N']
 
     for f in range(F):
         ax = fig.add_subplot(*shape_of_subplot, f+1)

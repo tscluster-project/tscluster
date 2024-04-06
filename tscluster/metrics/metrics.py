@@ -5,17 +5,17 @@ import numpy as np
 import numpy.typing as npt
 import pandas as pd
 
-from tscluster.preprocessing.utils import get_inferred_data, broadcast_data
+from tscluster.preprocessing.utils import broadcast_data
 
 def inertia(
-        X: npt.NDArray[np.float64]|str|List, 
+        X: npt.NDArray[np.float64], 
         cluster_centers: npt.NDArray[np.float64]|List, 
         labels:npt.NDArray[np.int64]|pd.DataFrame, 
         ord: int = 2
         ) -> np.float64:
     
     """
-    inertia(X, cluster_centers, labels, ord=2, arr_format='TNF', suffix_sep='_', file_reader='infer', read_file_args={})
+    inertia(X, cluster_centers, labels, ord=2)
     
     Calculates the inertia score
     
@@ -23,30 +23,15 @@ def inertia(
 
     Parameters
     -----------
-    X : numpy array, string or list
-        Input time series data. If ndarray, should be a 3 dimensional array, use `arr_format` to specify its format. If str and a file name, will use numpy to load file.
-        If str and a directory name, will load all the files in the directory in ascending order of the suffix of the filenames.
-        Use suffix_sep as a keyword argument to indicate the suffix separator. Default is "_". So, file_0.csv will be read first before file_1.csv and so on.
-        Supported files in the directory are any file that can be read using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
-        If list, assumes the list is a list of files or filepaths. If file, each should be a numpy array or pandas DataFrame of data for the different time steps.
-        If list of filepaths, data is read in the order in the list using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
+    X : numpy array
+        Input time series data. Should be a 3 dimensional array in TNF fromat.
     cluster_centers : numpy array or list
         If numpy array, it is expected to a 3D, use `arr_format` to specify its format.
         A list of k pandas DataFrames. Where k is the number of clusters. The i-th dataframe in the list is a T x F dataframe of the values of the cluster centers of the i-th cluster. 
     labels : numpy array or pandas dataframe
         It is expected to be a N x T 2D array or pandas DataFrame. Where N is the number of entities and T is the number of time steps. The value of the ith row at the t-th column is the label (cluster index) entity i was assigned to at time t.
     ord : int, default : 2
-        The distance metric to use. 1 is l1 distance, 2 is l2 distance etc
-    arr_format : str, default 'TNF'
-        format of the loaded data. 'TNF' means the data dimension is Time x Number of observations x Features
-        'NTF' means the data dimension is Number OF  observations x Time x Features
-    suffix_sep : str, default '_'
-        separator separating the file number from the filename.
-    file_reader : str, default 'infer'
-        file loader to use. Can be any of np.load, pd.read_csv, pd.read_json, and pd.read_excel. If 'infer', decorator will attempt to infer the file type from the file name 
-        and use the approproate loader.
-    read_file_args : dict, default empty dictionary.
-        parameters to be passed to the data loader.
+        The distance metric to use. 1 is l1 distance, 2 is l2 distance etc.
 
     Returns
     --------
@@ -71,7 +56,7 @@ def inertia(
     max_dist : Calculates the maximum distance
     """
 
-    X, _ = get_inferred_data(X)
+    # X, _ = get_inferred_data(X)
 
     if isinstance(cluster_centers, list):
         cluster_centers = np.array([df.values for df in cluster_centers])
@@ -100,21 +85,13 @@ def max_dist(
 
     """
     Calculate the max_dist score
-    max_dist(X, cluster_centers, labels, ord=2, arr_format='TNF', suffix_sep='_', file_reader='infer', read_file_args={})
-    
-    Calculate the inertia score
-    
+        
     This calculates the maximum of the distance between all points and their cluster centers across the different time steps. See note.
 
     Parameters
     -----------
-    X : numpy array, string or list
-        Input time series data. If ndarray, should be a 3 dimensional array, use `arr_format` to specify its format. If str and a file name, will use numpy to load file.
-        If str and a directory name, will load all the files in the directory in ascending order of the suffix of the filenames.
-        Use suffix_sep as a keyword argument to indicate the suffix separator. Default is "_". So, file_0.csv will be read first before file_1.csv and so on.
-        Supported files in the directory are any file that can be read using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
-        If list, assumes the list is a list of files or filepaths. If file, each should be a numpy array or pandas DataFrame of data for the different time steps.
-        If list of filepaths, data is read in the order in the list using any of np.load, pd.read_csv, pd.read_json, and pd.read_excel.
+    X : numpy array
+        Input time series data. Should be a 3 dimensional array in TNF fromat.
     cluster_centers : numpy array or list
         If numpy array, it is expected to a 3D, use `arr_format` to specify its format.
         A list of k pandas DataFrames. Where k is the number of clusters. The i-th dataframe in the list is a T x F dataframe of the values of the cluster centers of the i-th cluster. 
@@ -156,7 +133,7 @@ def max_dist(
     interia : Calculates the inertia score
     """
 
-    X, _ = get_inferred_data(X)
+    # X, _ = get_inferred_data(X)
 
     if isinstance(cluster_centers, list):
         cluster_centers = np.array([df.values for df in cluster_centers])
