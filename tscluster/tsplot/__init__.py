@@ -1,1 +1,1 @@
-from tscluster.tsplot.tsplot import plot
+from tscluster.tsplot.tsplot import plot, waterfall_plot
