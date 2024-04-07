@@ -26,10 +26,10 @@ def inertia(
     X : numpy array
         Input time series data. Should be a 3 dimensional array in TNF fromat.
     cluster_centers : numpy array
-        If numpy array, it is expected to a 3D in TNF format. Here, N is the number of clusters. 
+        If numpy array, it is expected to be a 3D in TNF format. Here, N is the number of clusters. 
         If 2-D array, then it is interpreted as a K x F array where K is the number of clusters, and F is the number of features. Suitable for fixed cluster centers clustering.
     labels : numpy array 
-        It is expected to be a N x T 2D array. Where N is the number of entities and T is the number of time steps. The value of the ith row at the t-th column is the label (cluster index) entity i was assigned to at time t.
+        It is expected to be a 2D array of shape (N, T). Where N is the number of entities and T is the number of time steps. The value of the ith row at the t-th column is the label (cluster index) entity i was assigned to at time t.
         If 1-D array, it is interpreted as an array of length N. Where N is the number of entities. In such case, the i-th element is the cluster the i-th entit was assigned to across all time steps. Suitable for fixed assignment clustering.
     ord : int, default : 2
         The distance metric to use. 1 is l1 distance, 2 is l2 distance etc.
@@ -94,10 +94,10 @@ def max_dist(
     X : numpy array
         Input time series data. Should be a 3 dimensional array in TNF fromat.
     cluster_centers : numpy array
-        If numpy array, it is expected to a 3D in TNF format. Here, N is the number of clusters. 
+        If numpy array, it is expected to be a 3D in TNF format. Here, N is the number of clusters. 
         If 2-D array, then it is interpreted as a K x F array where K is the number of clusters, and F is the number of features. Suitable for fixed cluster centers clustering.
     labels : numpy array 
-        It is expected to be a N x T 2D array. Where N is the number of entities and T is the number of time steps. The value of the ith row at the t-th column is the label (cluster index) entity i was assigned to at time t.
+        It is expected to be a 2D array of shape (N, T). Where N is the number of entities and T is the number of time steps. The value of the ith row at the t-th column is the label (cluster index) entity i was assigned to at time t.
         If 1-D array, it is interpreted as an array of length N. Where N is the number of entities. In such case, the i-th element is the cluster the i-th entit was assigned to across all time steps. Suitable for fixed assignment clustering.
     ord : int, default : 2
         The distance metric to use. 1 is l1 distance, 2 is l2 distance etc
