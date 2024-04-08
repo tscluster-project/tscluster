@@ -6,5 +6,7 @@ TemporalOptimalMILPClustering.py
 OptimalMILPClustering.py
 .ipynb_checkpoints/
 test_notebook.ipynb
+test_main.py
+test_main.ipynb
 tscluster.egg-info/
 dist/

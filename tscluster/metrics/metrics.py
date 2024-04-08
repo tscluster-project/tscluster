@@ -44,10 +44,10 @@ def inertia(
     The inertia is calculated as: 
     
     .. math::
-        \sum_{t=1}^{T} \sum_{i=1}^{N} d(X_{ti}, Z_t) 
+        \sum_{t=1}^{T} \sum_{i=1}^{N} D(X_{ti}, Z_t) 
     Where 
     `T`, `N` are the number of time steps and entities respectively, 
-    `d` is a distance function (or metric e.g :math:`L_1`, :math:`L_2` etc), 
+    `D` is a distance function (or metric e.g :math:`L_1` distance, :math:`L_2` distance etc), 
     :math:`X_{ti} \in \mathbf{R}^f` is the feature vector of entity `i` at time `t`,
     `f` is the number of features, and 
     :math:`Z_t \in \mathbf{R}^f` is the cluster center :math:`X_{ti}` is assigned to at time `t`
@@ -112,10 +112,10 @@ def max_dist(
     The max_dist is calculated as: 
     
     .. math::
-        max(d(X_{ti}, Z_t)) 
+        max(D(X_{ti}, Z_t)) 
 
     Where 
-    `d` is a distance function (or metric e.g :math:`L_1`, :math:`L_2` etc), 
+    `D` is a distance function (or metric e.g :math:`L_1` distance, :math:`L_2` distance etc), 
     :math:`X_{ti} \in \mathbf{R}^f` is the feature vector of entity `i` at time `t`,
     `f` is the number of features, and 
     :math:`Z_t \in \mathbf{R}^f` is the cluster center :math:`X_{ti}` is assigned to at time `t`

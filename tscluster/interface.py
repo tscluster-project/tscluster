@@ -75,7 +75,7 @@ class TSClusterInterface(ABC):
         raise NotImplementedError
     
     @abstractmethod
-    def set_label_dict_(self, value: dict) -> None:
+    def set_label_dict(self, value: dict) -> None:
         """
         Method to manually set the label_dict_.
 

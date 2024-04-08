@@ -3,6 +3,8 @@ from typing import List, Tuple
 
 import numpy as np
 import numpy.typing as npt
+import matplotlib
+import mpl_toolkits
 import matplotlib.pyplot as plt
 import matplotlib.pylab as pl
 from matplotlib.widgets import Slider
@@ -95,7 +97,9 @@ def plot(
         title_list: List[str]|None = None,
         show_all_xticklabels: bool = True, 
         x_rotation: float|int = 45,
-        ) -> None:
+        show_X_marker: bool = False,
+        show_cluster_center_marker: bool = False,
+        ) -> Tuple[matplotlib.figure.Figure, List[matplotlib.axes.Axes]]:
     
     """
     Function to plot subplots of the time series data, cluster centers and label assignemnts. One subplot per feature. This is built on top of matplotlib.
@@ -142,6 +146,10 @@ def plot(
         If True, shows labels of all time steps in the plot. If False, some may be suppressed (depending on the size of the plot)
     x_rotation : float or int, default=45
         The angle (in degrees) to rotate the timestep labels 
+    show_X_marker : bool, default=False
+        If True, show markers in the time series plot of X.
+    show_cluster_center_marker : bool, default=False
+        If True, show markers in the time series plot of the cluster centers.
 
     Returns
     -------
@@ -191,6 +199,9 @@ def plot(
     if shape_of_subplot is None:
         shape_of_subplot = (F, 1)
 
+    if title_list is None:
+        title_list = ['Feature ' + str(f+1) if isinstance(f, int) else 'Feature ' + f for f in label_dict['F']]
+
     axes = []
 
     for f in range(F):
@@ -202,20 +213,24 @@ def plot(
             else:
                 idx = entity_idx
 
+            marker = ''
+            if show_X_marker:
+                marker = '.'
+
             # plot all data for feature f
-            plt.plot(range(X.shape[0]), X[:, idx, f], c='k', ls='--', alpha=0.5)
+            plt.plot(range(X.shape[0]), X[:, idx, f], c='k', ls='--', alpha=0.5, marker=marker)
 
             if entity_idx is not None:
                 for li, i in enumerate(entity_idx):
                     if entities_labels is None:
                         e_labels = label_dict['N'][i]
                     else:
-                        e_labels = entities_labels
+                        e_labels = entities_labels[li]
 
                     annot_i = np.random.choice(np.arange(len(X[:, i, f])), 1)[0]
                     annot_xy = list(enumerate(X[:, i, f]))[annot_i]
 
-                    plt.annotate(entities_labels[li], xy=annot_xy, xytext=(annot_xy[0]+0.5, annot_xy[1]+0.5), fontsize=annot_fontsize,
+                    plt.annotate(e_labels, xy=annot_xy, xytext=(annot_xy[0]+0.5, annot_xy[1]+0.5), fontsize=annot_fontsize,
                                 arrowprops=dict(facecolor='green',shrink=0))
                     
             if labels is not None:
@@ -231,19 +246,34 @@ def plot(
 
         # plot of cluster centers
         if cluster_centers is not None:
+
+            marker = ''
+            if show_cluster_center_marker:
+                marker = '.'
+
             for j in range(K):
-                plt.plot(range(cluster_centers.shape[0]), cluster_centers[:, j, f], color=cmap(norm(j)), label=cluster_labels[j])
+                plt.plot(
+                    range(cluster_centers.shape[0]), 
+                    cluster_centers[:, j, f], 
+                    color=cmap(norm(j)), 
+                    label=cluster_labels[j],
+                    marker=marker
+                    )
 
         ax.set_xlabel(xlabel)
+
         ax.set_ylabel(ylabel)
-        # ax.set_xticks(ticks=list(range(X.shape[0])))
         
-        if title_list is not None:
-            ax.set_title(title_list[f])
+        ax.set_title(title_list[f])
         
+        ax.set_xticks(ticks=list(range(T))) # needed so that xticks wouldn't be float
         if show_all_xticklabels:
             ax.set_xticklabels(label_dict['T'], rotation=x_rotation)  
 
+        if f != F-1:
+            ax.set_xlabel('')
+            ax.set_xticklabels('')
+        
         if cluster_centers is not None or labels is not None:
             plt.legend()
 
@@ -259,16 +289,17 @@ def waterfall_plot(
         ylabel: str = 'Features-axis',
         zlabel: str = 'Feature Values',
         title: str|None = None
-        ):
+        ) -> Tuple[matplotlib.figure.Figure, mpl_toolkits.mplot3d.axes3d.Axes3D]:
     
     """
     Function to plot a waterfall plot of a single time series data. This data can be a time series of a single entity or cluster center.
-    To make the plot interactive, use a suitable matplotlib's magic command. E.g. `%matplotlib`. See this site for more: https://matplotlib.org/stable/users/explain/figure/interactive.html
+    To make the plot interactive, use a suitable matplotlib's magic command. E.g. `%matplotlib widget`. See this site for more: https://matplotlib.org/stable/users/explain/figure/interactive.html
 
     Parameters
     ----------
     time_series : numpy array
         The time series data to plot. This data can be a time series of a single entity or cluster center.
+        Data should be a 2-D array of shape (T, F), where T and F are the number of timesteps and features respectively.
     label_dict : dict, default=None
         a dictionary whose keys are 'T', 'N', and 'F' (which are the number of time steps, entities, and features respectively). Value of each key is a list such that the value of key:
         - 'T' is a list of names/labels of each time step to be used as index of each dataframe. If None, range(0, T) is used. Where T is the number of time steps in the fitted data
@@ -297,25 +328,42 @@ def waterfall_plot(
     
     X, Y = np.meshgrid(x, y)
 
+    X, Y = X.T, Y.T
+
     # Creating a 3D plot
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
     
     # Plotting the basic 3D surface
-    ax.plot_surface(X, Y, time_series.T.values, rstride=y.shape[0], cstride=x.shape[0]-1, color='grey', alpha=0.9)
+    # ax.plot_surface(X, Y, time_series, rstride=y.shape[0], cstride=x.shape[0]-1, color='grey', alpha=0.9)
+    ax.plot_surface(X, Y, time_series, color='grey', alpha=0.9)
     
-    for f in range(time_series.shape[1]):
-        ax.plot(x, [f]*x.shape[0], time_series.iloc[:, f], color='red')
+    T, F = time_series.shape
     
+    for f in range(F):
+        ax.plot(x, [f]*T, time_series[:, f], color='red')
+    
+    label_dict_init = {'T': T, 'F': F}
+
     if label_dict is None:
-        x_tick_labels = time_series.index
-        y_tick_labels = time_series.columns
-    else:
-        for k in label_dict:
-            if k is not None and k == 'T':
-                x_tick_labels = label_dict[k]
-            elif k is not None and k == 'F':
-                y_tick_labels = label_dict[k]
+        label_dict = {}
+    
+    for key, val in label_dict_init.items():
+            _ = label_dict.setdefault(key, list(range(1, val+1)))
+
+    # if label_dict is None:
+        # x_tick_labels = np.arange(time_series.shape[0])
+        # y_tick_labels = np.arange(time_series.shape[1]) + 1
+
+    # else:
+    #     for k in label_dict:
+    #         if k is not None and k == 'T':
+    #             x_tick_labels = label_dict[k]
+    #         elif k is not None and k == 'F':
+    #             y_tick_labels = label_dict[k]
+
+    x_tick_labels = label_dict['T']
+    y_tick_labels = label_dict['F']
 
     if title is None:
         title = ''

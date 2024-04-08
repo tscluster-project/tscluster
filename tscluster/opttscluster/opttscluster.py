@@ -31,6 +31,7 @@ class OptTSCluster(TSCluster, TSClusterInterface):
             - 'z0c1' means fixed center, changing assignment
             - 'z1c0' means changing center, fixed assignment
             - 'z1c1' means changing center, changing assignment
+        Scheme needs to be a dynamic label assignment scheme (either 'z1c1' or 'z0c1') when using constrained cluster change (either with `n_allow_assignment_change` or `lagrangian_multiplier`)
     n_allow_assignment_change: int or None, default=None
         total number of label changes to allow
     is_Z_positive: bool, default=True
@@ -38,9 +39,8 @@ class OptTSCluster(TSCluster, TSClusterInterface):
         Setting this to True often leads to speedup. See ... for more details.  
     is_tight_constraints: bool, default=True
         Indicate if to use use tight bounds (the bounding box of the data) for z and the objective value
-    lagrangian_multiplier: int, default=0
-        The penalty term for constrained label changes. Value should be in range [0, np.inf], the higher the value, the less
-        the number of label changes allowed
+    lagrangian_multiplier: float, default=0.0
+        The penalty term for constrained label changes. Value should be in range [0, np.inf], the higher the value, the less the number of label changes allowed. When used, `n_allow_assignment_change` is ignored.
     use_sum_distance: bool, default=False
         Indicate if to use sum of distance to cluster as the objective. This is the sum of the distances between points in a time series
         and their centroids. 
@@ -75,6 +75,9 @@ class OptTSCluster(TSCluster, TSClusterInterface):
     cluster_centers_
     fitted_data_shape_
     labels_
+    label_dict_
+    n_changes_
+    
     """
 
     def __init__(
@@ -84,7 +87,7 @@ class OptTSCluster(TSCluster, TSClusterInterface):
             n_allow_assignment_change: None|int = None, 
             is_Z_positive: bool = True, 
             is_tight_constraints: bool = True, 
-            lagrangian_multiplier: int = 0, 
+            lagrangian_multiplier: float = 0.0, 
             use_sum_distance: bool = False,
             warm_start: bool = True, 
             normalise_assignment_penalty: bool = True, 
@@ -143,7 +146,8 @@ class OptTSCluster(TSCluster, TSClusterInterface):
             X: npt.NDArray[np.float64], 
             label_dict: dict|None = None, 
             verbose: bool = True, 
-            print_to: TextIO = sys.stdout
+            print_to: TextIO = sys.stdout,
+            **kwargs
             ) -> "OptTSCluster": 
 
         """
@@ -331,10 +335,13 @@ class OptTSCluster(TSCluster, TSClusterInterface):
             if re.search("c0", self.scheme, flags=re.IGNORECASE):
                 self.c_fixed = True        
 
+            _get_model_size = kwargs.get('_get_model_size', False)
+                
             solver_time_0 = time()
-            E_star, Z_ans, C_ans = OptTSCluster.solve_ts_MILP(I, self.k, 
+            res = OptTSCluster.solve_ts_MILP(I, self.k, 
                                                                     n_allow_assignment_change=self.n_allow_assignment_change,
                                                                     z_fixed=self.z_fixed,
+                                                                    _get_model_size=_get_model_size,
                             constant_assigment_constraint_violation_scheme=self.constant_assigment_constraint_violation_scheme,
                                                                     init_Z=init_Zs,
                                                                     init_C=init_Cs,
@@ -350,6 +357,11 @@ class OptTSCluster(TSCluster, TSClusterInterface):
                                                 use_sum_distance=self.use_sum_distance
                                                                     )
             
+            if _get_model_size:
+                return res 
+            
+            E_star, Z_ans, C_ans = res
+            
             solver_times.append(np.round(time() - solver_time_0, 2))
 
             C_hat = OptTSCluster.assign_cluster(X, Z_ans) # C_hat contains assignment for all datapoints, while
@@ -364,9 +376,9 @@ class OptTSCluster(TSCluster, TSClusterInterface):
 
             percent_data_used.append(np.round(100*I.size/X.size, 2))
 
-            if self.verbose:
-                print(file=print_to, flush=verbose_flush)
-                print(f"{percent_data_used[-1]}% of data used", file=print_to, flush=verbose_flush)
+            # if self.verbose:
+            #     print(file=print_to, flush=verbose_flush)
+            #     print(f"{percent_data_used[-1]}% of data used", file=print_to, flush=verbose_flush)
 
             if self.use_sum_distance:
                 E_hat, I_add, zi = E_star, [], []
@@ -405,7 +417,7 @@ class OptTSCluster(TSCluster, TSClusterInterface):
             I = X[:, I_idx, :]
 
             if self.verbose:    
-                print(f"Done with {count} of {self.max_iter}. Ehat: {E_hat}, Estar: {E_star}", file=print_to, flush=verbose_flush)
+                print(f"Obj val: {E_star}", file=print_to, flush=verbose_flush)
                 print(file=print_to, flush=verbose_flush)
         
                 count += 1
@@ -478,12 +490,34 @@ class OptTSCluster(TSCluster, TSClusterInterface):
         """
         return self.T_, self.N_, self.F_
 
+    def get_model_size(self,
+            X: npt.NDArray[np.float64]
+            ) -> Tuple:
+        
+        """
+        Method to return the size of the model as a tuple of (v, c). Wehre v is the number of variables, and c is the number of constraints
+
+        Paramters
+        ---------
+        X : numpy array
+            Input time series data. Should be a 3 dimensional array in TNF fromat.        
+
+        Returns
+        -------
+        number of variable
+            The number of variables in the model
+        number of constraints
+            The number of constraints
+        """
+        return self.fit(X, _get_model_size=True, verbose=False)
+
     @staticmethod
     def solve_ts_MILP(
         I: npt.NDArray[np.float64] | npt.NDArray[np.int64], 
         k: int, 
         init_Z: npt.NDArray[np.float64] | npt.NDArray[np.int64] | None = None, 
         init_C: npt.NDArray[np.float64] | npt.NDArray[np.int64] | None = None, 
+        _get_model_size: bool = False,
         **kwargs
         ) -> Tuple[npt.NDArray[np.float64], npt.NDArray[np.float64], npt.NDArray[np.float64]]:
 
@@ -649,6 +683,14 @@ class OptTSCluster(TSCluster, TSClusterInterface):
                 m.setObjective(E, gp.GRB.MINIMIZE)
 
         m.setParam('OutputFlag', 0)
+
+        if _get_model_size:
+            m.update()
+
+            num_vars = m.NumVars
+            num_constraints = m.NumConstrs
+
+            return num_vars, num_constraints
         
         m.optimize() 
         
@@ -788,8 +830,8 @@ class OptTSCluster(TSCluster, TSClusterInterface):
             for i in range(C_hat.shape[1]):
                 y = np.argmax(C_hat[:, i, :], axis=1)
                 if (y[:-1] != y[1:]).sum() > 0:
-                    if verbose:
-                        print(f"i that changed: {i}", file=kwargs['print_to'])
+                    # if verbose:
+                    #     print(f"i that changed: {i}", file=kwargs['print_to'])
                     I_add.append(i)
                     # I_add_all.append(i)
                     n_violations += (y[:-1] != y[1:]).sum()
@@ -801,8 +843,8 @@ class OptTSCluster(TSCluster, TSClusterInterface):
             for i in range(C_hat.shape[1]):
                 y = np.argmax(C_hat[:, i, :], axis=1)
                 if (y[:-1] != y[1:]).sum() > v:
-                    if verbose:
-                        print(f"i that changed: {i}", file=kwargs['print_to'])
+                    # if verbose:
+                    #     print(f"i that changed: {i}", file=kwargs['print_to'])
                     I_add.append(i)
                     # I_add_all.append(i)
 

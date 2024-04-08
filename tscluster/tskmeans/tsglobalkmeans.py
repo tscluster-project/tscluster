@@ -73,6 +73,8 @@ class TSGlobalKmeans(KMeans, TSCluster, TSClusterInterface):
     cluster_centers_
     fitted_data_shape_
     labels_
+    label_dict_
+    n_changes_
     """
 
     def fit(

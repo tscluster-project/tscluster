@@ -22,14 +22,16 @@ class TSCluster():
             - 'F' is a list of names/labels of each feature used as column of each dataframe. Default is range(0, F). Where F is the number of features in the fitted data 
 
         """
-
+        keys = ('T', 'N', 'F')
         if self._label_dict_ is None:
-            keys = ('T', 'N', 'F')
-            return {k: list(range(i)) for k, i in zip(keys, self.fitted_data_shape_)}
+            self._label_dict_ = {}
         
+        for i, k in enumerate(keys):
+            _ = self._label_dict_.setdefault(k, list(range(self.fitted_data_shape_[i])))
+
         return self._label_dict_
     
-    def set_label_dict_(self, value: dict) -> None:
+    def set_label_dict(self, value: dict) -> None:
         """
         Method to manually set the label_dict_.
 
@@ -129,3 +131,36 @@ class TSCluster():
                 entities = list(range(self.fitted_data_shape_[1]))
 
         return pd.DataFrame(labels, columns=time, index=entities)
+
+    def _get_changes(self) -> npt.NDArray[np.int64]:
+        labels = self.get_named_labels().values
+        return np.sum(labels[:, :-1] != labels[:, 1:], axis=1)
+    
+    def get_dynamic_entities(self) -> Tuple[List[np.int64], List[np.int64]]:
+        """
+        returns the dynamic entities and their number of changes. Both lists are sorted by the number of cluster changes in descending order.
+
+        Returns
+        -------
+        dynamic entities : list
+            a 1-D array of the indices of the entities that change cluster at least once.
+        number of changes : list
+            a 1-D array of the number of changes for each dynamic entity such that the i-th element is the number of cluster changes for the i-th dynamic entity
+        """
+        
+        n_changes = self._get_changes()
+        changes = n_changes > 0
+
+        entities = self.label_dict_['N']
+        dynamic_entities = np.where(changes)[0]
+
+        sort_filter = np.argsort(n_changes[changes])[::-1]
+
+        return [entities[i] for i in dynamic_entities[sort_filter]], list(np.sort(n_changes[changes])[::-1])
+
+    @property
+    def n_changes_(self) -> int:
+        """
+        returns the total number of label changes
+        """
+        return np.sum(self._get_changes())

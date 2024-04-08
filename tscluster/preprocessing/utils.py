@@ -14,7 +14,8 @@ default_data_loader_args = {
     "arr_format": "TNF", 
     "suffix_sep": "_", 
     "read_file_args": {},
-    "file_reader": "infer" # can be one of ("infer", "np_load", "pd_read_csv", "pd_read_json", pd_read_excel)
+    "file_reader": "infer", # can be one of ("infer", "np_load", "pd_read_csv", "pd_read_json", pd_read_excel)
+    'use_suffix_as_label': False
     }
 
 file_readers = {
@@ -190,6 +191,7 @@ def infer_data(func: Callable) -> Callable:
                 suffix_sep: str, 
                 file_reader: str,
                 read_file_args: dict, 
+                use_suffix_as_label: bool,
                 *args, 
                 **kwargs
                 ) -> Any:
@@ -215,6 +217,9 @@ def infer_data(func: Callable) -> Callable:
                 and use the approproate loader.
             read_file_args: dict, default empty dictionary.
                 parameters to be passed to the data loader.
+            use_suffix_as_label: bool, default False
+                If True, use the suffixes of the file names as labels in `label_dict`. If `arr_format` = 'TNF', the suffixes will be used as labels of timesteps, else if `arr_format` = 'NTF', they will be used as labels of entities.
+                If False, a linear range of the number of files is used as labels (e.g.) range(n_files), where n_files is the number of files.
             *args: 
                 any other positional arguments for fit method or function to be decorated.
 
@@ -273,6 +278,9 @@ def infer_data(func: Callable) -> Callable:
                     lst_of_filepaths = [os.path.join(X, f) for f in sorted_filenames]
 
                     X_arr, label_dict = read_all_files(lst_of_filepaths, file_reader, **read_file_args)
+
+                    if use_suffix_as_label:
+                        label_dict['T'] = sorted([str(file_list_sort_key(f)) for f in file_names])
             
             else:
                 raise TypeError(f"Invalid type! Expected any of {valid_data_load_types_names}, but got '{type(X).__name__}'")
@@ -290,8 +298,9 @@ def infer_data(func: Callable) -> Callable:
         suffix_sep = get_infer_data_wrapper_args('suffix_sep', kwargs)
         file_reader = get_infer_data_wrapper_args('file_reader', kwargs)
         read_file_args = get_infer_data_wrapper_args('read_file_args', kwargs)
+        use_suffix_as_label = get_infer_data_wrapper_args('use_suffix_as_label', kwargs)
             
-        return data_loader(self, X, arr_format, suffix_sep, file_reader, read_file_args, *args, **kwargs)
+        return data_loader(self, X, arr_format, suffix_sep, file_reader, read_file_args, use_suffix_as_label, *args, **kwargs)
     
     return args_selector
 
@@ -304,10 +313,12 @@ def _get_inferred_data(label_dict: dict, X: npt.NDArray[np.float64]|str|List, **
 
 def load_data(
         X: npt.NDArray[np.float64]|str|List, 
+        *,
         arr_format: str = 'TNF',
         suffix_sep: str = '_',
         file_reader: str = 'infer',
         read_file_args: dict|None = None,
+        use_suffix_as_label: bool = False,
         output_arr_format: str = 'TNF'
         ) -> Tuple[np.float64, dict]:
     """
@@ -326,19 +337,24 @@ def load_data(
         format of the input data. 'TNF' means the data dimension is Time x Number of observations x Features
         'NTF' means the data dimension is Number OF  observations x Time x Features
     suffix_sep : str, default='_'
-        separator separating the file number from the filename.
+        separator separating the suffix from the filename. The suffixes should be numbers and may not neccessarily need to start from 1 or have an interval of 1. So long the suffixes can be sorted and there is a consistent suffix separator, the directory can be parsed by `load_data` function.
     file_reader : str, default='infer'
         file loader to use. Can be any of np.load, pd.read_csv, pd.read_json, and pd.read_excel. If 'infer', decorator will attempt to infer the file type from the file name 
         and use the approproate loader.
     read_file_args : dict, default=None.
         parameters to be passed to the data loader. Keys of the dictionary should be parameter names as keys in str, values should be the values of the parameter keys.
+    use_suffix_as_label: bool, default=False
+        If True, use the suffixes of the file names as labels in `label_dict`. If `arr_format` = 'TNF', the suffixes will be used as labels of timesteps, else if `arr_format` = 'NTF', they will be used as labels of entities.
+        If False, a linear range of the number of files is used as labels (e.g.) range(n_files), where n_files is the number of files.
     output_arr_format : str, default='TNF'
         The format of the output array. Can be any of {'TNF', 'NTF'}.
 
     Returns
     --------
-    np.array, dict 
-        a numpy array of the data in 'TNF' or 'NTF' format (depending on the value of `output_arr_format`); and a dictionary whose keys are 'T', 'N', and 'F', and whose values are lists of the labels of each key. 
+    np.array 
+        a numpy array of the data in 'TNF' or 'NTF' format (depending on the value of `output_arr_format`)
+    dict
+        a dictionary whose keys are 'T', 'N', and 'F', and whose values are lists of the labels of each key. 
     """
 
     label_dict = []
@@ -352,7 +368,8 @@ def load_data(
         arr_format=arr_format, 
         suffix_sep=suffix_sep,
         file_reader=file_reader,
-        read_file_args=read_file_args
+        read_file_args=read_file_args,
+        use_suffix_as_label=use_suffix_as_label
         )
 
     if output_arr_format == 'NTF':
