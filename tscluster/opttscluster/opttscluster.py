@@ -465,7 +465,7 @@ class OptTSCluster(TSCluster, TSClusterInterface):
         """
         Method to return the size of the model as a tuple of (v, c). Wehre v is the number of variables, and c is the number of constraints
 
-        Paramters
+        Parameters
         ---------
         X : numpy array
             Input time series data. Should be a 3 dimensional array in TNF fromat.        
