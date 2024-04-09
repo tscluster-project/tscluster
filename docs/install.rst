@@ -13,6 +13,8 @@ We require Python 3.8+.
 * pandas>=2.2
 * matplotlib>=3.8
 
+Note: you will need Gurobi licence when using OptTSCluster with large model size. See `here <https://support.gurobi.com/hc/en-us/articles/12684663118993-How-do-I-obtain-a-Gurobi-license>`_ for more about Gurobi licence
+
 Installing via pip
 -----------------
 .. code-block:: shell

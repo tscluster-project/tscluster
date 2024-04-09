@@ -34,11 +34,6 @@ class OptTSCluster(TSCluster, TSClusterInterface):
         Scheme needs to be a dynamic label assignment scheme (either 'z1c1' or 'z0c1') when using constrained cluster change (either with `n_allow_assignment_change` or `lagrangian_multiplier`)
     n_allow_assignment_change: int or None, default=None
         total number of label changes to allow
-    is_Z_positive: bool, default=True
-        True means assume non-negativity constraint for z. The scale of the final results are not affected since OptTSCluster will return solutions in the original scale of the input data.
-        Setting this to True often leads to speedup. See ... for more details.  
-    is_tight_constraints: bool, default=True
-        Indicate if to use use tight bounds (the bounding box of the data) for z and the objective value
     lagrangian_multiplier: float, default=0.0
         The penalty term for constrained label changes. Value should be in range [0, np.inf], the higher the value, the less the number of label changes allowed. When used, `n_allow_assignment_change` is ignored.
     use_sum_distance: bool, default=False
@@ -46,29 +41,11 @@ class OptTSCluster(TSCluster, TSClusterInterface):
         and their centroids. 
     warm_start: bool, default=True
         Indicates if to use k-means to initialize the centroids (Z) and their assignments (C).
-    normalise_assignment_penalty: bool, default=True
-        Indicate if to normalize the penalty term when using lagrangian_multiplier
-    strictly_n_allow_assignment_change: bool, default=False
-        If True, indicate if to use n_allow_assignment_change constraint as an active constraint.
     use_MILP_centroid: bool, default=True
         If True, cluster_centers_ atrribute will be cluster centers obtained from MILP solution, else the average of the 
         datapoints per timestep
-    use_full_constraints: bool, default=True
-        If True, use all the samples as constraints. If False, use constraint generation. When using constraint generation, 
-        subsamples are being used as constraints with samples added to the constraints until optimal solution is found.
-    IFrac: float, default=0.2
-        fraction of samples to use as initial constraints when using constraint generation.
-    top_n_percentile: foat, default=0.0
-        percentile of most violated constraints to add to constraints when using constraint generation. 
-        Value should in range [0, 1]. Note that a value of 0 means to use the most violated constraint. 
-    max_iter: int, default=10
-        Maximum number of iterations to use when using constraint violation.
     random_state: int, default=None
         Set the random seed used when initializing with k-means or when initializing samples when using constraint generation.
-    add_constraint_per_cluster: bool, default=True
-        If True, top_n_percentile constraints are being from each cluster when using constraint generation. 
-    init_with_prev: bool, default=True
-        If True, use the solution from previous iteration as initial solution for the next iteration when using constraint generation            
     
     Attributes
     ----------
@@ -84,42 +61,33 @@ class OptTSCluster(TSCluster, TSClusterInterface):
             self, 
             k: int, 
             scheme: str = 'z1c0', 
+            *,
             n_allow_assignment_change: None|int = None, 
-            is_Z_positive: bool = True, 
-            is_tight_constraints: bool = True, 
             lagrangian_multiplier: float = 0.0, 
             use_sum_distance: bool = False,
             warm_start: bool = True, 
-            normalise_assignment_penalty: bool = True, 
-            strictly_n_allow_assignment_change: bool = False, 
             use_MILP_centroid: bool = True,
-            use_full_constraints: bool = True, 
-            IFrac: float = 0.2, 
-            top_n_percentile: float = 0.0, 
-            max_iter: int = 10, 
-            random_state: None|int = None, 
-            add_constraint_per_cluster: bool = True,
-            init_with_prev: bool = True
+            random_state: None|int = None
             ) -> None:
 
         self.k = k
         self.scheme = scheme.lower()
         self.n_allow_assignment_change = n_allow_assignment_change
-        self.is_Z_positive = is_Z_positive
-        self.is_tight_constraints = is_tight_constraints 
+        self.is_Z_positive = True
+        self.is_tight_constraints = True 
         self.lagrangian_multiplier = lagrangian_multiplier
         self.use_sum_distance = use_sum_distance
         self.warm_start = warm_start
-        self.normalise_assignment_penalty = normalise_assignment_penalty
-        self.strictly_n_allow_assignment_change = strictly_n_allow_assignment_change
+        self.normalise_assignment_penalty = True
+        self.strictly_n_allow_assignment_change = False
         self.use_MILP_centroid = use_MILP_centroid
-        self.use_full_constraints = use_full_constraints
-        self.IFrac = IFrac
-        self.top_n_percentile = top_n_percentile 
-        self.max_iter = max_iter
+        self.use_full_constraints = True
+        self.IFrac = 0.2
+        self.top_n_percentile = 0.0 
+        self.max_iter = 10
         self.random_state = random_state
-        self.add_constraint_per_cluster = add_constraint_per_cluster
-        self.init_with_prev = init_with_prev 
+        self.add_constraint_per_cluster = True
+        self.init_with_prev = True 
 
         self._use_closest_center_for_all = False
 

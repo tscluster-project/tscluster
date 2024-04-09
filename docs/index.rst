@@ -5,9 +5,7 @@
 Welcome to tscluster's documentation!
 =====================================
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+.. image:: source/tscluster_schema.png
 
 
 
@@ -17,6 +15,5 @@ Welcome to tscluster's documentation!
 
     introduction
     install
-    user guide
     API 
-    Tutorial
+    user_guide

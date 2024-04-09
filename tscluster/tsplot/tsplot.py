@@ -335,7 +335,6 @@ def waterfall_plot(
     ax = fig.add_subplot(111, projection='3d')
     
     # Plotting the basic 3D surface
-    # ax.plot_surface(X, Y, time_series, rstride=y.shape[0], cstride=x.shape[0]-1, color='grey', alpha=0.9)
     ax.plot_surface(X, Y, time_series, color='grey', alpha=0.9)
     
     T, F = time_series.shape
@@ -350,17 +349,6 @@ def waterfall_plot(
     
     for key, val in label_dict_init.items():
             _ = label_dict.setdefault(key, list(range(1, val+1)))
-
-    # if label_dict is None:
-        # x_tick_labels = np.arange(time_series.shape[0])
-        # y_tick_labels = np.arange(time_series.shape[1]) + 1
-
-    # else:
-    #     for k in label_dict:
-    #         if k is not None and k == 'T':
-    #             x_tick_labels = label_dict[k]
-    #         elif k is not None and k == 'F':
-    #             y_tick_labels = label_dict[k]
 
     x_tick_labels = label_dict['T']
     y_tick_labels = label_dict['F']
