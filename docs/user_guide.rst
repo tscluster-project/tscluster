@@ -2,7 +2,7 @@ Tutorial
 ========
 
 .. toctree::
-    :caption: Contents:
+    .. :caption: Contents:
 
     source/tscluster_tutorial
     source/colab_notebook

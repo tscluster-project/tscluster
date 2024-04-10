@@ -1,15 +1,15 @@
 Tutorial
 ========
 
-.. code:: ipython3
+.. code-block:: python
 
     !pip install tscluster # install tscluster 
 
-.. code:: ipython3
+.. code-block:: python
 
     ## Importing Libraries
 
-.. code:: ipython3
+.. code-block:: python
 
     # uncomment the line below if widget is enable in your environment. This is useful for making tsplot's waterfall_plot interactive
     # %matplotlib widget
@@ -27,11 +27,11 @@ Tutorial
     from tscluster.metrics import inertia, max_dist
     from tscluster.tsplot import tsplot
 
-.. code:: ipython3
+.. code-block:: python
 
     par_dir = "tscluster_sample_data"
 
-.. code:: ipython3
+.. code-block:: python
 
     # download the sample data
     !wget https://raw.githubusercontent.com/tscluster-project/tscluster/main/test/tscluster_sample_data.zip
@@ -59,7 +59,7 @@ Tutorial
     
     Archive:  tscluster_sample_data.zip
 
-.. code:: ipython3
+.. code-block:: python
 
     os.chdir(par_dir)
 
@@ -72,7 +72,7 @@ from a npy file
 If data is a numpy array stored as a ``.npy`` file, you can use the
 ``load_data`` function to load it.
 
-.. code:: ipython3
+.. code-block:: python
 
     X, label_dict = load_data("./sythetic_data.npy")
     X.shape
@@ -100,7 +100,7 @@ data - ‘F’ is a list of names/labels of each feature to be used as
 column of each dataframe. If None, range(0, F) is used. Where F is the
 number of features in the fitted data
 
-.. code:: ipython3
+.. code-block:: python
 
     print(label_dict)
 
@@ -125,7 +125,7 @@ entity for all time steps. Valid files are ``.npy``, ``.npz``,
 
 Reading from a list of dataframes
 
-.. code:: ipython3
+.. code-block:: python
 
     df1 = pd.DataFrame({
         'f1': np.arange(5),
@@ -460,7 +460,7 @@ Reading from a list of dataframes
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     df2 = pd.DataFrame({
         'f2': np.arange(105, 110),
@@ -795,7 +795,7 @@ Reading from a list of dataframes
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     X_arr, label_dict = load_data([df1, df2])
     print(f"shape of X_arr is {X_arr.shape}")
@@ -826,7 +826,7 @@ Reading from a list of dataframes
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     label_dict
 
@@ -842,7 +842,7 @@ Reading from a list of dataframes
 To get the output in ‘NTF’ format, set the ``output_arr_format``
 parameter to ‘NTF’
 
-.. code:: ipython3
+.. code-block:: python
 
     X_arr, label_dict = load_data([df1, df2], output_arr_format='NTF')
     print(f"shape of X_arr is {X_arr.shape}")
@@ -875,7 +875,7 @@ parameter to ‘NTF’
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     label_dict # label_dict will remain the same
 
@@ -890,7 +890,7 @@ parameter to ‘NTF’
 
 The same applies to list of file paths. E.g.
 
-.. code:: ipython3
+.. code-block:: python
 
     file_list = [
         "./synthetic_csv/timestep_0.csv",
@@ -909,7 +909,7 @@ The same applies to list of file paths. E.g.
     shape of X_arr is (5, 20, 2)
     
 
-.. code:: ipython3
+.. code-block:: python
 
     label_dict
 
@@ -932,7 +932,7 @@ reader is pd.read_csv (reader for csv file), you can pass ``names`` and
 ``skiprows`` arguments (and basically any argument you want to pass to
 the file reader).
 
-.. code:: ipython3
+.. code-block:: python
 
     file_list = [
         "./synthetic_csv/timestep_0.csv",
@@ -951,7 +951,7 @@ the file reader).
     shape of X_arr is (5, 10, 2)
     
 
-.. code:: ipython3
+.. code-block:: python
 
     label_dict
 
@@ -982,7 +982,7 @@ following files:
 
 We can read the files as follows:
 
-.. code:: ipython3
+.. code-block:: python
 
     X_arr, label_dict = load_data('./synthetic_csv')
     print(f"shape of X_arr is {X_arr.shape}")
@@ -993,7 +993,7 @@ We can read the files as follows:
     shape of X_arr is (5, 20, 2)
     
 
-.. code:: ipython3
+.. code-block:: python
 
     label_dict
 
@@ -1021,7 +1021,7 @@ So long the suffixes can be sorted and there is a consistent suffix
 separator (“-” is this case), the directory can be parsed by
 ``load_data`` function.
 
-.. code:: ipython3
+.. code-block:: python
 
     # checking how the head of a single
     pd.read_csv('./synthetic_csv2/year-2005.csv').head()
@@ -1309,7 +1309,7 @@ separator (“-” is this case), the directory can be parsed by
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # if we were to indicate to pandas that the first column is the index and the first row is the header, we would have done
     pd.read_csv('./synthetic_csv2/year-2005.csv', index_col=[0], header=0).head()
@@ -1591,7 +1591,7 @@ separator (“-” is this case), the directory can be parsed by
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # using load_data function
     X_arr, label_dict = load_data('./synthetic_csv2',
@@ -1606,7 +1606,7 @@ separator (“-” is this case), the directory can be parsed by
     shape of X_arr is (5, 10, 3)
     
 
-.. code:: ipython3
+.. code-block:: python
 
     print(label_dict)
 
@@ -1629,7 +1629,7 @@ dataframes. Similar to ``load_dict`` function, you can use
 ``arr_format`` and ``output_df_format`` to specify the format of the
 input data and output data respectively.
 
-.. code:: ipython3
+.. code-block:: python
 
     dfs = to_dfs(X_arr, label_dict)
     print(f"Length of dfs is: {len(dfs)}")
@@ -1923,7 +1923,7 @@ tnf_to_ntf
 ``tnf_to_ntf`` function can be used to convert a data from ‘TNF’ format
 to ‘NTF’ format. E.g
 
-.. code:: ipython3
+.. code-block:: python
 
     print(f"Shape of X_arr in 'TNF' format is: {X_arr.shape}")
     
@@ -1944,7 +1944,7 @@ ntf_to_tnf
 Similarly, ``ntf_to_tnf`` function can be used to convert from ‘NTF’
 format to ‘TNF’ format. E.g.
 
-.. code:: ipython3
+.. code-block:: python
 
     print(f"Shape of X_arr in 'NTF' format is: {X_arr_ntf.shape}")
     
@@ -1969,7 +1969,7 @@ especially when dealing with fixed center or fixed assignment because
 they return (for memory efficiency) a 2-D array and a 1-D array
 respectively.
 
-.. code:: ipython3
+.. code-block:: python
 
     np.random.seed(0)
     cluster_centers = np.random.randn(3, 2)
@@ -1986,7 +1986,7 @@ respectively.
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     T = 3 # number of time steps
     cluster_centers_broadcasted, _ = broadcast_data(T, cluster_centers=cluster_centers)
@@ -2014,7 +2014,7 @@ respectively.
 You can also broadcast labels. E.g if the cluster labels is a 1-D numpy
 array of shape (N, ).
 
-.. code:: ipython3
+.. code-block:: python
 
     np.random.seed(2)
     labels = np.random.choice([0, 1, 2], 10)
@@ -2029,7 +2029,7 @@ array of shape (N, ).
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     T = 3 # number of time steps
     _, labels_broadcasted = broadcast_data(T, labels=labels)
@@ -2055,7 +2055,7 @@ array of shape (N, ).
 
 You can also broadcast both cluster_centers and labels at the same time
 
-.. code:: ipython3
+.. code-block:: python
 
     T = 3 # number of time steps
     cluster_centers_broadcasted, labels_broadcasted = broadcast_data(T, cluster_centers=cluster_centers, labels=labels)
@@ -2080,7 +2080,7 @@ You can also broadcast both cluster_centers and labels at the same time
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     labels_broadcasted
 
@@ -2118,7 +2118,7 @@ Using ``fit`` and ``transform`` methods. During ``fit``, the scaler
 parameters are stored. They will be used for ``tranform`` and
 ``inverse-tansform`` of data.
 
-.. code:: ipython3
+.. code-block:: python
 
     scaler = TSStandardScaler(per_time=True) # initialize a time series standard scaler
     scaler.fit(X_arr) # fit
@@ -2144,7 +2144,7 @@ parameters are stored. They will be used for ``tranform`` and
 ``fit`` and ``transform`` can be done with a single method called
 ``fit_transform``. E.g.
 
-.. code:: ipython3
+.. code-block:: python
 
     scaler = TSStandardScaler(per_time=True) # initialize a time series standard scaler
     X_scaled = scaler.fit_transform(X_arr) # fit and transform at the same time
@@ -2168,7 +2168,7 @@ parameters are stored. They will be used for ``tranform`` and
 
 We can use ``inverse-tranform`` method to reverse the transformation.
 
-.. code:: ipython3
+.. code-block:: python
 
     print("First five entities for the first time step of the original data are:")
     print(X_arr[0, :5, :])
@@ -2207,7 +2207,7 @@ Using ``fit`` and ``transform`` methods.
 During ``fit``, the scaler parameters are stored. They will be used for
 ``tranform`` and ``inverse-tansform`` of data.
 
-.. code:: ipython3
+.. code-block:: python
 
     scaler = TSMinMaxScaler(per_time=True) # initialize a time series minmax scaler
     scaler.fit(X_arr) # fit
@@ -2233,7 +2233,7 @@ During ``fit``, the scaler parameters are stored. They will be used for
 ``fit`` and ``transform`` can be done with a single method called
 ``fit_transform``. E.g.
 
-.. code:: ipython3
+.. code-block:: python
 
     scaler = TSMinMaxScaler(per_time=True) # initialize a time series minmax scaler
     X_scaled = scaler.fit_transform(X_arr) # fit and transform at the same time
@@ -2257,7 +2257,7 @@ During ``fit``, the scaler parameters are stored. They will be used for
 
 We can use ``inverse-tranform`` method to reverse the transformation.
 
-.. code:: ipython3
+.. code-block:: python
 
     print("First five entities for the first time step of the original data are:")
     print(X_arr[0, :5, :])
@@ -2326,7 +2326,7 @@ They can also take both 3-D and 2-D arrays for dynamic and fixed cluster
 centers respectively, and 2-D and 1-D arrays for dynamic and fixed
 labels respectively.
 
-.. code:: ipython3
+.. code-block:: python
 
     # using fixed cluster centers and dynamic label assignment
     np.random.seed(0)
@@ -2335,7 +2335,7 @@ labels respectively.
     np.random.seed(2)
     labels = np.random.choice([0, 1, 2], (X_arr.shape[1], X_arr.shape[0])) # 2-D array (for dynamic labels)
 
-.. code:: ipython3
+.. code-block:: python
 
     print(f"inertia score is {inertia(X_arr, cluster_centers, labels, ord=1)}") # using l1 distance
     print(f"max_dist score is {max_dist(X_arr, cluster_centers, labels, ord=1)}") # using l1 distance
@@ -2347,7 +2347,7 @@ labels respectively.
     max_dist score is 10.202923513064336
     
 
-.. code:: ipython3
+.. code-block:: python
 
     # using dynamic cluster centers and fixed label assignment
     np.random.seed(0)
@@ -2366,7 +2366,7 @@ labels respectively.
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     print(f"inertia score is {inertia(X_arr, cluster_centers, labels, ord=2)}") # using l2 distance
     print(f"max_dist score is {max_dist(X_arr, cluster_centers, labels, ord=2)}") # using l2 distance
@@ -2387,7 +2387,7 @@ plot
 ``plot`` function is used to plot a time series plots of the different
 features in a time series data
 
-.. code:: ipython3
+.. code-block:: python
 
     fig, ax = tsplot.plot(X=X_arr)
 
@@ -2398,7 +2398,7 @@ features in a time series data
 
 We can add label assignment to the plot
 
-.. code:: ipython3
+.. code-block:: python
 
     fig, ax = tsplot.plot(X=X_arr, labels=labels)
 
@@ -2409,7 +2409,7 @@ We can add label assignment to the plot
 
 We can plot only cluster centers
 
-.. code:: ipython3
+.. code-block:: python
 
     fig, ax = tsplot.plot(cluster_centers=cluster_centers)
 
@@ -2421,7 +2421,7 @@ We can plot only cluster centers
 We can plot all of data X, cluster centers and label assignment in the
 same plot
 
-.. code:: ipython3
+.. code-block:: python
 
     fig, ax = tsplot.plot(X=X_arr, cluster_centers=cluster_centers, labels=labels)
     # note that the cluster centers are not meaningfull since they were randomly generated
@@ -2434,7 +2434,7 @@ same plot
 We can also annotate only specific entities by passing their index to
 the ``entity_idx`` parameter
 
-.. code:: ipython3
+.. code-block:: python
 
     fig, ax = tsplot.plot(X=X_arr, cluster_centers=cluster_centers, labels=labels, entity_idx=[0, 4, 9])
 
@@ -2446,7 +2446,7 @@ the ``entity_idx`` parameter
 We can show only the entities in ``entity_idx`` by setting
 ``show_all_entities`` to False
 
-.. code:: ipython3
+.. code-block:: python
 
     fig, ax = tsplot.plot(X=X_arr, cluster_centers=cluster_centers, labels=labels, entity_idx=[0, 4, 9], show_all_entities=False)
 
@@ -2458,7 +2458,7 @@ We can show only the entities in ``entity_idx`` by setting
 We can use the labels in label_dict to label the entities in
 ``entity_idx`` by passing ``label_dict``
 
-.. code:: ipython3
+.. code-block:: python
 
     # recall our label dict
     label_dict
@@ -2474,7 +2474,7 @@ We can use the labels in label_dict to label the entities in
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     fig, ax = tsplot.plot(
         X=X_arr,
@@ -2493,7 +2493,7 @@ We can use the labels in label_dict to label the entities in
 We can pass custom labels to the labels in ``entity_idx`` using the
 ``entities_labels`` parameter.
 
-.. code:: ipython3
+.. code-block:: python
 
     fig, ax = tsplot.plot(
         X=X_arr,
@@ -2512,7 +2512,7 @@ We can pass custom labels to the labels in ``entity_idx`` using the
 We can also pass custom labels for the cluster centers using the
 ``cluster_labels`` parameter
 
-.. code:: ipython3
+.. code-block:: python
 
     fig, ax = tsplot.plot(
         X=X_arr,
@@ -2540,7 +2540,7 @@ To make the plot interactive, use a suitable matplotlib’s magic command.
 E.g. ``%matplotlib widget``. See this site for more:
 https://matplotlib.org/stable/users/explain/figure/interactive.html
 
-.. code:: ipython3
+.. code-block:: python
 
     # waterfall plot of a single entity
     idx = 0
@@ -2551,7 +2551,7 @@ https://matplotlib.org/stable/users/explain/figure/interactive.html
 .. image:: tscluster_tutorial_files/tscluster_tutorial_109_0.png
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # waterfall plot of a single cluster center
     idx = 0
@@ -2578,7 +2578,7 @@ OptTSCluster
 
 **fixed centers, dynamic assignment**
 
-.. code:: ipython3
+.. code-block:: python
 
     # initialize the model
     opt_ts = OptTSCluster(
@@ -2588,7 +2588,7 @@ OptTSCluster
         # warm_start=True # warm start with kmeans
     )
 
-.. code:: ipython3
+.. code-block:: python
 
     model_size = opt_ts.get_model_size(X_arr)
     print(f"model has {model_size[0]} variables and {model_size[1]} constraints")
@@ -2600,7 +2600,7 @@ OptTSCluster
     model has 610 variables and 950 constraints
     
 
-.. code:: ipython3
+.. code-block:: python
 
     label_dict
 
@@ -2615,7 +2615,7 @@ OptTSCluster
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # fit the model
     opt_ts.fit(X_arr, label_dict=label_dict); # we can optionally pass the label dict to the model during fit
@@ -2632,7 +2632,7 @@ OptTSCluster
     
     
 
-.. code:: ipython3
+.. code-block:: python
 
     # checking the label dict
     opt_ts.label_dict_
@@ -2651,7 +2651,7 @@ OptTSCluster
 We can get the cluster centers as a dataframe with the labels in
 ``label_dict``
 
-.. code:: ipython3
+.. code-block:: python
 
     cluster_centers_lst = opt_ts.get_named_cluster_centers()
     cluster_centers_lst[0] # first cluster
@@ -2936,7 +2936,7 @@ We can get the cluster centers as a dataframe with the labels in
 We can also get the labels as a dataframe indexed with labels in
 ``label_dict``
 
-.. code:: ipython3
+.. code-block:: python
 
     opt_ts.get_named_labels()
 
@@ -3271,7 +3271,7 @@ We can also get the labels as a dataframe indexed with labels in
 
 Checking most dynamic entities
 
-.. code:: ipython3
+.. code-block:: python
 
     print(f"total number of cluster changes is: {opt_ts.n_changes_}")
     opt_ts.get_dynamic_entities() # dynamic entities and their number of cluster changes
@@ -3291,7 +3291,7 @@ Checking most dynamic entities
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # retrieve the cluster centers and labels
     cc_opt_ts = opt_ts.cluster_centers_
@@ -3316,7 +3316,7 @@ Checking most dynamic entities
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # plot model results
     fig, ax = tsplot.plot(X=X_arr, cluster_centers=cc_opt_ts, labels=labels_opt_ts, label_dict=opt_ts.label_dict_)
@@ -3326,7 +3326,7 @@ Checking most dynamic entities
 .. image:: tscluster_tutorial_files/tscluster_tutorial_127_0.png
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # waterfall plot of a particular cluster center
     cc_idx = 0 # index of cluster center to plot
@@ -3339,7 +3339,7 @@ Checking most dynamic entities
 .. image:: tscluster_tutorial_files/tscluster_tutorial_128_0.png
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # waterfall plot of most dynamic entity
     most_dynamic_entity_idx = np.where(opt_ts.get_named_labels().index == opt_ts.get_dynamic_entities()[0][0])[0][0]
@@ -3351,7 +3351,7 @@ Checking most dynamic entities
 .. image:: tscluster_tutorial_files/tscluster_tutorial_129_0.png
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # scoring the model
     print(f"inertia score is {inertia(X_arr, cc_opt_ts, labels_opt_ts, ord=1)}") # using l1 distance
@@ -3366,7 +3366,7 @@ Checking most dynamic entities
 
 We can also set the label_dict after fitting
 
-.. code:: ipython3
+.. code-block:: python
 
     old_label_dict = opt_ts.label_dict_
     old_label_dict
@@ -3382,14 +3382,14 @@ We can also set the label_dict after fitting
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     new_label_dict = {k: v for k, v in old_label_dict.items()}
     new_label_dict['F'] = ['A', 'B', 'C']
     
     opt_ts.set_label_dict(new_label_dict)
 
-.. code:: ipython3
+.. code-block:: python
 
     opt_ts.label_dict_
 
@@ -3406,7 +3406,7 @@ We can also set the label_dict after fitting
 
 **dynamic centers, fixed assignment**
 
-.. code:: ipython3
+.. code-block:: python
 
     # loading the data
     X_arr2, _ = load_data("./sythetic_data.npy")
@@ -3421,7 +3421,7 @@ We can also set the label_dict after fitting
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # visualizing the data
     fig, ax = tsplot.plot(X=X_arr2)
@@ -3431,7 +3431,7 @@ We can also set the label_dict after fitting
 .. image:: tscluster_tutorial_files/tscluster_tutorial_137_0.png
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # initialize the model
     opt_ts = OptTSCluster(
@@ -3442,7 +3442,7 @@ We can also set the label_dict after fitting
         warm_start=True # warm start with kmeans
     )
 
-.. code:: ipython3
+.. code-block:: python
 
     # checking the size of the model
     model_size = opt_ts.get_model_size(X_arr2)
@@ -3454,7 +3454,7 @@ We can also set the label_dict after fitting
     model has 1066 variables and 1051 constraints
     
 
-.. code:: ipython3
+.. code-block:: python
 
     # fit the model
     opt_ts.fit(X_arr2);
@@ -3471,7 +3471,7 @@ We can also set the label_dict after fitting
     
     
 
-.. code:: ipython3
+.. code-block:: python
 
     print(f"total number of cluster changes is: {opt_ts.n_changes_}")
     opt_ts.get_dynamic_entities() # indexes of dynamic entities and their number of cluster changes
@@ -3490,13 +3490,13 @@ We can also set the label_dict after fitting
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # retrieve the cluster centers and labels
     cc_opt_ts = opt_ts.cluster_centers_
     labels_opt_ts = opt_ts.labels_
 
-.. code:: ipython3
+.. code-block:: python
 
     labels_opt_ts
 
@@ -3523,7 +3523,7 @@ We can also set the label_dict after fitting
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # plot of model results
     fig, ax = tsplot.plot(X=X_arr2, cluster_centers=cc_opt_ts, labels=labels_opt_ts)
@@ -3533,7 +3533,7 @@ We can also set the label_dict after fitting
 .. image:: tscluster_tutorial_files/tscluster_tutorial_144_0.png
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # scoring the model
     print(f"inertia score is {inertia(X_arr2, cc_opt_ts, labels_opt_ts, ord=1)}") # using l1 distance
@@ -3551,7 +3551,7 @@ Lagrangian constrained changes
 
 **Using lagrangian multiplier to penalize cluster changes**
 
-.. code:: ipython3
+.. code-block:: python
 
     # initialize the model
     opt_ts = OptTSCluster(
@@ -3561,7 +3561,7 @@ Lagrangian constrained changes
         warm_start=True # warm start with kmeans
     )
 
-.. code:: ipython3
+.. code-block:: python
 
     # fit the model
     opt_ts.fit(X_arr2);
@@ -3578,7 +3578,7 @@ Lagrangian constrained changes
     
     
 
-.. code:: ipython3
+.. code-block:: python
 
     opt_ts.get_model_size(X_arr2)
 
@@ -3591,7 +3591,7 @@ Lagrangian constrained changes
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     print(f"total number of cluster changes is: {opt_ts.n_changes_}")
     opt_ts.get_dynamic_entities() # indexes of dynamic entities and their number of cluster changes
@@ -3610,7 +3610,7 @@ Lagrangian constrained changes
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # retrieve the cluster centers and labels
     cc_opt_ts = opt_ts.cluster_centers_
@@ -3628,7 +3628,7 @@ Lagrangian constrained changes
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # plot of model results
     fig, ax = tsplot.plot(
@@ -3644,7 +3644,7 @@ Lagrangian constrained changes
 .. image:: tscluster_tutorial_files/tscluster_tutorial_153_0.png
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # scoring the results
     print(f"inertia score is {inertia(X_arr2, cc_opt_ts, labels_opt_ts, ord=1)}") # using l1 distance
@@ -3662,12 +3662,12 @@ Hard constrained changes
 
 **Creating dynamic entities**
 
-.. code:: ipython3
+.. code-block:: python
 
     dynamic_X1 = np.concatenate([X_arr2[:3, 0, :], X_arr2[3:, 2, :]], axis=0)[:, np.newaxis, :]
     dynamic_X2 = np.concatenate([X_arr2[:6, 6, :], X_arr2[6:, 4, :]], axis=0)[:, np.newaxis, :]
 
-.. code:: ipython3
+.. code-block:: python
 
     X_arr3 = np.concatenate([X_arr2, dynamic_X1, dynamic_X2], axis=1)
     X_arr3.shape
@@ -3681,7 +3681,7 @@ Hard constrained changes
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # plotting the synthetically created dynamic entities
     fig, ax = tsplot.plot(X=X_arr3, entity_idx=np.arange(X_arr2.shape[1], X_arr3.shape[1]), show_all_entities=False)
@@ -3691,7 +3691,7 @@ Hard constrained changes
 .. image:: tscluster_tutorial_files/tscluster_tutorial_159_0.png
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # initialize the model
     opt_ts = OptTSCluster(
@@ -3701,7 +3701,7 @@ Hard constrained changes
         warm_start=True # warm start with kmeans
     )
 
-.. code:: ipython3
+.. code-block:: python
 
     # fit the model
     opt_ts.fit(X_arr3);
@@ -3718,7 +3718,7 @@ Hard constrained changes
     
     
 
-.. code:: ipython3
+.. code-block:: python
 
     print(f"total number of cluster changes is: {opt_ts.n_changes_}")
     opt_ts.get_dynamic_entities() # indexes of dynamic entities and their number of cluster changes
@@ -3737,7 +3737,7 @@ Hard constrained changes
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # retrieve the cluster centers and labels
     cc_opt_ts = opt_ts.cluster_centers_
@@ -3756,7 +3756,7 @@ Hard constrained changes
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # plot of model results
     fig, ax = tsplot.plot(
@@ -3772,7 +3772,7 @@ Hard constrained changes
 .. image:: tscluster_tutorial_files/tscluster_tutorial_164_0.png
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # scoring the results
     print(f"inertia score is {inertia(X_arr3, cc_opt_ts, labels_opt_ts, ord=1)}") # using l1 distance
@@ -3785,7 +3785,7 @@ Hard constrained changes
     max_dist score is 1.5177417770731711
     
 
-.. code:: ipython3
+.. code-block:: python
 
     # checking the default label_dict (since we did not set the label dict or pass any during fit)
     print(opt_ts.label_dict_)
@@ -3802,12 +3802,12 @@ TSGlobalKmeans
 This module applies sklearn’s k-mean clustering to the data resulting
 from concatenating along the time axis.
 
-.. code:: ipython3
+.. code-block:: python
 
     # initialize the model
     g_ts_km = TSGlobalKmeans(n_clusters=3)
 
-.. code:: ipython3
+.. code-block:: python
 
     # fit the model
     g_ts_km.fit(X_arr3);
@@ -3819,7 +3819,7 @@ from concatenating along the time axis.
       warnings.warn(
     
 
-.. code:: ipython3
+.. code-block:: python
 
     print(f"total number of cluster changes is: {g_ts_km.n_changes_}")
     g_ts_km.get_dynamic_entities() # indexes of dynamic entities and their number of cluster changes
@@ -3839,7 +3839,7 @@ from concatenating along the time axis.
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # retrieve the cluster centers and labels
     cc_g_ts_km = g_ts_km.cluster_centers_
@@ -3873,7 +3873,7 @@ from concatenating along the time axis.
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # plot of model results
     fig, ax = tsplot.plot(
@@ -3889,7 +3889,7 @@ from concatenating along the time axis.
 .. image:: tscluster_tutorial_files/tscluster_tutorial_173_0.png
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # scoring the results
     print(f"inertia score is {inertia(X_arr3, cc_g_ts_km, labels_g_ts_km, ord=1)}") # using l1 distance
@@ -3907,17 +3907,17 @@ TSKmeans
 
 This module applies tslearn’s time series k-mean clustering to the data.
 
-.. code:: ipython3
+.. code-block:: python
 
     # initialize the model
     ts_km = TSKmeans(n_clusters=3)
 
-.. code:: ipython3
+.. code-block:: python
 
     # fit the model
     ts_km.fit(X_arr3);
 
-.. code:: ipython3
+.. code-block:: python
 
     print(f"total number of cluster changes is: {ts_km.n_changes_}")
     ts_km.get_dynamic_entities() # indexes of dynamic entities and their number of cluster changes
@@ -3936,7 +3936,7 @@ This module applies tslearn’s time series k-mean clustering to the data.
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # retrieve the cluster centers and labels
     cc_ts_km = ts_km.cluster_centers_
@@ -3954,7 +3954,7 @@ This module applies tslearn’s time series k-mean clustering to the data.
 
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # plot of model results
     fig, ax = tsplot.plot(
@@ -3968,7 +3968,7 @@ This module applies tslearn’s time series k-mean clustering to the data.
 .. image:: tscluster_tutorial_files/tscluster_tutorial_181_0.png
 
 
-.. code:: ipython3
+.. code-block:: python
 
     # scoring the results
     print(f"inertia score is {inertia(X_arr3, cc_ts_km, labels_ts_km, ord=1)}") # using l1 distance
