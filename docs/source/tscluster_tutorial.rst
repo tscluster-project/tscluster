@@ -852,11 +852,6 @@ parameter to ‘NTF’
 .. parsed-literal::
 
     shape of X_arr is (5, 2, 2)
-    
-
-
-
-.. parsed-literal::
 
     array([[[  0.,   5.],
             [100., 105.]],
