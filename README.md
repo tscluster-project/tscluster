@@ -6,7 +6,14 @@ Introduction
 ============
 
 tscluster is a Python package for temporal clustering. 
-It provides subpackages with different techniques to temporal clustering e.g. ``opttscluster`` and ``tskmeans``.
+It provides subpackages with different techniques to temporal clustering e.g. ``opttscluster`` and ``tskmeans``. In ``opttscluster``, we present a generalized design space for temporal clustering based on two key choices: 
+
+1. Are cluster definitions (centers) Z allowed to dynamically change over time? 
+2. Are time series entities (e.g., locations) allowed to change cluster assignment C over time, and if so, how much? 
+
+Leveraging this design space, the table below shows six possible cluster schemes and visually illustrates some of these key design choice alternatives.
+
+![alt](docs/source/tscluster_design_space.png)
 
 
 Purpose and Benefits
