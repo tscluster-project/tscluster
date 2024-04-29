@@ -1,5 +1,4 @@
-tscluster package
-=================
+.. _modules_section_label:
 
 modules
 -----------

@@ -1,7 +1,8 @@
+.. _api-section-label:
+
 API Guide
 ==========
 
 .. toctree::
-    :maxdepth: 2
 
-    source/modules
+    source/tscluster.rst
