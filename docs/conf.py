@@ -20,7 +20,6 @@ author = 'Jolomi Tosanwumi'
 
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx_tabs.tabs',
     # 'sphinxcontrib.napoleon',
     'numpydoc',
     'sphinx.ext.autosummary',
