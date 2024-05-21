@@ -6,7 +6,7 @@ import numpy.typing as npt
 import matplotlib
 import mpl_toolkits
 import matplotlib.pyplot as plt
-import matplotlib.pylab as pl
+import matplotlib.cm as cm
 from matplotlib.widgets import Slider
 
 from tscluster.preprocessing.utils import broadcast_data
@@ -92,7 +92,7 @@ def plot(
         figsize: Tuple[float, float] | None = None,
         shape_of_subplot: Tuple[int, int]|None = None, 
         xlabel: str|None = 'timesteps', 
-        ylabel: str|None = 'val',
+        ylabel: str|None = 'value',
         cluster_labels: List[str]|None = None,
         title_list: List[str]|None = None,
         show_all_xticklabels: bool = True, 

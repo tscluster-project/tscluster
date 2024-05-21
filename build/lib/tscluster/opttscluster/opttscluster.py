@@ -23,7 +23,7 @@ class OptTSCluster(TSCluster, TSClusterInterface):
 
     Parameters
     -----------
-    k: int
+    n_clusters: int
         number of clusters
     scheme: {'z0c0', 'z0c1', 'z1c0', 'z1c1'}, default='z1c0'
         The scheme to use for tsclustering. Could be one of:
@@ -34,8 +34,6 @@ class OptTSCluster(TSCluster, TSClusterInterface):
         Scheme needs to be a dynamic label assignment scheme (either 'z1c1' or 'z0c1') when using constrained cluster change (either with `n_allow_assignment_change` or `lagrangian_multiplier`)
     n_allow_assignment_change: int or None, default=None
         total number of label changes to allow
-    lagrangian_multiplier: float, default=0.0
-        The penalty term for constrained label changes. Value should be in range [0, np.inf], the higher the value, the less the number of label changes allowed. When used, `n_allow_assignment_change` is ignored.
     use_sum_distance: bool, default=False
         Indicate if to use sum of distance to cluster as the objective. This is the sum of the distances between points in a time series
         and their centroids. 
@@ -59,23 +57,22 @@ class OptTSCluster(TSCluster, TSClusterInterface):
 
     def __init__(
             self, 
-            k: int, 
+            n_clusters: int, 
             scheme: str = 'z1c0', 
             *,
-            n_allow_assignment_change: None|int = None, 
-            lagrangian_multiplier: float = 0.0, 
+            n_allow_assignment_change: None|int = None,  
             use_sum_distance: bool = False,
             warm_start: bool = True, 
             use_MILP_centroid: bool = True,
             random_state: None|int = None
             ) -> None:
 
-        self.k = k
+        self.k = n_clusters
         self.scheme = scheme.lower()
         self.n_allow_assignment_change = n_allow_assignment_change
         self.is_Z_positive = True
         self.is_tight_constraints = True 
-        self.lagrangian_multiplier = lagrangian_multiplier
+        self.lagrangian_multiplier = 0.0
         self.use_sum_distance = use_sum_distance
         self.warm_start = warm_start
         self.normalise_assignment_penalty = True
@@ -465,7 +462,7 @@ class OptTSCluster(TSCluster, TSClusterInterface):
         """
         Method to return the size of the model as a tuple of (v, c). Wehre v is the number of variables, and c is the number of constraints
 
-        Paramters
+        Parameters
         ---------
         X : numpy array
             Input time series data. Should be a 3 dimensional array in TNF fromat.        

@@ -5,7 +5,7 @@ with open("README.md", 'r') as f:
 
 setup(
    name='tscluster',
-   version='1.0.2',
+   version='1.0.4',
    description='A useful package for temporal clustering',
    license="MIT",
    long_description=long_description,
@@ -22,7 +22,7 @@ setup(
        'tslearn>=0.6.3',   
        'h5py>=3.10',
        'pandas>=2.2',
-       'matplotlib>=3.8'
+       'matplotlib>=3.8,<3.9'
        ], #external packages as dependencies on TEST pypi
    #ToDo: on real pypi: ['numpy==1.26.4', 'scipy==1.12.0', 'gurobipy==11.0.1']. Also considering using >= a lowerbound
 )

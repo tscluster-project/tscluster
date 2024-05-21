@@ -92,7 +92,7 @@ def plot(
         figsize: Tuple[float, float] | None = None,
         shape_of_subplot: Tuple[int, int]|None = None, 
         xlabel: str|None = 'timesteps', 
-        ylabel: str|None = 'val',
+        ylabel: str|None = 'value',
         cluster_labels: List[str]|None = None,
         title_list: List[str]|None = None,
         show_all_xticklabels: bool = True, 
@@ -114,7 +114,7 @@ def plot(
         If 2-D array, then it is interpreted as a K x F array where K is the number of clusters, and F is the number of features. Suitable for fixed cluster centers clustering.
     labels : numpy array, default=None
         It is expected to be a 2D array of shape (N, T) . Where N is the number of entities and T is the number of time steps. The value of the ith row at the t-th column is the label (cluster index) entity i was assigned to at time t.
-        If 1-D array, it is interpreted as an array of length N. Where N is the number of entities. In such case, the i-th element is the cluster the i-th entit was assigned to across all time steps. Suitable for fixed assignment clustering.
+        If 1-D array, it is interpreted as an array of length N. Where N is the number of entities. In such case, the i-th element is the cluster the i-th entity was assigned to across all time steps. Suitable for fixed assignment clustering.
     entity_idx : list, default=None 
         list of index of entities to display in the plot. If `show_all_entities` is True, `entity_idx` will be interpreted as the index of entities to be annonated.
     entities_labels : list, default=None
