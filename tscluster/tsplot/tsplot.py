@@ -6,7 +6,7 @@ import numpy.typing as npt
 import matplotlib
 import mpl_toolkits
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm
+import matplotlib.pylab as pl
 from matplotlib.widgets import Slider
 
 from tscluster.preprocessing.utils import broadcast_data

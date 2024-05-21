@@ -56,6 +56,10 @@ file (.npy).
 .. - Evaluate clustering alogrithms using ``metrics`` subpackage.
 .. - Seamlessly generate plots of the time series and their cluster using its ``tsplot`` subpackage. 
 
+Example usage
+-------------
+For an example notebook with applications to real world data, see this `Colab notebook  <https://colab.research.google.com/drive/1dH3sj8jybbOomuwQR9eGhNnYqyZ4OKZM?usp=sharing>`_
+
 License
 -------
 This software is distributed under the MIT License.
