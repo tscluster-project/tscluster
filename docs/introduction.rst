@@ -24,7 +24,7 @@ In this table, we organize all clustering methods according to two choices:
 1. In the rows we can choose to have either static (unchanging) cluster centers or dynamic (changing) cluster centers over time.
 2. In the columns we can choose how labels are allowed to change over time: static (no label change), unbounded (unlimited label change), or bounded (an upper limit on the number of label changes allowed).  
 
-Perhaps one of the most important novel tools in tscluster is specifically the capability to perform Bounded Fully Dynamic clustering (middle bottom), which allows us to identify the (anomalous) entities that diverge most from existing dynamic trends.  As an example use case for census analysis, we can identify census tracts that change due to external forces (e.g., significant rezoning).
+Perhaps one of the most important novel tools in tscluster is specifically the capability to perform Bounded Fully Dynamic clustering (middle bottom), which allows us to identify the (anomalous) entities that diverge most from existing dynamic trends.  As an example use case for census analysis, we can identify census tracts that change due to external forces (e.g., significant rezoning) by using tscluster's Bounded Fully Dynamic clustering scheme to constrain the number of cluster changes.
 
 Purpose and Benefits
 --------------------
@@ -34,9 +34,9 @@ With tscluster, you can:
 
 - Use opttscluster subpackage to find entities that are most likely to change cluster label assignment if a total number of n label changes are allowed.
 
-Tscluster also encompassed the two existing approaches by proving the following classes available in its tskmeans subpackage:
-- TSKmeans class for TSC (built on top of tslearn).
-- TSGlobalKmeans class for SLA (built on top of sklearn).
+Tscluster also encompasses the two existing approaches by proving the following classes available in its tskmeans subpackage:
+- TSKmeans class for TSC (builds on tslearn).
+- TSGlobalKmeans class for SLA (builds on sklearn).
 
 Tscluster implemented some utility tools in the following subpackages to help in temporal clustering tasks.
 - preprocessing: This can be used to preprocess and load temporal data. Data can be loaded from either a directory, a file, a list of Pandas DataFrames, or a numpy array
