@@ -3,15 +3,57 @@ Tutorial with Synthetic Data
 
 This is an example notebook with overview of the usage of the modules in tscluster.
 
-.. code-block:: python
+.. code:: ipython3
 
-    !pip install tscluster # install tscluster 
+    !pip install -r https://raw.githubusercontent.com/tscluster-project/tscluster/main/requirements.txt
+    !pip install tscluster # install tscluster
 
-.. code-block:: python
 
-    ## Importing Libraries
+.. parsed-literal::
 
-.. code-block:: python
+    Requirement already satisfied: numpy>=1.26 in /usr/local/lib/python3.10/dist-packages (from -r https://raw.githubusercontent.com/tscluster-project/tscluster/main/requirements.txt (line 1)) (1.26.4)
+    Requirement already satisfied: pandas>=2.2 in /usr/local/lib/python3.10/dist-packages (from -r https://raw.githubusercontent.com/tscluster-project/tscluster/main/requirements.txt (line 2)) (2.2.2)
+    Requirement already satisfied: matplotlib<3.9,>=3.8 in /usr/local/lib/python3.10/dist-packages (from -r https://raw.githubusercontent.com/tscluster-project/tscluster/main/requirements.txt (line 3)) (3.8.4)
+    Requirement already satisfied: python-dateutil>=2.8.2 in /usr/local/lib/python3.10/dist-packages (from pandas>=2.2->-r https://raw.githubusercontent.com/tscluster-project/tscluster/main/requirements.txt (line 2)) (2.8.2)
+    Requirement already satisfied: pytz>=2020.1 in /usr/local/lib/python3.10/dist-packages (from pandas>=2.2->-r https://raw.githubusercontent.com/tscluster-project/tscluster/main/requirements.txt (line 2)) (2023.4)
+    Requirement already satisfied: tzdata>=2022.7 in /usr/local/lib/python3.10/dist-packages (from pandas>=2.2->-r https://raw.githubusercontent.com/tscluster-project/tscluster/main/requirements.txt (line 2)) (2024.1)
+    Requirement already satisfied: contourpy>=1.0.1 in /usr/local/lib/python3.10/dist-packages (from matplotlib<3.9,>=3.8->-r https://raw.githubusercontent.com/tscluster-project/tscluster/main/requirements.txt (line 3)) (1.2.1)
+    Requirement already satisfied: cycler>=0.10 in /usr/local/lib/python3.10/dist-packages (from matplotlib<3.9,>=3.8->-r https://raw.githubusercontent.com/tscluster-project/tscluster/main/requirements.txt (line 3)) (0.12.1)
+    Requirement already satisfied: fonttools>=4.22.0 in /usr/local/lib/python3.10/dist-packages (from matplotlib<3.9,>=3.8->-r https://raw.githubusercontent.com/tscluster-project/tscluster/main/requirements.txt (line 3)) (4.51.0)
+    Requirement already satisfied: kiwisolver>=1.3.1 in /usr/local/lib/python3.10/dist-packages (from matplotlib<3.9,>=3.8->-r https://raw.githubusercontent.com/tscluster-project/tscluster/main/requirements.txt (line 3)) (1.4.5)
+    Requirement already satisfied: packaging>=20.0 in /usr/local/lib/python3.10/dist-packages (from matplotlib<3.9,>=3.8->-r https://raw.githubusercontent.com/tscluster-project/tscluster/main/requirements.txt (line 3)) (24.0)
+    Requirement already satisfied: pillow>=8 in /usr/local/lib/python3.10/dist-packages (from matplotlib<3.9,>=3.8->-r https://raw.githubusercontent.com/tscluster-project/tscluster/main/requirements.txt (line 3)) (9.4.0)
+    Requirement already satisfied: pyparsing>=2.3.1 in /usr/local/lib/python3.10/dist-packages (from matplotlib<3.9,>=3.8->-r https://raw.githubusercontent.com/tscluster-project/tscluster/main/requirements.txt (line 3)) (3.1.2)
+    Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.10/dist-packages (from python-dateutil>=2.8.2->pandas>=2.2->-r https://raw.githubusercontent.com/tscluster-project/tscluster/main/requirements.txt (line 2)) (1.16.0)
+    Requirement already satisfied: tscluster in /usr/local/lib/python3.10/dist-packages (1.0.4)
+    Requirement already satisfied: numpy>=1.26 in /usr/local/lib/python3.10/dist-packages (from tscluster) (1.26.4)
+    Requirement already satisfied: scipy>=1.10 in /usr/local/lib/python3.10/dist-packages (from tscluster) (1.11.4)
+    Requirement already satisfied: gurobipy>=11.0 in /usr/local/lib/python3.10/dist-packages (from tscluster) (11.0.2)
+    Requirement already satisfied: tslearn>=0.6.3 in /usr/local/lib/python3.10/dist-packages (from tscluster) (0.6.3)
+    Requirement already satisfied: h5py>=3.10 in /usr/local/lib/python3.10/dist-packages (from tscluster) (3.11.0)
+    Requirement already satisfied: pandas>=2.2 in /usr/local/lib/python3.10/dist-packages (from tscluster) (2.2.2)
+    Requirement already satisfied: matplotlib<3.9,>=3.8 in /usr/local/lib/python3.10/dist-packages (from tscluster) (3.8.4)
+    Requirement already satisfied: contourpy>=1.0.1 in /usr/local/lib/python3.10/dist-packages (from matplotlib<3.9,>=3.8->tscluster) (1.2.1)
+    Requirement already satisfied: cycler>=0.10 in /usr/local/lib/python3.10/dist-packages (from matplotlib<3.9,>=3.8->tscluster) (0.12.1)
+    Requirement already satisfied: fonttools>=4.22.0 in /usr/local/lib/python3.10/dist-packages (from matplotlib<3.9,>=3.8->tscluster) (4.51.0)
+    Requirement already satisfied: kiwisolver>=1.3.1 in /usr/local/lib/python3.10/dist-packages (from matplotlib<3.9,>=3.8->tscluster) (1.4.5)
+    Requirement already satisfied: packaging>=20.0 in /usr/local/lib/python3.10/dist-packages (from matplotlib<3.9,>=3.8->tscluster) (24.0)
+    Requirement already satisfied: pillow>=8 in /usr/local/lib/python3.10/dist-packages (from matplotlib<3.9,>=3.8->tscluster) (9.4.0)
+    Requirement already satisfied: pyparsing>=2.3.1 in /usr/local/lib/python3.10/dist-packages (from matplotlib<3.9,>=3.8->tscluster) (3.1.2)
+    Requirement already satisfied: python-dateutil>=2.7 in /usr/local/lib/python3.10/dist-packages (from matplotlib<3.9,>=3.8->tscluster) (2.8.2)
+    Requirement already satisfied: pytz>=2020.1 in /usr/local/lib/python3.10/dist-packages (from pandas>=2.2->tscluster) (2023.4)
+    Requirement already satisfied: tzdata>=2022.7 in /usr/local/lib/python3.10/dist-packages (from pandas>=2.2->tscluster) (2024.1)
+    Requirement already satisfied: scikit-learn in /usr/local/lib/python3.10/dist-packages (from tslearn>=0.6.3->tscluster) (1.2.2)
+    Requirement already satisfied: numba in /usr/local/lib/python3.10/dist-packages (from tslearn>=0.6.3->tscluster) (0.58.1)
+    Requirement already satisfied: joblib in /usr/local/lib/python3.10/dist-packages (from tslearn>=0.6.3->tscluster) (1.4.2)
+    Requirement already satisfied: six>=1.5 in /usr/local/lib/python3.10/dist-packages (from python-dateutil>=2.7->matplotlib<3.9,>=3.8->tscluster) (1.16.0)
+    Requirement already satisfied: llvmlite<0.42,>=0.41.0dev0 in /usr/local/lib/python3.10/dist-packages (from numba->tslearn>=0.6.3->tscluster) (0.41.1)
+    Requirement already satisfied: threadpoolctl>=2.0.0 in /usr/local/lib/python3.10/dist-packages (from scikit-learn->tslearn>=0.6.3->tscluster) (3.5.0)
+    
+
+Importing Libraries
+
+.. code:: ipython3
 
     # uncomment the line below if widget is enable in your environment. This is useful for making tsplot's waterfall_plot interactive
     # %matplotlib widget
@@ -29,39 +71,64 @@ This is an example notebook with overview of the usage of the modules in tsclust
     from tscluster.metrics import inertia, max_dist
     from tscluster.tsplot import tsplot
 
-.. code-block:: python
+.. code:: ipython3
 
     par_dir = "tscluster_sample_data"
 
-.. code-block:: python
+.. code:: ipython3
 
     # download the sample data
+    
+    # we need to store the data on the local Colab file system
     !wget https://raw.githubusercontent.com/tscluster-project/tscluster/main/test/tscluster_sample_data.zip
     
     if not os.path.exists(par_dir):
             os.makedirs(par_dir)
     
-    !unzip tscluster_sample_data.zip -d tscluster_sample_data
+    # unzipping the downloaded file to 'tscluster_sample_data' directory in local file system
+    !unzip -o tscluster_sample_data.zip -d tscluster_sample_data
 
 
 .. parsed-literal::
 
-    --2024-04-09 00:09:18--  https://raw.githubusercontent.com/tscluster-project/tscluster/main/test/tscluster_sample_data.zip
+    --2024-05-22 00:02:47--  https://raw.githubusercontent.com/tscluster-project/tscluster/main/test/tscluster_sample_data.zip
     Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.108.133, 185.199.109.133, 185.199.110.133, ...
     Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.108.133|:443... connected.
     HTTP request sent, awaiting response... 200 OK
     Length: 11197 (11K) [application/zip]
-    Saving to: ‘tscluster_sample_data.zip.4’
+    Saving to: ‘tscluster_sample_data.zip.2’
     
     
-    tscluster   0%[                    ]       0  --.-KB/s               
-    tscluster_sample_da 100%[===================>]  10.93K  --.-KB/s    in 0s      
+          tscluster   0%[                    ]       0  --.-KB/s               
+tscluster_sample_da 100%[===================>]  10.93K  --.-KB/s    in 0s      
     
-    2024-04-09 00:09:19 (47.5 MB/s) - ‘tscluster_sample_data.zip.4’ saved [11197/11197]
+    2024-05-22 00:02:47 (34.9 MB/s) - ‘tscluster_sample_data.zip.2’ saved [11197/11197]
     
     Archive:  tscluster_sample_data.zip
+      inflating: tscluster_sample_data/synthetic_csv/timestep_0.csv  
+      inflating: tscluster_sample_data/synthetic_csv/timestep_1.csv  
+      inflating: tscluster_sample_data/synthetic_csv/timestep_2.csv  
+      inflating: tscluster_sample_data/synthetic_csv/timestep_3.csv  
+      inflating: tscluster_sample_data/synthetic_csv/timestep_4.csv  
+      inflating: tscluster_sample_data/synthetic_csv2/year-2000.csv  
+      inflating: tscluster_sample_data/synthetic_csv2/year-2005.csv  
+      inflating: tscluster_sample_data/synthetic_csv2/year-2010.csv  
+      inflating: tscluster_sample_data/synthetic_csv2/year-2015.csv  
+      inflating: tscluster_sample_data/synthetic_csv2/year-2020.csv  
+      inflating: tscluster_sample_data/synthetic_json/timestep_0.json  
+      inflating: tscluster_sample_data/synthetic_json/timestep_1.json  
+      inflating: tscluster_sample_data/synthetic_json/timestep_2.json  
+      inflating: tscluster_sample_data/synthetic_json/timestep_3.json  
+      inflating: tscluster_sample_data/synthetic_json/timestep_4.json  
+      inflating: tscluster_sample_data/synthetic_npy/timestep_0.npy  
+      inflating: tscluster_sample_data/synthetic_npy/timestep_1.npy  
+      inflating: tscluster_sample_data/synthetic_npy/timestep_2.npy  
+      inflating: tscluster_sample_data/synthetic_npy/timestep_3.npy  
+      inflating: tscluster_sample_data/synthetic_npy/timestep_4.npy  
+      inflating: tscluster_sample_data/sythetic_data.npy  
+    
 
-.. code-block:: python
+.. code:: ipython3
 
     os.chdir(par_dir)
 
@@ -74,7 +141,7 @@ from a npy file
 If data is a numpy array stored as a ``.npy`` file, you can use the
 ``load_data`` function to load it.
 
-.. code-block:: python
+.. code:: ipython3
 
     X, label_dict = load_data("./sythetic_data.npy")
     X.shape
@@ -102,8 +169,9 @@ data - ‘F’ is a list of names/labels of each feature to be used as
 column of each dataframe. If None, range(0, F) is used. Where F is the
 number of features in the fitted data
 
-.. code-block:: python
+.. code:: ipython3
 
+    # checking the label_dict
     print(label_dict)
 
 
@@ -111,6 +179,61 @@ number of features in the fitted data
 
     {'T': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 'N': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], 'F': [0]}
     
+
+As seen in the output above, the data has 10 time steps, 15 entities and
+1 feature. The data is a synthetic data created for demonstration
+purposes in this notebook. The time steps could be years e.g. year 2001
+to 2010, the entities could be zipcodes/postal codes e.g 15 postal codes
+in Toronto, and the features could be any variable(s) measured for each
+entity in each time step e.g. population.
+
+This notebook will focus on using the common attributes and methods of
+the modules available in **tscluster**. For an example notebook with
+applications to real-life data, see `this
+notebook <https://colab.research.google.com/drive/1dH3sj8jybbOomuwQR9eGhNnYqyZ4OKZM?usp=sharing>`__.
+
+Checking the first time steps of the first five entities.
+
+.. code:: ipython3
+
+    X[:5, :5, :]
+
+
+
+
+.. parsed-literal::
+
+    array([[[15.09011416],
+            [15.09011416],
+            [ 6.92001802],
+            [ 6.92001802],
+            [11.39918324]],
+    
+           [[10.4044138 ],
+            [10.4044138 ],
+            [ 8.76582237],
+            [ 8.76582237],
+            [11.33740921]],
+    
+           [[ 8.67698496],
+            [ 8.67698496],
+            [ 9.55393712],
+            [ 9.55393712],
+            [10.57717395]],
+    
+           [[ 6.01642654],
+            [ 6.01642654],
+            [10.63908781],
+            [10.63908781],
+            [10.6098427 ]],
+    
+           [[ 4.89052455],
+            [ 4.89052455],
+            [11.61399362],
+            [11.61399362],
+            [ 9.34167455]]])
+
+
 
 from a list
 ~~~~~~~~~~~
@@ -127,7 +250,7 @@ entity for all time steps. Valid files are ``.npy``, ``.npz``,
 
 Reading from a list of dataframes
 
-.. code-block:: python
+.. code:: ipython3
 
     df1 = pd.DataFrame({
         'f1': np.arange(5),
@@ -142,7 +265,7 @@ Reading from a list of dataframes
 .. raw:: html
 
     
-      <div id="df-71d5e55e-670f-4979-9cfd-9172065c732c" class="colab-df-container">
+      <div id="df-275ddb8e-635c-4842-a565-0db7615f9b52" class="colab-df-container">
         <div>
     <style scoped>
         .dataframe tbody tr th:only-of-type {
@@ -197,7 +320,7 @@ Reading from a list of dataframes
         <div class="colab-df-buttons">
     
       <div class="colab-df-container">
-        <button class="colab-df-convert" onclick="convertToInteractive('df-71d5e55e-670f-4979-9cfd-9172065c732c')"
+        <button class="colab-df-convert" onclick="convertToInteractive('df-275ddb8e-635c-4842-a565-0db7615f9b52')"
                 title="Convert this dataframe to an interactive table."
                 style="display:none;">
     
@@ -249,12 +372,12 @@ Reading from a list of dataframes
     
         <script>
           const buttonEl =
-            document.querySelector('#df-71d5e55e-670f-4979-9cfd-9172065c732c button.colab-df-convert');
+            document.querySelector('#df-275ddb8e-635c-4842-a565-0db7615f9b52 button.colab-df-convert');
           buttonEl.style.display =
             google.colab.kernel.accessAllowed ? 'block' : 'none';
     
           async function convertToInteractive(key) {
-            const element = document.querySelector('#df-71d5e55e-670f-4979-9cfd-9172065c732c');
+            const element = document.querySelector('#df-275ddb8e-635c-4842-a565-0db7615f9b52');
             const dataTable =
               await google.colab.kernel.invokeFunction('convertToInteractive',
                                                         [key], {});
@@ -274,8 +397,8 @@ Reading from a list of dataframes
       </div>
     
     
-    <div id="df-dbcce90d-9074-46ec-815a-98008f3c3b8a">
-      <button class="colab-df-quickchart" onclick="quickchart('df-dbcce90d-9074-46ec-815a-98008f3c3b8a')"
+    <div id="df-2b3298c1-e717-430d-8401-71ecdbe9d632">
+      <button class="colab-df-quickchart" onclick="quickchart('df-2b3298c1-e717-430d-8401-71ecdbe9d632')"
                 title="Suggest charts"
                 style="display:none;">
     
@@ -394,14 +517,14 @@ Reading from a list of dataframes
         }
         (() => {
           let quickchartButtonEl =
-            document.querySelector('#df-dbcce90d-9074-46ec-815a-98008f3c3b8a button');
+            document.querySelector('#df-2b3298c1-e717-430d-8401-71ecdbe9d632 button');
           quickchartButtonEl.style.display =
             google.colab.kernel.accessAllowed ? 'block' : 'none';
         })();
       </script>
     </div>
     
-      <div id="id_8ab1e4af-6d53-4503-9233-15f70b639c0f">
+      <div id="id_a6e57aaf-2d90-44d3-9973-0901ec5314b4">
         <style>
           .colab-df-generate {
             background-color: #E8F0FE;
@@ -445,7 +568,7 @@ Reading from a list of dataframes
         <script>
           (() => {
           const buttonEl =
-            document.querySelector('#id_8ab1e4af-6d53-4503-9233-15f70b639c0f button.colab-df-generate');
+            document.querySelector('#id_a6e57aaf-2d90-44d3-9973-0901ec5314b4 button.colab-df-generate');
           buttonEl.style.display =
             google.colab.kernel.accessAllowed ? 'block' : 'none';
     
@@ -462,7 +585,7 @@ Reading from a list of dataframes
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     df2 = pd.DataFrame({
         'f2': np.arange(105, 110),
@@ -477,7 +600,7 @@ Reading from a list of dataframes
 .. raw:: html
 
     
-      <div id="df-43c5ac55-2300-4e56-ab4a-9ec5ce0aac03" class="colab-df-container">
+      <div id="df-322d53f2-d3b8-423a-99b4-62ab34884022" class="colab-df-container">
         <div>
     <style scoped>
         .dataframe tbody tr th:only-of-type {
@@ -532,7 +655,7 @@ Reading from a list of dataframes
         <div class="colab-df-buttons">
     
       <div class="colab-df-container">
-        <button class="colab-df-convert" onclick="convertToInteractive('df-43c5ac55-2300-4e56-ab4a-9ec5ce0aac03')"
+        <button class="colab-df-convert" onclick="convertToInteractive('df-322d53f2-d3b8-423a-99b4-62ab34884022')"
                 title="Convert this dataframe to an interactive table."
                 style="display:none;">
     
@@ -584,12 +707,12 @@ Reading from a list of dataframes
     
         <script>
           const buttonEl =
-            document.querySelector('#df-43c5ac55-2300-4e56-ab4a-9ec5ce0aac03 button.colab-df-convert');
+            document.querySelector('#df-322d53f2-d3b8-423a-99b4-62ab34884022 button.colab-df-convert');
           buttonEl.style.display =
             google.colab.kernel.accessAllowed ? 'block' : 'none';
     
           async function convertToInteractive(key) {
-            const element = document.querySelector('#df-43c5ac55-2300-4e56-ab4a-9ec5ce0aac03');
+            const element = document.querySelector('#df-322d53f2-d3b8-423a-99b4-62ab34884022');
             const dataTable =
               await google.colab.kernel.invokeFunction('convertToInteractive',
                                                         [key], {});
@@ -609,8 +732,8 @@ Reading from a list of dataframes
       </div>
     
     
-    <div id="df-48608e4f-fedd-4531-a26c-507cf8135a72">
-      <button class="colab-df-quickchart" onclick="quickchart('df-48608e4f-fedd-4531-a26c-507cf8135a72')"
+    <div id="df-962d801c-c28d-4226-ba32-c2ba12a13d2b">
+      <button class="colab-df-quickchart" onclick="quickchart('df-962d801c-c28d-4226-ba32-c2ba12a13d2b')"
                 title="Suggest charts"
                 style="display:none;">
     
@@ -729,14 +852,14 @@ Reading from a list of dataframes
         }
         (() => {
           let quickchartButtonEl =
-            document.querySelector('#df-48608e4f-fedd-4531-a26c-507cf8135a72 button');
+            document.querySelector('#df-962d801c-c28d-4226-ba32-c2ba12a13d2b button');
           quickchartButtonEl.style.display =
             google.colab.kernel.accessAllowed ? 'block' : 'none';
         })();
       </script>
     </div>
     
-      <div id="id_06391235-c312-497c-935b-d0731a25df8a">
+      <div id="id_154f197f-e426-4439-85e7-d9146c3af610">
         <style>
           .colab-df-generate {
             background-color: #E8F0FE;
@@ -780,7 +903,7 @@ Reading from a list of dataframes
         <script>
           (() => {
           const buttonEl =
-            document.querySelector('#id_06391235-c312-497c-935b-d0731a25df8a button.colab-df-generate');
+            document.querySelector('#id_154f197f-e426-4439-85e7-d9146c3af610 button.colab-df-generate');
           buttonEl.style.display =
             google.colab.kernel.accessAllowed ? 'block' : 'none';
     
@@ -797,7 +920,7 @@ Reading from a list of dataframes
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     X_arr, label_dict = load_data([df1, df2])
     print(f"shape of X_arr is {X_arr.shape}")
@@ -828,7 +951,7 @@ Reading from a list of dataframes
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     label_dict
 
@@ -844,7 +967,7 @@ Reading from a list of dataframes
 To get the output in ‘NTF’ format, set the ``output_arr_format``
 parameter to ‘NTF’
 
-.. code-block:: python
+.. code:: ipython3
 
     X_arr, label_dict = load_data([df1, df2], output_arr_format='NTF')
     print(f"shape of X_arr is {X_arr.shape}")
@@ -854,6 +977,11 @@ parameter to ‘NTF’
 .. parsed-literal::
 
     shape of X_arr is (5, 2, 2)
+    
+
+
+
+.. parsed-literal::
 
     array([[[  0.,   5.],
             [100., 105.]],
@@ -872,7 +1000,7 @@ parameter to ‘NTF’
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     label_dict # label_dict will remain the same
 
@@ -887,7 +1015,7 @@ parameter to ‘NTF’
 
 The same applies to list of file paths. E.g.
 
-.. code-block:: python
+.. code:: ipython3
 
     file_list = [
         "./synthetic_csv/timestep_0.csv",
@@ -906,7 +1034,7 @@ The same applies to list of file paths. E.g.
     shape of X_arr is (5, 20, 2)
     
 
-.. code-block:: python
+.. code:: ipython3
 
     label_dict
 
@@ -929,7 +1057,7 @@ reader is pd.read_csv (reader for csv file), you can pass ``names`` and
 ``skiprows`` arguments (and basically any argument you want to pass to
 the file reader).
 
-.. code-block:: python
+.. code:: ipython3
 
     file_list = [
         "./synthetic_csv/timestep_0.csv",
@@ -948,7 +1076,7 @@ the file reader).
     shape of X_arr is (5, 10, 2)
     
 
-.. code-block:: python
+.. code:: ipython3
 
     label_dict
 
@@ -979,7 +1107,7 @@ following files:
 
 We can read the files as follows:
 
-.. code-block:: python
+.. code:: ipython3
 
     X_arr, label_dict = load_data('./synthetic_csv')
     print(f"shape of X_arr is {X_arr.shape}")
@@ -990,7 +1118,7 @@ We can read the files as follows:
     shape of X_arr is (5, 20, 2)
     
 
-.. code-block:: python
+.. code:: ipython3
 
     label_dict
 
@@ -1018,7 +1146,7 @@ So long the suffixes can be sorted and there is a consistent suffix
 separator (“-” is this case), the directory can be parsed by
 ``load_data`` function.
 
-.. code-block:: python
+.. code:: ipython3
 
     # checking how the head of a single
     pd.read_csv('./synthetic_csv2/year-2005.csv').head()
@@ -1029,7 +1157,7 @@ separator (“-” is this case), the directory can be parsed by
 .. raw:: html
 
     
-      <div id="df-bdcb377c-6a54-4c0f-a83b-2e67b9a99c49" class="colab-df-container">
+      <div id="df-b5ccaa66-53a1-495f-940f-38fc089d5b8a" class="colab-df-container">
         <div>
     <style scoped>
         .dataframe tbody tr th:only-of-type {
@@ -1096,7 +1224,7 @@ separator (“-” is this case), the directory can be parsed by
         <div class="colab-df-buttons">
     
       <div class="colab-df-container">
-        <button class="colab-df-convert" onclick="convertToInteractive('df-bdcb377c-6a54-4c0f-a83b-2e67b9a99c49')"
+        <button class="colab-df-convert" onclick="convertToInteractive('df-b5ccaa66-53a1-495f-940f-38fc089d5b8a')"
                 title="Convert this dataframe to an interactive table."
                 style="display:none;">
     
@@ -1148,12 +1276,12 @@ separator (“-” is this case), the directory can be parsed by
     
         <script>
           const buttonEl =
-            document.querySelector('#df-bdcb377c-6a54-4c0f-a83b-2e67b9a99c49 button.colab-df-convert');
+            document.querySelector('#df-b5ccaa66-53a1-495f-940f-38fc089d5b8a button.colab-df-convert');
           buttonEl.style.display =
             google.colab.kernel.accessAllowed ? 'block' : 'none';
     
           async function convertToInteractive(key) {
-            const element = document.querySelector('#df-bdcb377c-6a54-4c0f-a83b-2e67b9a99c49');
+            const element = document.querySelector('#df-b5ccaa66-53a1-495f-940f-38fc089d5b8a');
             const dataTable =
               await google.colab.kernel.invokeFunction('convertToInteractive',
                                                         [key], {});
@@ -1173,8 +1301,8 @@ separator (“-” is this case), the directory can be parsed by
       </div>
     
     
-    <div id="df-8f194f28-74e0-4e3a-a6f3-454ee1d3f727">
-      <button class="colab-df-quickchart" onclick="quickchart('df-8f194f28-74e0-4e3a-a6f3-454ee1d3f727')"
+    <div id="df-110d2bc1-5c74-41b6-bb90-fcaaa67e9d42">
+      <button class="colab-df-quickchart" onclick="quickchart('df-110d2bc1-5c74-41b6-bb90-fcaaa67e9d42')"
                 title="Suggest charts"
                 style="display:none;">
     
@@ -1293,7 +1421,7 @@ separator (“-” is this case), the directory can be parsed by
         }
         (() => {
           let quickchartButtonEl =
-            document.querySelector('#df-8f194f28-74e0-4e3a-a6f3-454ee1d3f727 button');
+            document.querySelector('#df-110d2bc1-5c74-41b6-bb90-fcaaa67e9d42 button');
           quickchartButtonEl.style.display =
             google.colab.kernel.accessAllowed ? 'block' : 'none';
         })();
@@ -1306,7 +1434,7 @@ separator (“-” is this case), the directory can be parsed by
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # if we were to indicate to pandas that the first column is the index and the first row is the header, we would have done
     pd.read_csv('./synthetic_csv2/year-2005.csv', index_col=[0], header=0).head()
@@ -1317,7 +1445,7 @@ separator (“-” is this case), the directory can be parsed by
 .. raw:: html
 
     
-      <div id="df-28c57e14-8baf-4df7-9a7d-058784391b06" class="colab-df-container">
+      <div id="df-3df444c1-7dc4-49c3-aa16-3cd7f934e8e6" class="colab-df-container">
         <div>
     <style scoped>
         .dataframe tbody tr th:only-of-type {
@@ -1378,7 +1506,7 @@ separator (“-” is this case), the directory can be parsed by
         <div class="colab-df-buttons">
     
       <div class="colab-df-container">
-        <button class="colab-df-convert" onclick="convertToInteractive('df-28c57e14-8baf-4df7-9a7d-058784391b06')"
+        <button class="colab-df-convert" onclick="convertToInteractive('df-3df444c1-7dc4-49c3-aa16-3cd7f934e8e6')"
                 title="Convert this dataframe to an interactive table."
                 style="display:none;">
     
@@ -1430,12 +1558,12 @@ separator (“-” is this case), the directory can be parsed by
     
         <script>
           const buttonEl =
-            document.querySelector('#df-28c57e14-8baf-4df7-9a7d-058784391b06 button.colab-df-convert');
+            document.querySelector('#df-3df444c1-7dc4-49c3-aa16-3cd7f934e8e6 button.colab-df-convert');
           buttonEl.style.display =
             google.colab.kernel.accessAllowed ? 'block' : 'none';
     
           async function convertToInteractive(key) {
-            const element = document.querySelector('#df-28c57e14-8baf-4df7-9a7d-058784391b06');
+            const element = document.querySelector('#df-3df444c1-7dc4-49c3-aa16-3cd7f934e8e6');
             const dataTable =
               await google.colab.kernel.invokeFunction('convertToInteractive',
                                                         [key], {});
@@ -1455,8 +1583,8 @@ separator (“-” is this case), the directory can be parsed by
       </div>
     
     
-    <div id="df-b6bbce95-cf5c-4b71-8247-362ef99bfb03">
-      <button class="colab-df-quickchart" onclick="quickchart('df-b6bbce95-cf5c-4b71-8247-362ef99bfb03')"
+    <div id="df-5040aacd-f6a5-4b7f-a081-34c15a73e986">
+      <button class="colab-df-quickchart" onclick="quickchart('df-5040aacd-f6a5-4b7f-a081-34c15a73e986')"
                 title="Suggest charts"
                 style="display:none;">
     
@@ -1575,7 +1703,7 @@ separator (“-” is this case), the directory can be parsed by
         }
         (() => {
           let quickchartButtonEl =
-            document.querySelector('#df-b6bbce95-cf5c-4b71-8247-362ef99bfb03 button');
+            document.querySelector('#df-5040aacd-f6a5-4b7f-a081-34c15a73e986 button');
           quickchartButtonEl.style.display =
             google.colab.kernel.accessAllowed ? 'block' : 'none';
         })();
@@ -1588,7 +1716,7 @@ separator (“-” is this case), the directory can be parsed by
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # using load_data function
     X_arr, label_dict = load_data('./synthetic_csv2',
@@ -1603,7 +1731,7 @@ separator (“-” is this case), the directory can be parsed by
     shape of X_arr is (5, 10, 3)
     
 
-.. code-block:: python
+.. code:: ipython3
 
     print(label_dict)
 
@@ -1626,7 +1754,7 @@ dataframes. Similar to ``load_dict`` function, you can use
 ``arr_format`` and ``output_df_format`` to specify the format of the
 input data and output data respectively.
 
-.. code-block:: python
+.. code:: ipython3
 
     dfs = to_dfs(X_arr, label_dict)
     print(f"Length of dfs is: {len(dfs)}")
@@ -1643,7 +1771,7 @@ input data and output data respectively.
 .. raw:: html
 
     
-      <div id="df-a2e91af5-2a55-4b99-a019-edb01d352d25" class="colab-df-container">
+      <div id="df-42b84dd8-d52a-49ae-8418-25dd31d8d7ed" class="colab-df-container">
         <div>
     <style scoped>
         .dataframe tbody tr th:only-of-type {
@@ -1704,7 +1832,7 @@ input data and output data respectively.
         <div class="colab-df-buttons">
     
       <div class="colab-df-container">
-        <button class="colab-df-convert" onclick="convertToInteractive('df-a2e91af5-2a55-4b99-a019-edb01d352d25')"
+        <button class="colab-df-convert" onclick="convertToInteractive('df-42b84dd8-d52a-49ae-8418-25dd31d8d7ed')"
                 title="Convert this dataframe to an interactive table."
                 style="display:none;">
     
@@ -1756,12 +1884,12 @@ input data and output data respectively.
     
         <script>
           const buttonEl =
-            document.querySelector('#df-a2e91af5-2a55-4b99-a019-edb01d352d25 button.colab-df-convert');
+            document.querySelector('#df-42b84dd8-d52a-49ae-8418-25dd31d8d7ed button.colab-df-convert');
           buttonEl.style.display =
             google.colab.kernel.accessAllowed ? 'block' : 'none';
     
           async function convertToInteractive(key) {
-            const element = document.querySelector('#df-a2e91af5-2a55-4b99-a019-edb01d352d25');
+            const element = document.querySelector('#df-42b84dd8-d52a-49ae-8418-25dd31d8d7ed');
             const dataTable =
               await google.colab.kernel.invokeFunction('convertToInteractive',
                                                         [key], {});
@@ -1781,8 +1909,8 @@ input data and output data respectively.
       </div>
     
     
-    <div id="df-e00afac6-51df-46a3-a780-981754ddddb0">
-      <button class="colab-df-quickchart" onclick="quickchart('df-e00afac6-51df-46a3-a780-981754ddddb0')"
+    <div id="df-4cff8a0f-75fc-4619-9f38-84deeccbec5c">
+      <button class="colab-df-quickchart" onclick="quickchart('df-4cff8a0f-75fc-4619-9f38-84deeccbec5c')"
                 title="Suggest charts"
                 style="display:none;">
     
@@ -1901,7 +2029,7 @@ input data and output data respectively.
         }
         (() => {
           let quickchartButtonEl =
-            document.querySelector('#df-e00afac6-51df-46a3-a780-981754ddddb0 button');
+            document.querySelector('#df-4cff8a0f-75fc-4619-9f38-84deeccbec5c button');
           quickchartButtonEl.style.display =
             google.colab.kernel.accessAllowed ? 'block' : 'none';
         })();
@@ -1920,7 +2048,7 @@ tnf_to_ntf
 ``tnf_to_ntf`` function can be used to convert a data from ‘TNF’ format
 to ‘NTF’ format. E.g
 
-.. code-block:: python
+.. code:: ipython3
 
     print(f"Shape of X_arr in 'TNF' format is: {X_arr.shape}")
     
@@ -1941,7 +2069,7 @@ ntf_to_tnf
 Similarly, ``ntf_to_tnf`` function can be used to convert from ‘NTF’
 format to ‘TNF’ format. E.g.
 
-.. code-block:: python
+.. code:: ipython3
 
     print(f"Shape of X_arr in 'NTF' format is: {X_arr_ntf.shape}")
     
@@ -1966,7 +2094,7 @@ especially when dealing with fixed center or fixed assignment because
 they return (for memory efficiency) a 2-D array and a 1-D array
 respectively.
 
-.. code-block:: python
+.. code:: ipython3
 
     np.random.seed(0)
     cluster_centers = np.random.randn(3, 2)
@@ -1983,7 +2111,7 @@ respectively.
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     T = 3 # number of time steps
     cluster_centers_broadcasted, _ = broadcast_data(T, cluster_centers=cluster_centers)
@@ -2011,7 +2139,7 @@ respectively.
 You can also broadcast labels. E.g if the cluster labels is a 1-D numpy
 array of shape (N, ).
 
-.. code-block:: python
+.. code:: ipython3
 
     np.random.seed(2)
     labels = np.random.choice([0, 1, 2], 10)
@@ -2026,7 +2154,7 @@ array of shape (N, ).
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     T = 3 # number of time steps
     _, labels_broadcasted = broadcast_data(T, labels=labels)
@@ -2052,7 +2180,7 @@ array of shape (N, ).
 
 You can also broadcast both cluster_centers and labels at the same time
 
-.. code-block:: python
+.. code:: ipython3
 
     T = 3 # number of time steps
     cluster_centers_broadcasted, labels_broadcasted = broadcast_data(T, cluster_centers=cluster_centers, labels=labels)
@@ -2077,7 +2205,7 @@ You can also broadcast both cluster_centers and labels at the same time
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     labels_broadcasted
 
@@ -2115,7 +2243,7 @@ Using ``fit`` and ``transform`` methods. During ``fit``, the scaler
 parameters are stored. They will be used for ``tranform`` and
 ``inverse-tansform`` of data.
 
-.. code-block:: python
+.. code:: ipython3
 
     scaler = TSStandardScaler(per_time=True) # initialize a time series standard scaler
     scaler.fit(X_arr) # fit
@@ -2141,7 +2269,7 @@ parameters are stored. They will be used for ``tranform`` and
 ``fit`` and ``transform`` can be done with a single method called
 ``fit_transform``. E.g.
 
-.. code-block:: python
+.. code:: ipython3
 
     scaler = TSStandardScaler(per_time=True) # initialize a time series standard scaler
     X_scaled = scaler.fit_transform(X_arr) # fit and transform at the same time
@@ -2165,7 +2293,7 @@ parameters are stored. They will be used for ``tranform`` and
 
 We can use ``inverse-tranform`` method to reverse the transformation.
 
-.. code-block:: python
+.. code:: ipython3
 
     print("First five entities for the first time step of the original data are:")
     print(X_arr[0, :5, :])
@@ -2204,7 +2332,7 @@ Using ``fit`` and ``transform`` methods.
 During ``fit``, the scaler parameters are stored. They will be used for
 ``tranform`` and ``inverse-tansform`` of data.
 
-.. code-block:: python
+.. code:: ipython3
 
     scaler = TSMinMaxScaler(per_time=True) # initialize a time series minmax scaler
     scaler.fit(X_arr) # fit
@@ -2230,7 +2358,7 @@ During ``fit``, the scaler parameters are stored. They will be used for
 ``fit`` and ``transform`` can be done with a single method called
 ``fit_transform``. E.g.
 
-.. code-block:: python
+.. code:: ipython3
 
     scaler = TSMinMaxScaler(per_time=True) # initialize a time series minmax scaler
     X_scaled = scaler.fit_transform(X_arr) # fit and transform at the same time
@@ -2254,7 +2382,7 @@ During ``fit``, the scaler parameters are stored. They will be used for
 
 We can use ``inverse-tranform`` method to reverse the transformation.
 
-.. code-block:: python
+.. code:: ipython3
 
     print("First five entities for the first time step of the original data are:")
     print(X_arr[0, :5, :])
@@ -2323,7 +2451,7 @@ They can also take both 3-D and 2-D arrays for dynamic and fixed cluster
 centers respectively, and 2-D and 1-D arrays for dynamic and fixed
 labels respectively.
 
-.. code-block:: python
+.. code:: ipython3
 
     # using fixed cluster centers and dynamic label assignment
     np.random.seed(0)
@@ -2332,7 +2460,7 @@ labels respectively.
     np.random.seed(2)
     labels = np.random.choice([0, 1, 2], (X_arr.shape[1], X_arr.shape[0])) # 2-D array (for dynamic labels)
 
-.. code-block:: python
+.. code:: ipython3
 
     print(f"inertia score is {inertia(X_arr, cluster_centers, labels, ord=1)}") # using l1 distance
     print(f"max_dist score is {max_dist(X_arr, cluster_centers, labels, ord=1)}") # using l1 distance
@@ -2344,7 +2472,7 @@ labels respectively.
     max_dist score is 10.202923513064336
     
 
-.. code-block:: python
+.. code:: ipython3
 
     # using dynamic cluster centers and fixed label assignment
     np.random.seed(0)
@@ -2363,7 +2491,7 @@ labels respectively.
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     print(f"inertia score is {inertia(X_arr, cluster_centers, labels, ord=2)}") # using l2 distance
     print(f"max_dist score is {max_dist(X_arr, cluster_centers, labels, ord=2)}") # using l2 distance
@@ -2384,78 +2512,78 @@ plot
 ``plot`` function is used to plot a time series plots of the different
 features in a time series data
 
-.. code-block:: python
+.. code:: ipython3
 
     fig, ax = tsplot.plot(X=X_arr)
 
 
 
-.. image:: tscluster_tutorial_files/with_synthetic_data/images/tscluster_tutorial_89_0.png
+.. image:: images/tscluster_tutorial_92_0.png
 
 
 We can add label assignment to the plot
 
-.. code-block:: python
+.. code:: ipython3
 
     fig, ax = tsplot.plot(X=X_arr, labels=labels)
 
 
 
-.. image:: tscluster_tutorial_files/with_synthetic_data/images/tscluster_tutorial_91_0.png
+.. image:: images/tscluster_tutorial_94_0.png
 
 
 We can plot only cluster centers
 
-.. code-block:: python
+.. code:: ipython3
 
     fig, ax = tsplot.plot(cluster_centers=cluster_centers)
 
 
 
-.. image:: tscluster_tutorial_files/with_synthetic_data/images/tscluster_tutorial_93_0.png
+.. image:: images/tscluster_tutorial_96_0.png
 
 
 We can plot all of data X, cluster centers and label assignment in the
 same plot
 
-.. code-block:: python
+.. code:: ipython3
 
     fig, ax = tsplot.plot(X=X_arr, cluster_centers=cluster_centers, labels=labels)
     # note that the cluster centers are not meaningfull since they were randomly generated
 
 
 
-.. image:: tscluster_tutorial_files/with_synthetic_data/images/tscluster_tutorial_95_0.png
+.. image:: images/tscluster_tutorial_98_0.png
 
 
 We can also annotate only specific entities by passing their index to
 the ``entity_idx`` parameter
 
-.. code-block:: python
+.. code:: ipython3
 
     fig, ax = tsplot.plot(X=X_arr, cluster_centers=cluster_centers, labels=labels, entity_idx=[0, 4, 9])
 
 
 
-.. image:: tscluster_tutorial_files/with_synthetic_data/images/tscluster_tutorial_97_0.png
+.. image:: images/tscluster_tutorial_100_0.png
 
 
 We can show only the entities in ``entity_idx`` by setting
 ``show_all_entities`` to False
 
-.. code-block:: python
+.. code:: ipython3
 
     fig, ax = tsplot.plot(X=X_arr, cluster_centers=cluster_centers, labels=labels, entity_idx=[0, 4, 9], show_all_entities=False)
 
 
 
-.. image:: tscluster_tutorial_files/with_synthetic_data/images/tscluster_tutorial_99_0.png
+.. image:: images/tscluster_tutorial_102_0.png
 
 
 We can use the labels in label_dict to label the entities in
 ``entity_idx`` by passing ``label_dict``
 
-.. code-block:: python
+.. code:: ipython3
 
     # recall our label dict
     label_dict
@@ -2471,7 +2599,7 @@ We can use the labels in label_dict to label the entities in
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     fig, ax = tsplot.plot(
         X=X_arr,
@@ -2484,13 +2612,13 @@ We can use the labels in label_dict to label the entities in
 
 
 
-.. image:: tscluster_tutorial_files/with_synthetic_data/images/tscluster_tutorial_102_0.png
+.. image:: images/tscluster_tutorial_105_0.png
 
 
 We can pass custom labels to the labels in ``entity_idx`` using the
 ``entities_labels`` parameter.
 
-.. code-block:: python
+.. code:: ipython3
 
     fig, ax = tsplot.plot(
         X=X_arr,
@@ -2503,13 +2631,13 @@ We can pass custom labels to the labels in ``entity_idx`` using the
 
 
 
-.. image:: tscluster_tutorial_files/with_synthetic_data/images/tscluster_tutorial_104_0.png
+.. image:: images/tscluster_tutorial_107_0.png
 
 
 We can also pass custom labels for the cluster centers using the
 ``cluster_labels`` parameter
 
-.. code-block:: python
+.. code:: ipython3
 
     fig, ax = tsplot.plot(
         X=X_arr,
@@ -2524,7 +2652,7 @@ We can also pass custom labels for the cluster centers using the
 
 
 
-.. image:: tscluster_tutorial_files/with_synthetic_data/images/tscluster_tutorial_106_0.png
+.. image:: images/tscluster_tutorial_109_0.png
 
 
 waterfall_plot
@@ -2537,7 +2665,7 @@ To make the plot interactive, use a suitable matplotlib’s magic command.
 E.g. ``%matplotlib widget``. See this site for more:
 https://matplotlib.org/stable/users/explain/figure/interactive.html
 
-.. code-block:: python
+.. code:: ipython3
 
     # waterfall plot of a single entity
     idx = 0
@@ -2545,10 +2673,10 @@ https://matplotlib.org/stable/users/explain/figure/interactive.html
 
 
 
-.. image:: tscluster_tutorial_files/with_synthetic_data/images/tscluster_tutorial_109_0.png
+.. image:: images/tscluster_tutorial_112_0.png
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # waterfall plot of a single cluster center
     idx = 0
@@ -2556,7 +2684,7 @@ https://matplotlib.org/stable/users/explain/figure/interactive.html
 
 
 
-.. image:: tscluster_tutorial_files/with_synthetic_data/images/tscluster_tutorial_110_0.png
+.. image:: images/tscluster_tutorial_113_0.png
 
 
 Temporal Clustering Models
@@ -2575,17 +2703,17 @@ OptTSCluster
 
 **fixed centers, dynamic assignment**
 
-.. code-block:: python
+.. code:: ipython3
 
     # initialize the model
     opt_ts = OptTSCluster(
-        k=3,
+        n_clusters=3,
         scheme='z0c1', # fixed centers, dynamic assignment
         n_allow_assignment_change=None # number of changes to allow, None means allow as many changes as possible
         # warm_start=True # warm start with kmeans
     )
 
-.. code-block:: python
+.. code:: ipython3
 
     model_size = opt_ts.get_model_size(X_arr)
     print(f"model has {model_size[0]} variables and {model_size[1]} constraints")
@@ -2597,7 +2725,7 @@ OptTSCluster
     model has 610 variables and 950 constraints
     
 
-.. code-block:: python
+.. code:: ipython3
 
     label_dict
 
@@ -2612,7 +2740,7 @@ OptTSCluster
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # fit the model
     opt_ts.fit(X_arr, label_dict=label_dict); # we can optionally pass the label dict to the model during fit
@@ -2621,15 +2749,15 @@ OptTSCluster
 .. parsed-literal::
 
     Warm starting...
-    Done with warm start after 0.03secs
+    Done with warm start after 0.04secs
     
     Obj val: [3.77787002]
     
-    Total time is 0.8secs
+    Total time is 0.86secs
     
     
 
-.. code-block:: python
+.. code:: ipython3
 
     # checking the label dict
     opt_ts.label_dict_
@@ -2645,10 +2773,38 @@ OptTSCluster
 
 
 
+.. code:: ipython3
+
+    # retrieving the index of the some time labels
+    opt_ts.get_index_of_label(['2005', '2010'], axis='T')
+
+
+
+
+.. parsed-literal::
+
+    [1, 2]
+
+
+
+.. code:: ipython3
+
+    # retrieving the labels of the some entity indexes
+    opt_ts.get_label_of_index([1, 3, 0], axis='N')
+
+
+
+
+.. parsed-literal::
+
+    ['i10', 'i3', 'i1']
+
+
+
 We can get the cluster centers as a dataframe with the labels in
 ``label_dict``
 
-.. code-block:: python
+.. code:: ipython3
 
     cluster_centers_lst = opt_ts.get_named_cluster_centers()
     cluster_centers_lst[0] # first cluster
@@ -2659,7 +2815,7 @@ We can get the cluster centers as a dataframe with the labels in
 .. raw:: html
 
     
-      <div id="df-7bc18d36-bd2a-4cd4-af29-606522765807" class="colab-df-container">
+      <div id="df-2a8b3070-b3b0-411e-aa58-10d8d88bffc2" class="colab-df-container">
         <div>
     <style scoped>
         .dataframe tbody tr th:only-of-type {
@@ -2720,7 +2876,7 @@ We can get the cluster centers as a dataframe with the labels in
         <div class="colab-df-buttons">
     
       <div class="colab-df-container">
-        <button class="colab-df-convert" onclick="convertToInteractive('df-7bc18d36-bd2a-4cd4-af29-606522765807')"
+        <button class="colab-df-convert" onclick="convertToInteractive('df-2a8b3070-b3b0-411e-aa58-10d8d88bffc2')"
                 title="Convert this dataframe to an interactive table."
                 style="display:none;">
     
@@ -2772,12 +2928,12 @@ We can get the cluster centers as a dataframe with the labels in
     
         <script>
           const buttonEl =
-            document.querySelector('#df-7bc18d36-bd2a-4cd4-af29-606522765807 button.colab-df-convert');
+            document.querySelector('#df-2a8b3070-b3b0-411e-aa58-10d8d88bffc2 button.colab-df-convert');
           buttonEl.style.display =
             google.colab.kernel.accessAllowed ? 'block' : 'none';
     
           async function convertToInteractive(key) {
-            const element = document.querySelector('#df-7bc18d36-bd2a-4cd4-af29-606522765807');
+            const element = document.querySelector('#df-2a8b3070-b3b0-411e-aa58-10d8d88bffc2');
             const dataTable =
               await google.colab.kernel.invokeFunction('convertToInteractive',
                                                         [key], {});
@@ -2797,8 +2953,8 @@ We can get the cluster centers as a dataframe with the labels in
       </div>
     
     
-    <div id="df-45f0d440-daaf-425d-99bd-9db20b46222b">
-      <button class="colab-df-quickchart" onclick="quickchart('df-45f0d440-daaf-425d-99bd-9db20b46222b')"
+    <div id="df-3a942c1d-7fe3-4c38-92af-070e5919a41d">
+      <button class="colab-df-quickchart" onclick="quickchart('df-3a942c1d-7fe3-4c38-92af-070e5919a41d')"
                 title="Suggest charts"
                 style="display:none;">
     
@@ -2917,7 +3073,7 @@ We can get the cluster centers as a dataframe with the labels in
         }
         (() => {
           let quickchartButtonEl =
-            document.querySelector('#df-45f0d440-daaf-425d-99bd-9db20b46222b button');
+            document.querySelector('#df-3a942c1d-7fe3-4c38-92af-070e5919a41d button');
           quickchartButtonEl.style.display =
             google.colab.kernel.accessAllowed ? 'block' : 'none';
         })();
@@ -2933,7 +3089,7 @@ We can get the cluster centers as a dataframe with the labels in
 We can also get the labels as a dataframe indexed with labels in
 ``label_dict``
 
-.. code-block:: python
+.. code:: ipython3
 
     opt_ts.get_named_labels()
 
@@ -2943,7 +3099,7 @@ We can also get the labels as a dataframe indexed with labels in
 .. raw:: html
 
     
-      <div id="df-e6c7e4a8-9188-4b89-8895-4e143ee38f44" class="colab-df-container">
+      <div id="df-803de4a2-64ee-4665-9c5f-d0e7382b65ae" class="colab-df-container">
         <div>
     <style scoped>
         .dataframe tbody tr th:only-of-type {
@@ -3056,7 +3212,7 @@ We can also get the labels as a dataframe indexed with labels in
         <div class="colab-df-buttons">
     
       <div class="colab-df-container">
-        <button class="colab-df-convert" onclick="convertToInteractive('df-e6c7e4a8-9188-4b89-8895-4e143ee38f44')"
+        <button class="colab-df-convert" onclick="convertToInteractive('df-803de4a2-64ee-4665-9c5f-d0e7382b65ae')"
                 title="Convert this dataframe to an interactive table."
                 style="display:none;">
     
@@ -3108,12 +3264,12 @@ We can also get the labels as a dataframe indexed with labels in
     
         <script>
           const buttonEl =
-            document.querySelector('#df-e6c7e4a8-9188-4b89-8895-4e143ee38f44 button.colab-df-convert');
+            document.querySelector('#df-803de4a2-64ee-4665-9c5f-d0e7382b65ae button.colab-df-convert');
           buttonEl.style.display =
             google.colab.kernel.accessAllowed ? 'block' : 'none';
     
           async function convertToInteractive(key) {
-            const element = document.querySelector('#df-e6c7e4a8-9188-4b89-8895-4e143ee38f44');
+            const element = document.querySelector('#df-803de4a2-64ee-4665-9c5f-d0e7382b65ae');
             const dataTable =
               await google.colab.kernel.invokeFunction('convertToInteractive',
                                                         [key], {});
@@ -3133,8 +3289,8 @@ We can also get the labels as a dataframe indexed with labels in
       </div>
     
     
-    <div id="df-2ba85a72-293a-4bcc-9dfb-7fc0cc514ffa">
-      <button class="colab-df-quickchart" onclick="quickchart('df-2ba85a72-293a-4bcc-9dfb-7fc0cc514ffa')"
+    <div id="df-bc0c871a-dd13-4e74-9d60-7334a35a3408">
+      <button class="colab-df-quickchart" onclick="quickchart('df-bc0c871a-dd13-4e74-9d60-7334a35a3408')"
                 title="Suggest charts"
                 style="display:none;">
     
@@ -3253,7 +3409,7 @@ We can also get the labels as a dataframe indexed with labels in
         }
         (() => {
           let quickchartButtonEl =
-            document.querySelector('#df-2ba85a72-293a-4bcc-9dfb-7fc0cc514ffa button');
+            document.querySelector('#df-bc0c871a-dd13-4e74-9d60-7334a35a3408 button');
           quickchartButtonEl.style.display =
             google.colab.kernel.accessAllowed ? 'block' : 'none';
         })();
@@ -3268,7 +3424,7 @@ We can also get the labels as a dataframe indexed with labels in
 
 Checking most dynamic entities
 
-.. code-block:: python
+.. code:: ipython3
 
     print(f"total number of cluster changes is: {opt_ts.n_changes_}")
     opt_ts.get_dynamic_entities() # dynamic entities and their number of cluster changes
@@ -3288,7 +3444,7 @@ Checking most dynamic entities
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # retrieve the cluster centers and labels
     cc_opt_ts = opt_ts.cluster_centers_
@@ -3313,17 +3469,17 @@ Checking most dynamic entities
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # plot model results
     fig, ax = tsplot.plot(X=X_arr, cluster_centers=cc_opt_ts, labels=labels_opt_ts, label_dict=opt_ts.label_dict_)
 
 
 
-.. image:: tscluster_tutorial_files/with_synthetic_data/images/tscluster_tutorial_127_0.png
+.. image:: images/tscluster_tutorial_132_0.png
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # waterfall plot of a particular cluster center
     cc_idx = 0 # index of cluster center to plot
@@ -3333,10 +3489,10 @@ Checking most dynamic entities
 
 
 
-.. image:: tscluster_tutorial_files/with_synthetic_data/images/tscluster_tutorial_128_0.png
+.. image:: images/tscluster_tutorial_133_0.png
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # waterfall plot of most dynamic entity
     most_dynamic_entity_idx = np.where(opt_ts.get_named_labels().index == opt_ts.get_dynamic_entities()[0][0])[0][0]
@@ -3345,10 +3501,10 @@ Checking most dynamic entities
 
 
 
-.. image:: tscluster_tutorial_files/with_synthetic_data/images/tscluster_tutorial_129_0.png
+.. image:: images/tscluster_tutorial_134_0.png
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # scoring the model
     print(f"inertia score is {inertia(X_arr, cc_opt_ts, labels_opt_ts, ord=1)}") # using l1 distance
@@ -3363,7 +3519,7 @@ Checking most dynamic entities
 
 We can also set the label_dict after fitting
 
-.. code-block:: python
+.. code:: ipython3
 
     old_label_dict = opt_ts.label_dict_
     old_label_dict
@@ -3379,14 +3535,14 @@ We can also set the label_dict after fitting
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     new_label_dict = {k: v for k, v in old_label_dict.items()}
     new_label_dict['F'] = ['A', 'B', 'C']
     
     opt_ts.set_label_dict(new_label_dict)
 
-.. code-block:: python
+.. code:: ipython3
 
     opt_ts.label_dict_
 
@@ -3403,7 +3559,7 @@ We can also set the label_dict after fitting
 
 **dynamic centers, fixed assignment**
 
-.. code-block:: python
+.. code:: ipython3
 
     # loading the data
     X_arr2, _ = load_data("./sythetic_data.npy")
@@ -3418,28 +3574,28 @@ We can also set the label_dict after fitting
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # visualizing the data
     fig, ax = tsplot.plot(X=X_arr2)
 
 
 
-.. image:: tscluster_tutorial_files/with_synthetic_data/images/tscluster_tutorial_137_0.png
+.. image:: images/tscluster_tutorial_142_0.png
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # initialize the model
     opt_ts = OptTSCluster(
-        k=3,
+        n_clusters=3,
         scheme='z1c1', # dynamic centers, dynamic assignment. Scheme needs to be a dynamic label scheme when using constrained cluster change
                        # you can also use 'z1c0' scheme here
         n_allow_assignment_change=0, # number of changes to allow, 0 means allow as no changes are allowed.
         warm_start=True # warm start with kmeans
     )
 
-.. code-block:: python
+.. code:: ipython3
 
     # checking the size of the model
     model_size = opt_ts.get_model_size(X_arr2)
@@ -3451,7 +3607,7 @@ We can also set the label_dict after fitting
     model has 1066 variables and 1051 constraints
     
 
-.. code-block:: python
+.. code:: ipython3
 
     # fit the model
     opt_ts.fit(X_arr2);
@@ -3460,15 +3616,15 @@ We can also set the label_dict after fitting
 .. parsed-literal::
 
     Warm starting...
-    Done with warm start after 0.1secs
+    Done with warm start after 0.08secs
     
     Obj val: [1.51774178]
     
-    Total time is 0.29secs
+    Total time is 0.19secs
     
     
 
-.. code-block:: python
+.. code:: ipython3
 
     print(f"total number of cluster changes is: {opt_ts.n_changes_}")
     opt_ts.get_dynamic_entities() # indexes of dynamic entities and their number of cluster changes
@@ -3487,13 +3643,13 @@ We can also set the label_dict after fitting
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # retrieve the cluster centers and labels
     cc_opt_ts = opt_ts.cluster_centers_
     labels_opt_ts = opt_ts.labels_
 
-.. code-block:: python
+.. code:: ipython3
 
     labels_opt_ts
 
@@ -3520,17 +3676,17 @@ We can also set the label_dict after fitting
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # plot of model results
     fig, ax = tsplot.plot(X=X_arr2, cluster_centers=cc_opt_ts, labels=labels_opt_ts)
 
 
 
-.. image:: tscluster_tutorial_files/with_synthetic_data/images/tscluster_tutorial_144_0.png
+.. image:: images/tscluster_tutorial_149_0.png
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # scoring the model
     print(f"inertia score is {inertia(X_arr2, cc_opt_ts, labels_opt_ts, ord=1)}") # using l1 distance
@@ -3543,128 +3699,17 @@ We can also set the label_dict after fitting
     max_dist score is 1.5177417770731711
     
 
-Lagrangian constrained changes
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-**Using lagrangian multiplier to penalize cluster changes**
-
-.. code-block:: python
-
-    # initialize the model
-    opt_ts = OptTSCluster(
-        k=3,
-        scheme='z1c1', # dynamic centers, dynamic assignment. Scheme needs to be a dynamic label scheme when using constrained cluster change
-        lagrangian_multiplier=0.1, # penalty for cluster changes.
-        warm_start=True # warm start with kmeans
-    )
-
-.. code-block:: python
-
-    # fit the model
-    opt_ts.fit(X_arr2);
-
-
-.. parsed-literal::
-
-    Warm starting...
-    Done with warm start after 0.07secs
-    
-    Obj val: [1.17290776]
-    
-    Total time is 3.59secs
-    
-    
-
-.. code-block:: python
-
-    opt_ts.get_model_size(X_arr2)
-
-
-
-
-.. parsed-literal::
-
-    (1066, 1050)
-
-
-
-.. code-block:: python
-
-    print(f"total number of cluster changes is: {opt_ts.n_changes_}")
-    opt_ts.get_dynamic_entities() # indexes of dynamic entities and their number of cluster changes
-
-
-.. parsed-literal::
-
-    total number of cluster changes is: 4
-    
-
-
-
-.. parsed-literal::
-
-    ([9, 12, 7], [2, 1, 1])
-
-
-
-.. code-block:: python
-
-    # retrieve the cluster centers and labels
-    cc_opt_ts = opt_ts.cluster_centers_
-    labels_opt_ts = opt_ts.labels_
-    labels_opt_ts[opt_ts.get_dynamic_entities()[0]]
-
-
-
-
-.. parsed-literal::
-
-    array([[1, 1, 1, 1, 1, 1, 2, 1, 1, 1],
-           [1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-           [1, 1, 0, 0, 0, 0, 0, 0, 0, 0]])
-
-
-
-.. code-block:: python
-
-    # plot of model results
-    fig, ax = tsplot.plot(
-        X=X_arr2,
-        cluster_centers=cc_opt_ts,
-        labels=labels_opt_ts,
-        entity_idx=opt_ts.get_dynamic_entities()[0],
-        show_all_entities=False
-    )
-
-
-
-.. image:: tscluster_tutorial_files/with_synthetic_data/images/tscluster_tutorial_153_0.png
-
-
-.. code-block:: python
-
-    # scoring the results
-    print(f"inertia score is {inertia(X_arr2, cc_opt_ts, labels_opt_ts, ord=1)}") # using l1 distance
-    print(f"max_dist score is {max_dist(X_arr2, cc_opt_ts, labels_opt_ts, ord=1)}") # using l1 distance
-
-
-.. parsed-literal::
-
-    inertia score is 106.79350571578108
-    max_dist score is 1.172907757906211
-    
-
-Hard constrained changes
-^^^^^^^^^^^^^^^^^^^^^^^^
+Bounded Changes
+^^^^^^^^^^^^^^^
 
 **Creating dynamic entities**
 
-.. code-block:: python
+.. code:: ipython3
 
     dynamic_X1 = np.concatenate([X_arr2[:3, 0, :], X_arr2[3:, 2, :]], axis=0)[:, np.newaxis, :]
     dynamic_X2 = np.concatenate([X_arr2[:6, 6, :], X_arr2[6:, 4, :]], axis=0)[:, np.newaxis, :]
 
-.. code-block:: python
+.. code:: ipython3
 
     X_arr3 = np.concatenate([X_arr2, dynamic_X1, dynamic_X2], axis=1)
     X_arr3.shape
@@ -3678,27 +3723,27 @@ Hard constrained changes
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # plotting the synthetically created dynamic entities
     fig, ax = tsplot.plot(X=X_arr3, entity_idx=np.arange(X_arr2.shape[1], X_arr3.shape[1]), show_all_entities=False)
 
 
 
-.. image:: tscluster_tutorial_files/with_synthetic_data/images/tscluster_tutorial_159_0.png
+.. image:: images/tscluster_tutorial_155_0.png
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # initialize the model
     opt_ts = OptTSCluster(
-        k=3,
+        n_clusters=3,
         scheme='z1c1', # dynamic centers, dynamic assignment. Scheme needs to be a dynamic label scheme when using constrained cluster change
         n_allow_assignment_change=2, # number of changes to allow, None means allow as many changes as possible
         warm_start=True # warm start with kmeans
     )
 
-.. code-block:: python
+.. code:: ipython3
 
     # fit the model
     opt_ts.fit(X_arr3);
@@ -3707,15 +3752,29 @@ Hard constrained changes
 .. parsed-literal::
 
     Warm starting...
-    Done with warm start after 0.04secs
+    Done with warm start after 0.05secs
     
     Obj val: [1.51774178]
     
-    Total time is 13.17secs
+    Total time is 14.4secs
     
     
 
-.. code-block:: python
+.. code:: ipython3
+
+    # checking model's size
+    opt_ts.get_model_size(X_arr3)
+
+
+
+
+.. parsed-literal::
+
+    (1204, 1191)
+
+
+
+.. code:: ipython3
 
     print(f"total number of cluster changes is: {opt_ts.n_changes_}")
     opt_ts.get_dynamic_entities() # indexes of dynamic entities and their number of cluster changes
@@ -3734,7 +3793,7 @@ Hard constrained changes
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # retrieve the cluster centers and labels
     cc_opt_ts = opt_ts.cluster_centers_
@@ -3753,7 +3812,7 @@ Hard constrained changes
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # plot of model results
     fig, ax = tsplot.plot(
@@ -3766,10 +3825,10 @@ Hard constrained changes
 
 
 
-.. image:: tscluster_tutorial_files/with_synthetic_data/images/tscluster_tutorial_164_0.png
+.. image:: images/tscluster_tutorial_161_0.png
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # scoring the results
     print(f"inertia score is {inertia(X_arr3, cc_opt_ts, labels_opt_ts, ord=1)}") # using l1 distance
@@ -3782,7 +3841,7 @@ Hard constrained changes
     max_dist score is 1.5177417770731711
     
 
-.. code-block:: python
+.. code:: ipython3
 
     # checking the default label_dict (since we did not set the label dict or pass any during fit)
     print(opt_ts.label_dict_)
@@ -3799,12 +3858,12 @@ TSGlobalKmeans
 This module applies sklearn’s k-mean clustering to the data resulting
 from concatenating along the time axis.
 
-.. code-block:: python
+.. code:: ipython3
 
     # initialize the model
     g_ts_km = TSGlobalKmeans(n_clusters=3)
 
-.. code-block:: python
+.. code:: ipython3
 
     # fit the model
     g_ts_km.fit(X_arr3);
@@ -3816,7 +3875,7 @@ from concatenating along the time axis.
       warnings.warn(
     
 
-.. code-block:: python
+.. code:: ipython3
 
     print(f"total number of cluster changes is: {g_ts_km.n_changes_}")
     g_ts_km.get_dynamic_entities() # indexes of dynamic entities and their number of cluster changes
@@ -3836,7 +3895,7 @@ from concatenating along the time axis.
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # retrieve the cluster centers and labels
     cc_g_ts_km = g_ts_km.cluster_centers_
@@ -3850,27 +3909,27 @@ from concatenating along the time axis.
 
 .. parsed-literal::
 
-    array([[1, 1, 1, 1, 0, 1, 0, 1, 0, 1],
-           [2, 1, 0, 0, 0, 0, 1, 1, 1, 2],
-           [2, 1, 0, 0, 0, 0, 0, 0, 1, 2],
-           [2, 1, 1, 0, 0, 0, 0, 0, 1, 2],
-           [2, 1, 0, 0, 0, 0, 0, 0, 1, 2],
-           [2, 1, 1, 0, 0, 0, 0, 0, 1, 2],
-           [2, 1, 1, 0, 0, 0, 0, 1, 1, 2],
-           [2, 1, 1, 0, 0, 0, 0, 1, 1, 2],
-           [2, 1, 0, 0, 0, 0, 0, 0, 1, 2],
-           [2, 1, 1, 0, 0, 0, 0, 0, 1, 2],
-           [2, 1, 1, 1, 1, 1, 2, 2, 2, 2],
-           [1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
-           [0, 1, 1, 1, 1, 1, 2, 2, 2, 2],
-           [0, 1, 1, 1, 1, 1, 2, 2, 2, 2],
-           [1, 1, 1, 1, 2, 2, 2, 2, 2, 2],
-           [1, 1, 1, 1, 2, 2, 2, 2, 2, 2],
-           [1, 1, 1, 1, 1, 1, 1, 1, 1, 2]], dtype=int32)
+    array([[0, 0, 0, 0, 2, 0, 2, 0, 2, 0],
+           [1, 0, 0, 2, 2, 2, 0, 0, 0, 1],
+           [1, 0, 2, 2, 2, 2, 2, 2, 0, 1],
+           [1, 0, 0, 2, 2, 2, 2, 2, 0, 1],
+           [1, 0, 0, 2, 2, 2, 2, 2, 0, 1],
+           [1, 0, 0, 2, 2, 2, 2, 2, 0, 1],
+           [1, 0, 0, 2, 2, 2, 2, 0, 0, 1],
+           [1, 0, 0, 2, 2, 2, 2, 0, 0, 1],
+           [1, 0, 0, 2, 2, 2, 2, 2, 0, 1],
+           [1, 0, 0, 2, 2, 2, 2, 2, 0, 1],
+           [1, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+           [0, 0, 0, 0, 0, 0, 0, 0, 2, 0],
+           [2, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+           [2, 0, 0, 0, 0, 1, 1, 1, 1, 1],
+           [0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
+           [0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
+           [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]], dtype=int32)
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # plot of model results
     fig, ax = tsplot.plot(
@@ -3883,10 +3942,10 @@ from concatenating along the time axis.
 
 
 
-.. image:: tscluster_tutorial_files/with_synthetic_data/images/tscluster_tutorial_173_0.png
+.. image:: images/tscluster_tutorial_170_0.png
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # scoring the results
     print(f"inertia score is {inertia(X_arr3, cc_g_ts_km, labels_g_ts_km, ord=1)}") # using l1 distance
@@ -3895,8 +3954,8 @@ from concatenating along the time axis.
 
 .. parsed-literal::
 
-    inertia score is 165.60528870396382
-    max_dist score is 3.2183145554572867
+    inertia score is 166.82397817096967
+    max_dist score is 3.3717592522248783
     
 
 TSKmeans
@@ -3904,17 +3963,17 @@ TSKmeans
 
 This module applies tslearn’s time series k-mean clustering to the data.
 
-.. code-block:: python
+.. code:: ipython3
 
     # initialize the model
     ts_km = TSKmeans(n_clusters=3)
 
-.. code-block:: python
+.. code:: ipython3
 
     # fit the model
     ts_km.fit(X_arr3);
 
-.. code-block:: python
+.. code:: ipython3
 
     print(f"total number of cluster changes is: {ts_km.n_changes_}")
     ts_km.get_dynamic_entities() # indexes of dynamic entities and their number of cluster changes
@@ -3933,7 +3992,7 @@ This module applies tslearn’s time series k-mean clustering to the data.
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # retrieve the cluster centers and labels
     cc_ts_km = ts_km.cluster_centers_
@@ -3951,7 +4010,7 @@ This module applies tslearn’s time series k-mean clustering to the data.
 
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # plot of model results
     fig, ax = tsplot.plot(
@@ -3962,10 +4021,10 @@ This module applies tslearn’s time series k-mean clustering to the data.
 
 
 
-.. image:: tscluster_tutorial_files/with_synthetic_data/images/tscluster_tutorial_181_0.png
+.. image:: images/tscluster_tutorial_178_0.png
 
 
-.. code-block:: python
+.. code:: ipython3
 
     # scoring the results
     print(f"inertia score is {inertia(X_arr3, cc_ts_km, labels_ts_km, ord=1)}") # using l1 distance
@@ -3974,6 +4033,6 @@ This module applies tslearn’s time series k-mean clustering to the data.
 
 .. parsed-literal::
 
-    inertia score is 113.5200041020405
+    inertia score is 113.52000410204052
     max_dist score is 5.437567193350128
     
