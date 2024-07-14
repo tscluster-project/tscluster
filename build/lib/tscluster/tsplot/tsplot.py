@@ -270,7 +270,7 @@ def plot(
         if show_all_xticklabels:
             ax.set_xticklabels(label_dict['T'], rotation=x_rotation)  
 
-        if f + 1 <= (shape_of_subplot[0] - 1) * shape_of_subplot[1]:
+        if f + 1 < (np.arange(F) + 1)[-shape_of_subplot[1]]:
             ax.set_xlabel('')
             ax.set_xticklabels('')
         
