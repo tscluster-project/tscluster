@@ -8,6 +8,7 @@ modules
 
    tscluster.metrics
    tscluster.opttscluster
+   tscluster.greedytscluster
    tscluster.preprocessing
    tscluster.tskmeans
    tscluster.tsplot
