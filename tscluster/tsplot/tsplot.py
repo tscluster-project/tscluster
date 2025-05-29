@@ -88,11 +88,12 @@ def plot(
         entities_labels: List[str]|None = None,
         label_dict: dict|None = None,
         annot_fontsize: float|int = 10,
+        arrow_scale: float = 0.01,
         show_all_entities: bool = True,
         figsize: Tuple[float, float] | None = None,
         shape_of_subplot: Tuple[int, int]|None = None, 
         xlabel: str|None = 'timesteps', 
-        ylabel: str|None = 'val',
+        ylabel: str|None = 'value',
         cluster_labels: List[str]|None = None,
         title_list: List[str]|None = None,
         show_all_xticklabels: bool = True, 
@@ -127,6 +128,8 @@ def plot(
         If label_dict is not None, it is used to label timestep, entities, and features in the plot.   
     annot_fontsize : float|int, default=10
         The font size to be used for annotating entities in `entity_idx`.
+    arrow_scale : float, default=0.01
+        Scales the size of the arrow used in indicating entities.
     show_all_entities : bool, default=True
         If True, displays all the entities in `X` in the plot. If False, only entities in `entity_idx` are plotted.
     figsize : tuple, default=None
@@ -229,8 +232,10 @@ def plot(
 
                     annot_i = np.random.choice(np.arange(len(X[:, i, f])), 1)[0]
                     annot_xy = list(enumerate(X[:, i, f]))[annot_i]
+                    
+                    y_delta = (np.max(X[:, i, f]) - np.min(X[:, i, f])) * arrow_scale
 
-                    plt.annotate(e_labels, xy=annot_xy, xytext=(annot_xy[0]+0.5, annot_xy[1]+0.5), fontsize=annot_fontsize,
+                    plt.annotate(e_labels, xy=annot_xy, xytext=(annot_xy[0]+0.5, annot_xy[1]+y_delta), fontsize=annot_fontsize,
                                 arrowprops=dict(facecolor='green',shrink=0))
                     
             if labels is not None:
@@ -270,7 +275,7 @@ def plot(
         if show_all_xticklabels:
             ax.set_xticklabels(label_dict['T'], rotation=x_rotation)  
 
-        if f != F-1:
+        if f + 1 < (np.arange(F) + 1)[-shape_of_subplot[1]]:
             ax.set_xlabel('')
             ax.set_xticklabels('')
         

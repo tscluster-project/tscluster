@@ -104,7 +104,7 @@ class TSCluster():
 
         Parameters
         -----------
-        label_dict dict, default=None
+        label_dict : dict, default=None
             a dictionary whose keys are 'T', 'N', and 'F' (which are the number of time steps, entities, and features respectively). Value of each key is a list such that the value of key:
             - 'T' is a list of names/labels of each time step to be used as index of each dataframe. If None, range(0, T) is used. Where T is the number of time steps in the fitted data
             - 'N' is a list of names/labels of each entity to be used as index of the dataframe. If None, range(0, N) is used. Where N is the number of entities/observations in the fitted data 
@@ -143,7 +143,7 @@ class TSCluster():
         Returns
         -------
         dynamic entities : list
-            a 1-D array of the indices of the entities that change cluster at least once.
+            a 1-D array of the indexes of the entities that change cluster at least once.
         number of changes : list
             a 1-D array of the number of changes for each dynamic entity such that the i-th element is the number of cluster changes for the i-th dynamic entity
         """
@@ -158,6 +158,50 @@ class TSCluster():
 
         return [entities[i] for i in dynamic_entities[sort_filter]], list(np.sort(n_changes[changes])[::-1])
 
+    def get_index_of_label(self, labels: List[str], axis: str = 'N') -> List[int]:
+        """
+        function to return the integer indexes of some given labelled items in `self.label_dict_`. The indexes are assumed to be 0-indexed.
+
+        Parameters
+        ----------
+        labels : list
+            a list of the label(s) whose integer indexes should be returned.
+        axis : str, default='N'
+            can be any of {'T', 'N', 'F'}. 
+            - If 'T', the values in the `labels` parameter are interpreted as time labels (as stored in `self.label_dict_['T']`). 
+            - If 'N', the values in the `labels` parameter are interpreted as entity labels (as stored in `self.label_dict_['N']`). 
+            - If 'F', the values in the `labels` parameter are interpreted as feature labels (as stored in `self.label_dict_['F']`). 
+    
+        Returns
+        -------
+        list
+            a list of the integer indexes of the labels in the given axis dimension.
+        """ 
+
+        return [self.label_dict_[axis].index(label) for label in labels]
+
+    def get_label_of_index(self, indexes: List[int], axis: str = 'N') -> List[str]:
+        """
+        function to return the labels of some given integer indexes as labelled in `self.label_dict_`. The indexes are assumed to be 0-indexed.
+
+        Parameters
+        ----------
+        indexes : list
+            a list of the index(es) whose labels should be returned.
+        axis : str, default='N'
+            can be any of {'T', 'N', 'F'}. 
+            - If 'T', the values in the `indexes` parameter are interpreted as the time indexes whose labels (as stored in `self.label_dict_['T']`) should be returned. 
+            - If 'N', the values in the `indexes` parameter are interpreted as the entity indexes whose labels (as stored in `self.label_dict_['N']`) should be returned. 
+            - If 'F', the values in the `indexes` parameter are interpreted as the feature indexes whose labels (as stored in `self.label_dict_['F']`) should be returned. 
+    
+        Returns
+        -------
+        list
+            a list of the labels of the given integer indexes in the given axis dimension.
+        """ 
+        
+        return list(pd.Series(self.label_dict_[axis]).values[indexes])
+    
     @property
     def n_changes_(self) -> int:
         """
