@@ -13,10 +13,9 @@ import copy
 
 class GreedyTSCluster(TSCluster, TSClusterInterface):
     """
-    Greedy temporal clustering algorithm for time series data.
-
-    This clustering model supports both static and dynamic cluster centers and assignments.
-    Depending on the scheme, it can enforce smoothness constraints on temporal cluster assignments.
+    (Under development)
+    Class for Maxima Minimation (MM) algorithm (a.k.a. greedy algorithm) for time-series clustering.
+    Throughout this doc and code, ‘z’ refers to cluster centers, while ‘c’ to label assignment. This creates an GreedyTSCluster object.
 
     Parameters
     ----------
