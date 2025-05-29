@@ -269,7 +269,7 @@ class OptTSCluster(TSCluster, TSClusterInterface):
             I = X[:, I_idx, :]
         
         E_star = np.array([0])
-        E_hat = np.array([np.Inf])
+        E_hat = np.array([np.inf])
         count = 1
         
         epsilon = epsilon 

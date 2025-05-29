@@ -86,7 +86,7 @@ class MILPClustering():
                 C[i, j] = 1        
                 
         E_star = 0
-        E_hat = np.Inf
+        E_hat = np.inf
         count = 1
         
         epsilon = 1e-4
