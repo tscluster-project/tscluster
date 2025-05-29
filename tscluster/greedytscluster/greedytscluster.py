@@ -23,10 +23,13 @@ class GreedyTSCluster(TSCluster, TSClusterInterface):
     ----------
     n_clusters : int
         The number of clusters to generate.
-    scheme : str, default='z1c0'
-        Specifies clustering behavior. Must be one of {'z0c0', 'z1c0', 'z0c1', 'z1c1'}.
-        'z0' indicates static centers; 'z1' indicates dynamic centers.
-        'c0' indicates static assignments; 'c1' indicates dynamic assignments.
+    scheme: {'z0c0', 'z0c1', 'z1c0', 'z1c1'}, default='z1c0'
+        The scheme to use for tsclustering. Could be one of:
+            - 'z0c0' means fixed center, fixed assignment
+            - 'z0c1' means fixed center, changing assignment
+            - 'z1c0' means changing center, fixed assignment
+            - 'z1c1' means changing center, changing assignment
+        Scheme needs to be a dynamic label assignment scheme (either 'z1c1' or 'z0c1') when using constrained cluster change (either with `n_allow_assignment_change`)
     n_allow_assignment_change : int or None, default=None
         Penalty added to changing assignments over time for 'c1' schemes.
     random_state : int or None, default=None
@@ -40,7 +43,7 @@ class GreedyTSCluster(TSCluster, TSClusterInterface):
                 *,
                 n_allow_assignment_change: None|int = None,  
                 random_state: None|int = None,
-                initialization: str = 'kmeans++',
+                initialization: str = 'kmeans++'
                 ) -> None:
         
         self.n_clusters = n_clusters

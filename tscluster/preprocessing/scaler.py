@@ -7,24 +7,15 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 from tscluster.preprocessing.interface import TSPreprocessorInterface
-from tscluster.preprocessing.utils import reshape_for_transform, infer_data, tnf_to_ntf, ntf_to_tnf
+from tscluster.preprocessing.utils import reshape_for_transform, infer_data
 
 class TSScaler(TSPreprocessorInterface):
-    def __init__(self, scaler, scheme: str = 'per_time', **kwargs) -> None:
+    def __init__(self, scaler, per_time: bool = True, **kwargs) -> None:
         # parent class for transformers
 
         self._scaler = scaler # scaler object (e.g. sklearn's scaler obejct for each time step)
-        self.scheme = scheme
+        self.per_time = per_time
         self.kwargs = kwargs 
-        
-        if self.scheme in ('per_time', 'per_entity'):
-            self.per_time = True 
-         
-        elif self.scheme in ('per_feature'):
-            self.per_time = False 
-        
-        else:
-            raise ValueError("Unknown scheme. Exception any of ('per_time', 'per_entity', 'per_feature'), but got "+str(scheme))
     
     @property
     def label_dict_(self) -> dict:
@@ -72,9 +63,6 @@ class TSScaler(TSPreprocessorInterface):
             the fitted transformer object
         """
         
-        if self.scheme == 'per_entity':
-            X = tnf_to_ntf(X)
-            
         X, n = reshape_for_transform(X, self.per_time)
 
         self._scalers = [self._scaler(**self.kwargs).fit(X[i], *kwargs) for i in range(n)] 
@@ -100,20 +88,12 @@ class TSScaler(TSPreprocessorInterface):
         numpy array 
             the transformed data in TNF format
         """
-    
-        if self.scheme == 'per_entity':
-            X = tnf_to_ntf(X)
-            
+       
         _shape = X.shape
 
         X, _ = reshape_for_transform(X, self.per_time)
-        
-        res = np.array([scaler.transform(X[i]) for i, scaler in enumerate(self._scalers)]).reshape(*_shape)
-        
-        if self.scheme == 'per_entity':
-            res = ntf_to_tnf(res)
-            
-        return res
+
+        return np.array([scaler.transform(X[i]) for i, scaler in enumerate(self._scalers)]).reshape(*_shape)
     
     def inverse_transform(
         self, 
@@ -135,19 +115,11 @@ class TSScaler(TSPreprocessorInterface):
             the inverse-transform of the data in TNF format
         """
 
-        if self.scheme == 'per_entity':
-            X = tnf_to_ntf(X)
-            
         _shape = X.shape
 
         X, _ = reshape_for_transform(X, self.per_time)
-        
-        res = np.array([scaler.inverse_transform(X[i]) for i, scaler in enumerate(self._scalers)]).reshape(*_shape)
-        
-        if self.scheme == 'per_entity':
-            res = ntf_to_tnf(res)
 
-        return res
+        return np.array([scaler.inverse_transform(X[i]) for i, scaler in enumerate(self._scalers)]).reshape(*_shape)
 
     def fit_transform(
         self, 
@@ -179,19 +151,16 @@ class TSStandardScaler(TSScaler):
 
     Parameters
     -----------
-    scheme : str, default='per_time'
-        Should be any of {'per_time', 'per_entity', 'per_feature'}
-        If 'per_time', compute zscore per time step. 
-        If 'per_entity', compute zscore per entity.
-        If 'per_feature', compute zscore per feature across all timesteps and entities.
+    per_time : bool, default=True
+        If True, compute zscore per time step. If False, compute zscore per feature across all timesteps.
         
     **kwargs : keyword arugments to be passed to sklearn's StandardScaler.
     """
 
-    def __init__(self, scheme: str = 'per_time', **kwargs) -> None:
+    def __init__(self, per_time: bool = True, **kwargs) -> None:
 
         scaler = StandardScaler
-        super().__init__(scaler, scheme, **kwargs)
+        super().__init__(scaler, per_time, **kwargs)
 
 class TSMinMaxScaler(TSScaler):
     """
@@ -199,16 +168,13 @@ class TSMinMaxScaler(TSScaler):
 
     Parameters
     -----------
-    scheme : str, default='per_time'
-        Should be any of {'per_time', 'per_entity', 'per_feature'}
-        If 'per_time', compute zscore per time step. 
-        If 'per_entity', compute zscore per entity.
-        If 'per_feature', compute zscore per feature across all timesteps and entities.
+    per_time : bool, default=True
+        If True, compute zscore per time step. If False, compute zscore per feature across all timesteps.
         
     **kwargs : keyword arugments to be passed to sklearn's MinMaxScaler.
     """
 
-    def __init__(self, scheme: str = 'per_time', **kwargs) -> None:
+    def __init__(self, per_time: bool = True, **kwargs) -> None:
 
         scaler = MinMaxScaler
-        super().__init__(scaler, scheme, **kwargs)
+        super().__init__(scaler, per_time, **kwargs)

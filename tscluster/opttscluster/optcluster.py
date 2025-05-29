@@ -171,7 +171,6 @@ class MILPClustering():
         
         # MILP
         m = gp.Model()
-        
         # creating Vars
         E = m.addVar(name='E')
         

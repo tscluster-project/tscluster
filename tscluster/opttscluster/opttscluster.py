@@ -488,7 +488,7 @@ class OptTSCluster(TSCluster, TSClusterInterface):
 
         # MILP
         m = gp.Model()
-
+        #m.setParam('MIPGap', 0.5)
         z_fixed = False
         if 'z_fixed' in kwargs:
             z_fixed = kwargs['z_fixed']

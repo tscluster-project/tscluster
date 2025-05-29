@@ -73,6 +73,8 @@ def inertia(
        for k in range(cluster_centers.shape[1]):
             is_assigned = labels[:, t] == k
             dist = np.linalg.norm(X[t, :, :] - cluster_centers[t, k, :].reshape(-1, X.shape[2]), ord=ord, axis=1)
+            #squared euclidean distance
+            dist = dist ** 2
 
             running_sum += np.sum(dist * is_assigned)
 
