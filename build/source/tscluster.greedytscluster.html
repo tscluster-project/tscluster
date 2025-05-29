@@ -1,0 +1,344 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>greedytscluster module &mdash; tscluster  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="preprocessing module" href="tscluster.preprocessing.html" />
+    <link rel="prev" title="opttscluster module" href="tscluster.opttscluster.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            tscluster
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../API.html">API Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="tscluster.html">modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="tscluster.metrics.html">metrics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tscluster.opttscluster.html">opttscluster module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">greedytscluster module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#greedytscluster-class">GreedyTSCluster class</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tscluster.preprocessing.html">preprocessing module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tscluster.tskmeans.html">tskmeans module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tscluster.tsplot.html">tsplot module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide.html">User Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">tscluster</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../API.html">API Guide</a></li>
+          <li class="breadcrumb-item"><a href="tscluster.html">modules</a></li>
+      <li class="breadcrumb-item active">greedytscluster module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/tscluster.greedytscluster.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="greedytscluster-module">
+<h1>greedytscluster module<a class="headerlink" href="#greedytscluster-module" title="Link to this heading"></a></h1>
+<section id="greedytscluster-class">
+<h2>GreedyTSCluster class<a class="headerlink" href="#greedytscluster-class" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="tscluster.greedytscluster.greedytscluster.GreedyTSCluster">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tscluster.greedytscluster.greedytscluster.</span></span><span class="sig-name descname"><span class="pre">GreedyTSCluster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_clusters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scheme</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'z1c0'</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_allow_assignment_change</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initialization</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'kmeans++'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tscluster.greedytscluster.greedytscluster.GreedyTSCluster" title="Link to this definition"></a></dt>
+<dd><p>(Under development)
+Class for Maxima Minimation (MM) algorithm (a.k.a. greedy algorithm) for time-series clustering.
+Throughout this doc and code, ‘z’ refers to cluster centers, while ‘c’ to label assignment. This creates an GreedyTSCluster object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>n_clusters</strong><span class="classifier">int</span></dt><dd><p>The number of clusters to generate.</p>
+</dd>
+<dt><strong>scheme</strong><span class="classifier">str, default=’z1c0’</span></dt><dd><p>Specifies clustering behavior. Must be one of {‘z0c0’, ‘z1c0’, ‘z0c1’, ‘z1c1’}.
+‘z0’ indicates static centers; ‘z1’ indicates dynamic centers.
+‘c0’ indicates static assignments; ‘c1’ indicates dynamic assignments.</p>
+</dd>
+<dt><strong>n_allow_assignment_change</strong><span class="classifier">int or None, default=None</span></dt><dd><p>Penalty added to changing assignments over time for ‘c1’ schemes.</p>
+</dd>
+<dt><strong>random_state</strong><span class="classifier">int or None, default=None</span></dt><dd><p>Random seed for reproducibility.</p>
+</dd>
+<dt><strong>initialization</strong><span class="classifier">str, default=’kmeans++’</span></dt><dd><p>Method to initialize cluster centers. Must be one of {‘kmeans++’, ‘random’}.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tscluster.greedytscluster.greedytscluster.GreedyTSCluster.fit" title="tscluster.greedytscluster.greedytscluster.GreedyTSCluster.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[, label_dict, verbose, print_to, max_iter])</p></td>
+<td><p>Fit the temporal clustering model using greedy optimization.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tscluster.greedytscluster.greedytscluster.GreedyTSCluster.get_dynamic_entities" title="tscluster.greedytscluster.greedytscluster.GreedyTSCluster.get_dynamic_entities"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dynamic_entities</span></code></a>()</p></td>
+<td><p>returns the dynamic entities and their number of changes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tscluster.greedytscluster.greedytscluster.GreedyTSCluster.get_index_of_label" title="tscluster.greedytscluster.greedytscluster.GreedyTSCluster.get_index_of_label"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_index_of_label</span></code></a>(labels[, axis])</p></td>
+<td><p>function to return the integer indexes of some given labelled items in <cite>self.label_dict_</cite>.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tscluster.greedytscluster.greedytscluster.GreedyTSCluster.get_label_of_index" title="tscluster.greedytscluster.greedytscluster.GreedyTSCluster.get_label_of_index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_label_of_index</span></code></a>(indexes[, axis])</p></td>
+<td><p>function to return the labels of some given integer indexes as labelled in <cite>self.label_dict_</cite>.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tscluster.greedytscluster.greedytscluster.GreedyTSCluster.get_named_cluster_centers" title="tscluster.greedytscluster.greedytscluster.GreedyTSCluster.get_named_cluster_centers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_named_cluster_centers</span></code></a>([label_dict])</p></td>
+<td><p>Method to return the cluster centers with custom names of time steps and features.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tscluster.greedytscluster.greedytscluster.GreedyTSCluster.get_named_labels" title="tscluster.greedytscluster.greedytscluster.GreedyTSCluster.get_named_labels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_named_labels</span></code></a>([label_dict])</p></td>
+<td><p>Method to return the a data frame of the label assignments with custom names of time steps and entities.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tscluster.greedytscluster.greedytscluster.GreedyTSCluster.set_label_dict" title="tscluster.greedytscluster.greedytscluster.GreedyTSCluster.set_label_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_label_dict</span></code></a>(value)</p></td>
+<td><p>Method to manually set the <a href="#id1"><span class="problematic" id="id2">label_dict_</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.greedytscluster.greedytscluster.GreedyTSCluster.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">X:</span> <span class="pre">~numpy.ndarray[~typing.Any,</span> <span class="pre">~numpy.dtype[~numpy.float64]],</span> <span class="pre">label_dict:</span> <span class="pre">dict</span> <span class="pre">|</span> <span class="pre">None</span> <span class="pre">=</span> <span class="pre">None,</span> <span class="pre">verbose:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">True,</span> <span class="pre">print_to:</span> <span class="pre">~typing.TextIO</span> <span class="pre">=</span> <span class="pre">&lt;_io.TextIOWrapper</span> <span class="pre">name='&lt;stdout&gt;'</span> <span class="pre">mode='w'</span> <span class="pre">encoding='utf-8'&gt;,</span> <span class="pre">max_iter:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1000,</span> <span class="pre">**kwargs</span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#tscluster.greedytscluster.greedytscluster.GreedyTSCluster" title="tscluster.greedytscluster.greedytscluster.GreedyTSCluster"><span class="pre">GreedyTSCluster</span></a></span></span><a class="headerlink" href="#tscluster.greedytscluster.greedytscluster.GreedyTSCluster.fit" title="Link to this definition"></a></dt>
+<dd><p>Fit the temporal clustering model using greedy optimization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X</strong><span class="classifier">np.ndarray of shape (T, N, F)</span></dt><dd><p>The input time series data, where T is the number of time steps,
+N is the number of samples, and F is the number of features.</p>
+</dd>
+<dt><strong>label_dict</strong><span class="classifier">dict, optional</span></dt><dd><p>Optional dictionary of axis labels used for interpretability.</p>
+</dd>
+<dt><strong>verbose</strong><span class="classifier">bool, default=True</span></dt><dd><p>If True, print progress and diagnostic information during fitting.</p>
+</dd>
+<dt><strong>print_to</strong><span class="classifier">TextIO, default=sys.stdout</span></dt><dd><p>File-like stream to output verbose logs.</p>
+</dd>
+<dt><strong>max_iter</strong><span class="classifier">int, default=1000</span></dt><dd><p>Maximum number of optimization iterations.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>self</strong><span class="classifier">GreedyTSCluster</span></dt><dd><p>The fitted model instance.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.greedytscluster.greedytscluster.GreedyTSCluster.get_dynamic_entities">
+<span class="sig-name descname"><span class="pre">get_dynamic_entities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tscluster.greedytscluster.greedytscluster.GreedyTSCluster.get_dynamic_entities" title="Link to this definition"></a></dt>
+<dd><p>returns the dynamic entities and their number of changes. Both lists are sorted by the number of cluster changes in descending order.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>dynamic entities</strong><span class="classifier">list</span></dt><dd><p>a 1-D array of the indexes of the entities that change cluster at least once.</p>
+</dd>
+<dt><strong>number of changes</strong><span class="classifier">list</span></dt><dd><p>a 1-D array of the number of changes for each dynamic entity such that the i-th element is the number of cluster changes for the i-th dynamic entity</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.greedytscluster.greedytscluster.GreedyTSCluster.get_index_of_label">
+<span class="sig-name descname"><span class="pre">get_index_of_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'N'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tscluster.greedytscluster.greedytscluster.GreedyTSCluster.get_index_of_label" title="Link to this definition"></a></dt>
+<dd><p>function to return the integer indexes of some given labelled items in <cite>self.label_dict_</cite>. The indexes are assumed to be 0-indexed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>labels</strong><span class="classifier">list</span></dt><dd><p>a list of the label(s) whose integer indexes should be returned.</p>
+</dd>
+<dt><strong>axis</strong><span class="classifier">str, default=’N’</span></dt><dd><p>can be any of {‘T’, ‘N’, ‘F’}. 
+- If ‘T’, the values in the <cite>labels</cite> parameter are interpreted as time labels (as stored in <cite>self.label_dict_[‘T’]</cite>). 
+- If ‘N’, the values in the <cite>labels</cite> parameter are interpreted as entity labels (as stored in <cite>self.label_dict_[‘N’]</cite>). 
+- If ‘F’, the values in the <cite>labels</cite> parameter are interpreted as feature labels (as stored in <cite>self.label_dict_[‘F’]</cite>).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>list</dt><dd><p>a list of the integer indexes of the labels in the given axis dimension.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.greedytscluster.greedytscluster.GreedyTSCluster.get_label_of_index">
+<span class="sig-name descname"><span class="pre">get_label_of_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indexes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'N'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tscluster.greedytscluster.greedytscluster.GreedyTSCluster.get_label_of_index" title="Link to this definition"></a></dt>
+<dd><p>function to return the labels of some given integer indexes as labelled in <cite>self.label_dict_</cite>. The indexes are assumed to be 0-indexed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>indexes</strong><span class="classifier">list</span></dt><dd><p>a list of the index(es) whose labels should be returned.</p>
+</dd>
+<dt><strong>axis</strong><span class="classifier">str, default=’N’</span></dt><dd><p>can be any of {‘T’, ‘N’, ‘F’}. 
+- If ‘T’, the values in the <cite>indexes</cite> parameter are interpreted as the time indexes whose labels (as stored in <cite>self.label_dict_[‘T’]</cite>) should be returned. 
+- If ‘N’, the values in the <cite>indexes</cite> parameter are interpreted as the entity indexes whose labels (as stored in <cite>self.label_dict_[‘N’]</cite>) should be returned. 
+- If ‘F’, the values in the <cite>indexes</cite> parameter are interpreted as the feature indexes whose labels (as stored in <cite>self.label_dict_[‘F’]</cite>) should be returned.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>list</dt><dd><p>a list of the labels of the given integer indexes in the given axis dimension.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.greedytscluster.greedytscluster.GreedyTSCluster.get_named_cluster_centers">
+<span class="sig-name descname"><span class="pre">get_named_cluster_centers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tscluster.greedytscluster.greedytscluster.GreedyTSCluster.get_named_cluster_centers" title="Link to this definition"></a></dt>
+<dd><p>Method to return the cluster centers with custom names of time steps and features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>label_dict dict, default=None</strong></dt><dd><p>a dictionary whose keys are ‘T’, ‘N’, and ‘F’ (which are the number of time steps, entities, and features respectively). Value of each key is a list such that the value of key:
+- ‘T’ is a list of names/labels of each time step to be used as index of each dataframe. If None, range(0, T) is used. Where T is the number of time steps in the fitted data
+- ‘N’ is a list of names/labels of each entity to be used as index of the dataframe. If None, range(0, N) is used. Where N is the number of entities/observations in the fitted data 
+- ‘F’ is a list of names/labels of each feature to be used as column of each dataframe. If None, range(0, F) is used. Where F is the number of features in the fitted data 
+If label_dict is None, the result of <a href="#id3"><span class="problematic" id="id4">self.label_dict_</span></a> is used.</p>
+</dd>
+<dt><strong>Returns</strong></dt><dd></dd>
+<dt><strong>——</strong></dt><dd></dd>
+<dt><strong>list</strong></dt><dd><p>A list of k pandas DataFrames. Where k is the number of clusters. The i-th dataframe in the list is a T x F dataframe of the values of the cluster centers of the i-th cluster.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.greedytscluster.greedytscluster.GreedyTSCluster.get_named_labels">
+<span class="sig-name descname"><span class="pre">get_named_labels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#tscluster.greedytscluster.greedytscluster.GreedyTSCluster.get_named_labels" title="Link to this definition"></a></dt>
+<dd><p>Method to return the a data frame of the label assignments with custom names of time steps and entities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>label_dict</strong><span class="classifier">dict, default=None</span></dt><dd><p>a dictionary whose keys are ‘T’, ‘N’, and ‘F’ (which are the number of time steps, entities, and features respectively). Value of each key is a list such that the value of key:
+- ‘T’ is a list of names/labels of each time step to be used as index of each dataframe. If None, range(0, T) is used. Where T is the number of time steps in the fitted data
+- ‘N’ is a list of names/labels of each entity to be used as index of the dataframe. If None, range(0, N) is used. Where N is the number of entities/observations in the fitted data 
+- ‘F’ is a list of names/labels of each feature to be used as column of each dataframe. If None, range(0, F) is used. Where F is the number of features in the fitted data 
+If label_dict is None, the result of <a href="#id5"><span class="problematic" id="id6">self.label_dict_</span></a> is used.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>pd.DataFrame</dt><dd><p>A pandas DataFrame with shape (N, T). The value in the n-th row and t-th column is an integer indicating the custer assignment of the n-th entity/observation at time t.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.greedytscluster.greedytscluster.GreedyTSCluster.set_label_dict">
+<span class="sig-name descname"><span class="pre">set_label_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#tscluster.greedytscluster.greedytscluster.GreedyTSCluster.set_label_dict" title="Link to this definition"></a></dt>
+<dd><p>Method to manually set the <a href="#id7"><span class="problematic" id="id8">label_dict_</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">dict</span></dt><dd><p>the value to set as <a href="#id9"><span class="problematic" id="id10">label_dict_</span></a>. Should be a dict with all of ‘T’, ‘N’, and ‘F’ (case sensitive, which are number of time steps, entities, and features respectively) as key. The value of each key is a list of labels for the key in the data.  If your data don’t have values for any of the keys, set its value to None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>dict</dt><dd><p>a dictionary whose keys are ‘T’, ‘N’, and ‘F’; and values are lists of the labels of each key.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tscluster.opttscluster.html" class="btn btn-neutral float-left" title="opttscluster module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tscluster.preprocessing.html" class="btn btn-neutral float-right" title="preprocessing module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, tscluster.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

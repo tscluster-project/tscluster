@@ -1,0 +1,1420 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorial with Real World Data &mdash; tscluster  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script type="text/x-mathjax-config">MathJax.Hub.Config({"TeX": {"equationNumbers": {"autoNumber": "AMS"}}})</script>
+      <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Tutorial with Synthetic Data" href="../with_synthetic_data/notebook.html" />
+    <link rel="prev" title="Tutorial" href="../../tscluster_tutorial.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            tscluster
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../API.html">API Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../../user_guide.html">User Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../../tscluster_tutorial.html">Tutorial</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Tutorial with Real World Data</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pre-processing">Pre-processing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#clustering">Clustering</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#interpreting">Interpreting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#appendix-1-clustering-result-using-sla-with-global-optimality">Appendix 1: Clustering result using SLA with global optimality</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../with_synthetic_data/notebook.html">Tutorial with Synthetic Data</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../colab_notebook.html">Colab Notebook</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">tscluster</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../user_guide.html">User Guide</a></li>
+          <li class="breadcrumb-item"><a href="../../tscluster_tutorial.html">Tutorial</a></li>
+      <li class="breadcrumb-item active">Tutorial with Real World Data</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/source/tscluster_tutorial_files/with_real_world_data/notebook.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tutorial-with-real-world-data">
+<h1>Tutorial with Real World Data<a class="headerlink" href="#tutorial-with-real-world-data" title="Link to this heading"></a></h1>
+<p>This tutorial notebook demonstrates the detailed process of the Toronto
+neighborhoods changes case study using Sequence Label Analysis (SLA) and
+Bounded Dynamic Clustering (BDC) in <em>tscluster</em>.</p>
+<p>The dataset in this case study has <span class="math notranslate nohighlight">\(F=4\)</span> socioeconomic indicators
+over <span class="math notranslate nohighlight">\(T=6\)</span> timestamps from 1996 to 2021. This temporal data comes
+from the `Census of Canada’ data provided by Statistics Canada via
+CHASS Data Centre. The geographic unit for this analysis was the Forward
+Sortation Area (FSA), with all <span class="math notranslate nohighlight">\(N = 96\)</span> entities transformed using
+Z-score normalization across each timestamp per feature.</p>
+<p>The objective of this case study is identifing different types of FSAs
+in Toronto by clustering their historical temporal data, and second,
+examined atypical FSAs that do not neatly fit into a single type,
+quantified by the frequency of label changes within each FSA.</p>
+<p>We identified four different types of FSA in Toronto and captured the
+FSA that exhibits the most divergent transition from one neighbourhood
+type to another (i.e. the most frequent changes in its cluster label).</p>
+<p><strong>Note: Due to the dataset size of this case study, this notebook
+requires a valid license from Gurobi to run the clustering algorithms.
+Gurobi offers a free academic license for academic users. For more
+information about Gurobi licenses, please refer to the website</strong>
+<a class="reference external" href="https://www.gurobi.com/academia/academic-program-and-licenses/">here</a><strong>.</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># download and install tscluster via pypi</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">tscluster</span>
+<span class="c1"># ensure reproducible clustering result</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">scikit</span><span class="o">-</span><span class="n">learn</span><span class="o">==</span><span class="mf">1.4.0</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Requirement</span> <span class="n">already</span> <span class="n">satisfied</span><span class="p">:</span> <span class="n">scikit</span><span class="o">-</span><span class="n">learn</span><span class="o">==</span><span class="mf">1.4.0</span> <span class="ow">in</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span> <span class="p">(</span><span class="mf">1.4.0</span><span class="p">)</span>
+<span class="n">Requirement</span> <span class="n">already</span> <span class="n">satisfied</span><span class="p">:</span> <span class="n">numpy</span><span class="o">&lt;</span><span class="mf">2.0</span><span class="p">,</span><span class="o">&gt;=</span><span class="mf">1.19.5</span> <span class="ow">in</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span> <span class="p">(</span><span class="kn">from</span> <span class="nn">scikit</span><span class="o">-</span><span class="n">learn</span><span class="o">==</span><span class="mf">1.4.0</span><span class="p">)</span> <span class="p">(</span><span class="mf">1.26.4</span><span class="p">)</span>
+<span class="n">Requirement</span> <span class="n">already</span> <span class="n">satisfied</span><span class="p">:</span> <span class="n">scipy</span><span class="o">&gt;=</span><span class="mf">1.6.0</span> <span class="ow">in</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span> <span class="p">(</span><span class="kn">from</span> <span class="nn">scikit</span><span class="o">-</span><span class="n">learn</span><span class="o">==</span><span class="mf">1.4.0</span><span class="p">)</span> <span class="p">(</span><span class="mf">1.11.4</span><span class="p">)</span>
+<span class="n">Requirement</span> <span class="n">already</span> <span class="n">satisfied</span><span class="p">:</span> <span class="n">joblib</span><span class="o">&gt;=</span><span class="mf">1.2.0</span> <span class="ow">in</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span> <span class="p">(</span><span class="kn">from</span> <span class="nn">scikit</span><span class="o">-</span><span class="n">learn</span><span class="o">==</span><span class="mf">1.4.0</span><span class="p">)</span> <span class="p">(</span><span class="mf">1.4.2</span><span class="p">)</span>
+<span class="n">Requirement</span> <span class="n">already</span> <span class="n">satisfied</span><span class="p">:</span> <span class="n">threadpoolctl</span><span class="o">&gt;=</span><span class="mf">2.0.0</span> <span class="ow">in</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">dist</span><span class="o">-</span><span class="n">packages</span> <span class="p">(</span><span class="kn">from</span> <span class="nn">scikit</span><span class="o">-</span><span class="n">learn</span><span class="o">==</span><span class="mf">1.4.0</span><span class="p">)</span> <span class="p">(</span><span class="mf">3.5.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#import the required libraries</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+</pre></div>
+</div>
+<section id="pre-processing">
+<h2>Pre-processing<a class="headerlink" href="#pre-processing" title="Link to this heading"></a></h2>
+<section id="dataset-description">
+<h3>Dataset description<a class="headerlink" href="#dataset-description" title="Link to this heading"></a></h3>
+<p>The temporal data used in this case study is sourced from the ‘Census of
+Canada’ data provided by Statistics Canada through the CHASS Data Centre
+(<a class="reference external" href="https://datacentre.chass.utoronto.ca/">https://datacentre.chass.utoronto.ca/</a>).</p>
+<p>The geographic unit for this analysis was the Forward Sortation Area
+(FSA), encompassing all <span class="math notranslate nohighlight">\(N = 96\)</span> entities.</p>
+<p>There are <span class="math notranslate nohighlight">\(F = 4\)</span> features observed across <span class="math notranslate nohighlight">\(T = 6\)</span> years
+spanning from 1996 to 2021. Below is a brief description of each feature
+and their respective names that will be used in this notebook:</p>
+<ul class="simple">
+<li><p><strong>Population Density</strong>: The population density of each FSA, obtained
+from the total population divided by the area of each FSA from the
+shapefile.</p></li>
+<li><p><strong>Median Total Income</strong>: Median income among recipients aged 15 years
+and over.</p></li>
+<li><p><strong>Young Population</strong>: Percentage of the young (aged 20 - 34)
+population in the total popluation of each FSA.</p></li>
+<li><p><strong>Visible Minority</strong>: Percentage of the visible minority population
+based on the Statistics Canada’s definition of visible minority.</p></li>
+</ul>
+<p>For more detailed information about how these features were derived,
+please refer to the original paper.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Download the dervied temporal data and load it into a pandas dataframe</span>
+<span class="c1"># (also available in the test/toronto_fsa folder of the *tscluster* github repo)</span>
+<span class="n">temporal_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;https://raw.githubusercontent.com/tscluster-project/tscluster/main/test/toronto_fsa/toronto_census_data_by_fsa.csv&#39;</span><span class="p">)</span>
+<span class="c1"># Display the first few rows of the datax</span>
+<span class="n">temporal_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+  <div id="df-161c458a-25de-4ace-95b2-966823cc8822" class="colab-df-container">
+    <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>FSA</th>
+      <th>Population Density</th>
+      <th>Visible Minority</th>
+      <th>Median Total Income</th>
+      <th>Young Population</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1996</td>
+      <td>M1B</td>
+      <td>0.001630</td>
+      <td>0.719880</td>
+      <td>20097.0</td>
+      <td>0.246507</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1996</td>
+      <td>M1C</td>
+      <td>0.002145</td>
+      <td>0.338884</td>
+      <td>26935.0</td>
+      <td>0.207376</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1996</td>
+      <td>M1E</td>
+      <td>0.002931</td>
+      <td>0.367302</td>
+      <td>19992.0</td>
+      <td>0.226050</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1996</td>
+      <td>M1G</td>
+      <td>0.003215</td>
+      <td>0.514389</td>
+      <td>16749.0</td>
+      <td>0.242840</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1996</td>
+      <td>M1H</td>
+      <td>0.003692</td>
+      <td>0.484527</td>
+      <td>18399.0</td>
+      <td>0.250900</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-161c458a-25de-4ace-95b2-966823cc8822')"
+            title="Convert this dataframe to an interactive table."
+            style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"/>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-161c458a-25de-4ace-95b2-966823cc8822 button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-161c458a-25de-4ace-95b2-966823cc8822');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+<div id="df-76169c76-599a-4a01-8bb6-e467b8a4b92d">
+  <button class="colab-df-quickchart" onclick="quickchart('df-76169c76-599a-4a01-8bb6-e467b8a4b92d')"
+            title="Suggest charts"
+            style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px"viewBox="0 0 24 24"
+     width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+    </g>
+</svg>
+  </button>
+
+<style>
+  .colab-df-quickchart {
+      --bg-color: #E8F0FE;
+      --fill-color: #1967D2;
+      --hover-bg-color: #E2EBFA;
+      --hover-fill-color: #174EA6;
+      --disabled-fill-color: #AAA;
+      --disabled-bg-color: #DDD;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+      --bg-color: #3B4455;
+      --fill-color: #D2E3FC;
+      --hover-bg-color: #434B5C;
+      --hover-fill-color: #FFFFFF;
+      --disabled-bg-color: #3B4455;
+      --disabled-fill-color: #666;
+  }
+
+  .colab-df-quickchart {
+    background-color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    fill: var(--fill-color);
+    height: 32px;
+    padding: 0;
+    width: 32px;
+  }
+
+  .colab-df-quickchart:hover {
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: var(--button-hover-fill-color);
+  }
+
+  .colab-df-quickchart-complete:disabled,
+  .colab-df-quickchart-complete:disabled:hover {
+    background-color: var(--disabled-bg-color);
+    fill: var(--disabled-fill-color);
+    box-shadow: none;
+  }
+
+  .colab-df-spinner {
+    border: 2px solid var(--fill-color);
+    border-color: transparent;
+    border-bottom-color: var(--fill-color);
+    animation:
+      spin 1s steps(1) infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+      border-left-color: var(--fill-color);
+    }
+    20% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    30% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+      border-right-color: var(--fill-color);
+    }
+    40% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    60% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+    }
+    80% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-bottom-color: var(--fill-color);
+    }
+    90% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+    }
+  }
+</style>
+
+  <script>
+    async function quickchart(key) {
+      const quickchartButtonEl =
+        document.querySelector('#' + key + ' button');
+      quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
+      quickchartButtonEl.classList.add('colab-df-spinner');
+      try {
+        const charts = await google.colab.kernel.invokeFunction(
+            'suggestCharts', [key], {});
+      } catch (error) {
+        console.error('Error during call to suggestCharts:', error);
+      }
+      quickchartButtonEl.classList.remove('colab-df-spinner');
+      quickchartButtonEl.classList.add('colab-df-quickchart-complete');
+    }
+    (() => {
+      let quickchartButtonEl =
+        document.querySelector('#df-76169c76-599a-4a01-8bb6-e467b8a4b92d button');
+      quickchartButtonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+    })();
+  </script>
+</div>
+
+    </div>
+  </div><p>The example above displays data for 5 entities (i.e. FSA) with the
+values of each studied feature in the year 1996. The FSA code for each
+entity is labeled in the column ‘FSA’, and the year is indicated in the
+‘year’ column.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;unique year:&#39;</span><span class="p">,</span> <span class="n">temporal_data</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;number of unique fsa:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">temporal_data</span><span class="p">[</span><span class="s1">&#39;FSA&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">unique</span> <span class="n">year</span><span class="p">:</span> <span class="p">[</span><span class="mi">1996</span> <span class="mi">2001</span> <span class="mi">2006</span> <span class="mi">2011</span> <span class="mi">2016</span> <span class="mi">2021</span><span class="p">]</span>
+<span class="n">number</span> <span class="n">of</span> <span class="n">unique</span> <span class="n">fsa</span><span class="p">:</span> <span class="mi">96</span>
+</pre></div>
+</div>
+<p>There are <span class="math notranslate nohighlight">\(T = 6\)</span> timestamps and <span class="math notranslate nohighlight">\(N = 96\)</span> FSA entities in
+this temporal dataset.</p>
+</section>
+<section id="missing-value">
+<h3>Missing value<a class="headerlink" href="#missing-value" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#replace 0 with nan</span>
+<span class="n">temporal_data</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1">#check for missing values</span>
+<span class="n">temporal_data</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">year</span>                    <span class="mi">0</span>
+<span class="n">FSA</span>                     <span class="mi">0</span>
+<span class="n">Population</span> <span class="n">Density</span>     <span class="mi">96</span>
+<span class="n">Visible</span> <span class="n">Minority</span>        <span class="mi">0</span>
+<span class="n">Median</span> <span class="n">Total</span> <span class="n">Income</span>     <span class="mi">1</span>
+<span class="n">Young</span> <span class="n">Population</span>        <span class="mi">0</span>
+<span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
+</pre></div>
+</div>
+<p>There are 96 missing timestamps in the feature ‘Population Density’ and
+1 missing timestamp in the feature ‘Young Population’. We used linear
+interplation to impute these missing value.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#arrange by fsa and year</span>
+<span class="n">temporal_data</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;FSA&#39;</span><span class="p">,</span><span class="s1">&#39;year&#39;</span><span class="p">],</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">temporal_data</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1">#select fsa that exist in all years</span>
+<span class="n">common_fsa</span> <span class="o">=</span> <span class="n">temporal_data</span><span class="p">[</span><span class="n">temporal_data</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="mi">1996</span><span class="p">])][</span><span class="s1">&#39;FSA&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">fsa</span> <span class="ow">in</span> <span class="n">common_fsa</span><span class="p">:</span>
+    <span class="c1">#select the current fsa</span>
+    <span class="n">current_fsa</span> <span class="o">=</span> <span class="n">temporal_data</span><span class="p">[</span><span class="n">temporal_data</span><span class="p">[</span><span class="s1">&#39;FSA&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">fsa</span><span class="p">])]</span>
+    <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">current_fsa</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">feature</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;FSA&#39;</span><span class="p">,</span><span class="s1">&#39;year&#39;</span><span class="p">]:</span>
+            <span class="c1">#interpolate missing values</span>
+            <span class="n">current_fsa</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="n">feature</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_fsa</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="n">feature</span><span class="p">]</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+            <span class="c1">#fill missing values at the beginning of the series (using the first valid value)</span>
+            <span class="n">current_fsa</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="n">feature</span><span class="p">]</span> <span class="o">=</span> <span class="n">current_fsa</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="n">feature</span><span class="p">]</span><span class="o">.</span><span class="n">bfill</span><span class="p">()</span>
+    <span class="c1">#update the temporal data</span>
+    <span class="n">temporal_data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">current_fsa</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># check for missing values after interpolation</span>
+<span class="n">temporal_data</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">year</span>                   <span class="mi">0</span>
+<span class="n">FSA</span>                    <span class="mi">0</span>
+<span class="n">Population</span> <span class="n">Density</span>     <span class="mi">0</span>
+<span class="n">Visible</span> <span class="n">Minority</span>       <span class="mi">0</span>
+<span class="n">Median</span> <span class="n">Total</span> <span class="n">Income</span>    <span class="mi">0</span>
+<span class="n">Young</span> <span class="n">Population</span>       <span class="mi">0</span>
+<span class="n">dtype</span><span class="p">:</span> <span class="n">int64</span>
+</pre></div>
+</div>
+</section>
+<section id="z-score-normalization">
+<h3>Z-score Normalization<a class="headerlink" href="#z-score-normalization" title="Link to this heading"></a></h3>
+<p>Note that different features are in different scales and units. For
+example, ‘Total Median Income’ is recorded in Canadian Dollars, while
+‘Young Population’ is a percentage. Therefore, we utilize Z-score
+normalization per timestamp <span class="math notranslate nohighlight">\(T\)</span> per feature <span class="math notranslate nohighlight">\(F\)</span> to ensure
+that all features are on the same scale and to eliminate the increasing
+trends caused by external factors (e.g., inflation affecting ‘Total
+Median Income’).</p>
+<p>Z-score normalization can be performed manually by users or using
+available pre-processing tools in <em>tscluster</em>. In this exercise, we will
+demonstrate the second approach.</p>
+<section id="loading-data-into-tscluster">
+<h4>Loading Data into <em>tscluster</em><a class="headerlink" href="#loading-data-into-tscluster" title="Link to this heading"></a></h4>
+<p><em>tscluster</em> accepts several formats of temporal datasets. Please refer
+to the documentation for all available formats.</p>
+<p>One of the acceptable formats is the path of a directory containing
+<span class="math notranslate nohighlight">\(T\)</span> Pandas DataFrames, where each DataFrame represents one
+timestamp in the temporal dataset. We have broken down the temporal data
+from the previous section into <span class="math notranslate nohighlight">\(T = 6\)</span> individual DataFrames and
+stored them in a directory named ‘toronto_fsa_by_year’.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#create a folder to save the data</span>
+<span class="n">folder</span> <span class="o">=</span> <span class="s1">&#39;toronto_fsa_by_year&#39;</span>
+<span class="c1">#check if the folder exists</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">folder</span><span class="p">):</span>
+    <span class="c1">#if not, create the folder</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+
+<span class="c1">#save the data by year</span>
+<span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">temporal_data</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">():</span>
+    <span class="c1">#select the current year</span>
+    <span class="n">current_year</span> <span class="o">=</span> <span class="n">temporal_data</span><span class="p">[</span><span class="n">temporal_data</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="n">year</span><span class="p">])]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="c1">#sort by fsa to ensure the order is consistent</span>
+    <span class="n">current_year</span> <span class="o">=</span> <span class="n">current_year</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;FSA&#39;</span><span class="p">)</span>
+    <span class="c1">#set the index to the FSA</span>
+    <span class="n">current_year</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">current_year</span><span class="p">[</span><span class="s1">&#39;FSA&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_list</span><span class="p">()</span>
+    <span class="n">current_year</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;FSA&#39;</span><span class="p">,</span><span class="s1">&#39;year&#39;</span><span class="p">],</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1">#save the current year into a csv file with name timestep_year.csv with the FSA as the index</span>
+    <span class="n">current_year</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span><span class="s1">&#39;timestep_&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.csv&#39;</span><span class="p">),</span> <span class="n">index</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We loaded the saved DataFrame using the <code class="docutils literal notranslate"><span class="pre">load_data</span></code> function in
+<em>tscluster</em>. The <code class="docutils literal notranslate"><span class="pre">load_data</span></code> function contains two outputs: - (1) a
+3-D numpy array with dimension <span class="math notranslate nohighlight">\((T,N,F)\)</span> (i.e. (Number of year,
+Number of FSAs, Number of features)) - (2) a Python <code class="docutils literal notranslate"><span class="pre">dictionary</span></code> that
+contains labels of timestamps (with key <code class="docutils literal notranslate"><span class="pre">T</span></code>), entities (with key
+<code class="docutils literal notranslate"><span class="pre">N</span></code>) and features (with key <code class="docutils literal notranslate"><span class="pre">F</span></code>)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tscluster.preprocessing.utils</span> <span class="kn">import</span> <span class="n">load_data</span>
+<span class="c1"># load the data using the directory where the data is saved</span>
+<span class="c1"># (use_suffix_as_label=True ensures that the suffix of the file is used as the label of entites and features)</span>
+<span class="c1"># index_col=[0] ensures that the first column is used as the label for each entity</span>
+<span class="c1"># header=0 ensures that the first row is used as the label for each feature</span>
+<span class="n">temporal_data</span><span class="p">,</span> <span class="n">label_dict</span> <span class="o">=</span> <span class="n">load_data</span><span class="p">(</span><span class="s1">&#39;./toronto_fsa_by_year&#39;</span><span class="p">,</span> <span class="n">use_suffix_as_label</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                              <span class="n">read_file_args</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;index_col&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;header&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+<span class="c1"># the 3-D numpy array temporal_data contains the data with shape (n_features, n_samples, n_timesteps)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;shape of temporal_data is </span><span class="si">{</span><span class="n">temporal_data</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">shape</span> <span class="n">of</span> <span class="n">temporal_data</span> <span class="ow">is</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">96</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>the <code class="docutils literal notranslate"><span class="pre">label_dict</span></code> contains the labels for the timestamps, entities and
+features from the Pandas DataFrame</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># first 5 entities of each label</span>
+<span class="n">label_dict</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">][:</span><span class="mi">5</span><span class="p">],</span> <span class="n">label_dict</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">][:</span><span class="mi">5</span><span class="p">],</span> <span class="n">label_dict</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">][:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">([</span><span class="s1">&#39;1996&#39;</span><span class="p">,</span> <span class="s1">&#39;2001&#39;</span><span class="p">,</span> <span class="s1">&#39;2006&#39;</span><span class="p">,</span> <span class="s1">&#39;2011&#39;</span><span class="p">,</span> <span class="s1">&#39;2016&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="s1">&#39;M1B&#39;</span><span class="p">,</span> <span class="s1">&#39;M1C&#39;</span><span class="p">,</span> <span class="s1">&#39;M1E&#39;</span><span class="p">,</span> <span class="s1">&#39;M1G&#39;</span><span class="p">,</span> <span class="s1">&#39;M1H&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="s1">&#39;Population Density&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;Visible Minority&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;Median Total Income&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;Young Population&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>As shown above, there are <span class="math notranslate nohighlight">\(T = 6\)</span> years <span class="math notranslate nohighlight">\(N = 96\)</span> FSAs and
+<span class="math notranslate nohighlight">\(F=4\)</span> features in the loaded data array.</p>
+</section>
+<section id="z-score-normalization-using-tscluster">
+<h4>Z-score normalization using <em>tscluster</em><a class="headerlink" href="#z-score-normalization-using-tscluster" title="Link to this heading"></a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># loaded the z-score standard scaler from tscluster</span>
+<span class="kn">from</span> <span class="nn">tscluster.preprocessing</span> <span class="kn">import</span> <span class="n">TSStandardScaler</span>
+
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">TSStandardScaler</span><span class="p">(</span><span class="n">per_time</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># initialize a time series standard scaler</span>
+<span class="n">scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">temporal_data</span><span class="p">)</span> <span class="c1"># fit</span>
+<span class="n">temporal_data_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">temporal_data</span><span class="p">)</span> <span class="c1"># transform</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;temporal_data_scaled shape is </span><span class="si">{</span><span class="n">temporal_data_scaled</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The value of four features of the first five FSAs in 1996 are:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">temporal_data_scaled</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="p">:])</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">temporal_data_scaled</span> <span class="n">shape</span> <span class="ow">is</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">96</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+<span class="n">The</span> <span class="n">value</span> <span class="n">of</span> <span class="n">four</span> <span class="n">features</span> <span class="n">of</span> <span class="n">the</span> <span class="n">first</span> <span class="n">five</span> <span class="n">FSAs</span> <span class="ow">in</span> <span class="mi">1996</span> <span class="n">are</span><span class="p">:</span>
+<span class="p">[[</span><span class="o">-</span><span class="mf">0.97548338</span>  <span class="mf">2.19399549</span> <span class="o">-</span><span class="mf">0.32845476</span> <span class="o">-</span><span class="mf">0.2820364</span> <span class="p">]</span>
+ <span class="p">[</span><span class="o">-</span><span class="mf">0.82692074</span>  <span class="mf">0.03330543</span>  <span class="mf">0.63842612</span> <span class="o">-</span><span class="mf">0.82223389</span><span class="p">]</span>
+ <span class="p">[</span><span class="o">-</span><span class="mf">0.60021924</span>  <span class="mf">0.19446558</span> <span class="o">-</span><span class="mf">0.34330157</span> <span class="o">-</span><span class="mf">0.56444238</span><span class="p">]</span>
+ <span class="p">[</span><span class="o">-</span><span class="mf">0.51810172</span>  <span class="mf">1.02862245</span> <span class="o">-</span><span class="mf">0.80185592</span> <span class="o">-</span><span class="mf">0.33266133</span><span class="p">]</span>
+ <span class="p">[</span><span class="o">-</span><span class="mf">0.38065401</span>  <span class="mf">0.8592721</span>  <span class="o">-</span><span class="mf">0.56854889</span> <span class="o">-</span><span class="mf">0.22139573</span><span class="p">]]</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="visualizing-the-temporal-dataset">
+<h3>Visualizing the temporal dataset<a class="headerlink" href="#visualizing-the-temporal-dataset" title="Link to this heading"></a></h3>
+<p>After normalizing the data, we visualized the temporal data using the
+<code class="docutils literal notranslate"><span class="pre">tsplot</span></code> module in <em>tscluster</em>. The output of the <code class="docutils literal notranslate"><span class="pre">tsplot.plot()</span></code>
+function will be a group of time series plots, each visualizing
+entities’ time series for one of the four features in the temporal
+dataset.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tscluster.tsplot</span> <span class="kn">import</span> <span class="n">tsplot</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">tsplot</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">temporal_data_scaled</span><span class="p">,</span> <span class="n">label_dict</span><span class="o">=</span><span class="n">label_dict</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">16</span><span class="p">),</span>
+                      <span class="n">ylabel</span> <span class="o">=</span> <span class="s1">&#39;Normalized Values&#39;</span><span class="p">,</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../../_images/toronto_neighborhood_change_24_0.png" src="../../../_images/toronto_neighborhood_change_24_0.png" />
+</section>
+</section>
+<section id="clustering">
+<h2>Clustering<a class="headerlink" href="#clustering" title="Link to this heading"></a></h2>
+<p>We first identified the different types of FSAs in Toronto by clustering
+their historical temporal data, and second, examined atypical FSAs that
+do not neatly fit into a single type, quantified by the frequency of
+label changes within each FSA.</p>
+<p>To illustrate the distinctive capabilities of <em>tscluster</em>, we show both
+Social Label Analysis (SLA), a common method for neighbourhood change
+analysis (Delmelle, 2016b), and Bounded Dynamic Clustering (BDC) (for
+this exercise, we limited the maximum number of changes to 1. Only a
+single FSA with the most diverged transition will change its label).</p>
+<p>This dual approach allows us to compare SLA with the novel BDC in
+handling temporal data for neighbourhood change analysis.</p>
+<section id="social-label-analysis-sla">
+<h3>Social Label Analysis (SLA)<a class="headerlink" href="#social-label-analysis-sla" title="Link to this heading"></a></h3>
+<p>Social Label Analysis (SLA) is a traditional method in the analysis of
+trends and changes in temporal data in neighbourhoods. It allows for the
+cluster labels of each entity to change over time by clustering each
+timestamp independently and assuming static cluster centers.</p>
+<p>SLA gains insight into the evolution of a given neighbourhood by
+analyzing changes in its cluster labels over time, which reveal possible
+transitions between different types of neighbourhoods.</p>
+<section id="using-elbow-method-to-determine-the-number-of-clusters">
+<h4>Using Elbow method to determine the number of clusters<a class="headerlink" href="#using-elbow-method-to-determine-the-number-of-clusters" title="Link to this heading"></a></h4>
+<p>The first critical problem for clustering algorithms that require a
+pre-defined number of clusters is deciding the optimal number of
+clusters <span class="math notranslate nohighlight">\(K\)</span>. For this exercise, we used the ‘Elbow method with
+Sum of Squares’ in the <code class="docutils literal notranslate"><span class="pre">yellowbrick</span></code> package. This method applies
+K-means clustering with a range of <span class="math notranslate nohighlight">\(K\)</span> values and identifies the
+<span class="math notranslate nohighlight">\(K\)</span> value where the sum of squared errors exhibits the maximum
+curvature.</p>
+<p>To simulate the setting of SLA, we also need to breaking the Numpy array
+<code class="docutils literal notranslate"><span class="pre">temporal_data_scaled</span></code> that contains the normalized time series of
+each FSA in four features into a Numpy array of individual timestamp
+data with dimension <span class="math notranslate nohighlight">\((T \times N, F)\)</span>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#breaking time series data into pointwise data</span>
+<span class="n">timestamp_data</span> <span class="o">=</span> <span class="n">temporal_data_scaled</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">96</span><span class="o">*</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">timestamp_data</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">576</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># we will use the elbow method to determine the optimal number of clusters</span>
+<span class="kn">from</span> <span class="nn">sympy</span> <span class="kn">import</span> <span class="n">false</span>
+<span class="kn">from</span> <span class="nn">yellowbrick.cluster</span> <span class="kn">import</span> <span class="n">KElbowVisualizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">n_init</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">visualizer</span> <span class="o">=</span> <span class="n">KElbowVisualizer</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">),</span><span class="n">timings</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">())</span>
+<span class="n">visualizer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">timestamp_data</span><span class="p">)</span>       <span class="c1"># Fit data to visualizer</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Elbow Method for Optimal k using Sum of Square Error&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Sum of Squared Error&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../../_images/toronto_neighborhood_change_31_0.png" src="../../../_images/toronto_neighborhood_change_31_0.png" />
+<p>We decided the number for <span class="math notranslate nohighlight">\(K\)</span> will be 4 in this case.</p>
+</section>
+<section id="sla-in-tscluster">
+<h4>SLA in <em>tscluster</em><a class="headerlink" href="#sla-in-tscluster" title="Link to this heading"></a></h4>
+<p>There are two approaches in <em>tscluster</em> for Sequence Label Analysis
+(SLA):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">TSGlobalKmeans</span></code>: This provides the traditional SLA approach, using
+K-means clustering from scikit-learn with timestamp entities, and
+assigns the labels of each timestamp back to the original temporal
+data of each FSA.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OptTSCluster</span></code>: This is a novel Mixed Linear Integer Programming
+approach, using constrained programming techniques to allow cluster
+label changes across time while keeping clusters static over time.
+This approach also guarantees global optimality and reproducibility
+compared to the traditional K-means approach.</p></li>
+</ul>
+<p>In the notebook, we will demonstrate <code class="docutils literal notranslate"><span class="pre">TSGlobalKmeans</span></code> and reveals
+potential problem in this tranditional approach due to the lack of
+global optimality and reproducibility. Appendix 1 shows the same
+appoarch with `OptTSCluster.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using TSGlobalKmeans</span>
+<span class="kn">from</span> <span class="nn">tscluster.tskmeans</span> <span class="kn">import</span> <span class="n">TSGlobalKmeans</span>
+<span class="c1"># initialize the SLA clustering method with the number of cluster = 4</span>
+<span class="n">sla</span> <span class="o">=</span> <span class="n">TSGlobalKmeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="c1"># clustering the normalized temporal data with SLA</span>
+<span class="n">sla</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">temporal_data_scaled</span><span class="p">,</span> <span class="n">label_dict</span><span class="o">=</span><span class="n">label_dict</span><span class="p">)</span>
+<span class="c1"># print the number of entities that show cluster label changes</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;total number of cluster changes is: </span><span class="si">{</span><span class="n">sla</span><span class="o">.</span><span class="n">n_changes_</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">total</span> <span class="n">number</span> <span class="n">of</span> <span class="n">cluster</span> <span class="n">changes</span> <span class="ow">is</span><span class="p">:</span> <span class="mi">37</span>
+</pre></div>
+</div>
+<p><strong>Note:</strong> Since traditional K-means clustering is sensitive to
+initialization and does not guarantee reproducibility, the clustering
+results can be differ across different sklearn/tslearn versions and
+settings.</p>
+<p>We can also obtain the cluster labels of each FSA</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cluster_label_sla</span> <span class="o">=</span> <span class="n">sla</span><span class="o">.</span><span class="n">labels_</span>
+<span class="c1"># the cluster labels for the first 5 entities</span>
+<span class="n">cluster_label_sla</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">int32</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Each FSA has 6 cluster labels, each representing the cluster label of
+that FSA at the current timestamp (i.e., year) in the temporal data
+spanning from 1996 to 2021. We also identified the FSAs that exhibit
+changes in cluster labels over time.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#the cluster label of first 5 FSA that exhibit cluster label changes</span>
+<span class="n">cluster_label_sla</span><span class="p">[[</span><span class="n">label_dict</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sla</span><span class="o">.</span><span class="n">get_dynamic_entities</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]][:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">int32</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># the FSA code of first 5 FSA that exhibit cluster label changes</span>
+<span class="n">sla</span><span class="o">.</span><span class="n">get_dynamic_entities</span><span class="p">()[</span><span class="mi">0</span><span class="p">][:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;M3B&#39;</span><span class="p">,</span> <span class="s1">&#39;M9R&#39;</span><span class="p">,</span> <span class="s1">&#39;M4S&#39;</span><span class="p">,</span> <span class="s1">&#39;M8Y&#39;</span><span class="p">,</span> <span class="s1">&#39;M6R&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>As indicated above, these FSAs has more than one cluster label over
+time, which suggests changes in cluster labels for these FSAs.</p>
+</section>
+</section>
+<section id="bounded-dynamic-clustering-bdc">
+<h3>Bounded Dynamic Clustering (BDC)<a class="headerlink" href="#bounded-dynamic-clustering-bdc" title="Link to this heading"></a></h3>
+<p>Unlike SLA, the novel Bounded Dynamic Clustering (BDC) is only available
+in <code class="docutils literal notranslate"><span class="pre">OptTSCluster</span></code> under the Mixed Integer Linear Programming (MILP)
+formulation.</p>
+<p>For this exercise, we set the maximum number of allowable assignment
+changes parameter (<code class="docutils literal notranslate"><span class="pre">n_allow_assignment_change</span></code>) to 1 to identify the
+FSAs that exhibit the most divergent changes for atypical change
+analysis. To mantain consistance as previous SLA, the number of cluster
+in BDC <span class="math notranslate nohighlight">\(K\)</span> is 4.</p>
+<p><strong>Note:</strong> Depending on your computational resources, the BDC for this
+temporal dataset has a longer runtime compared to previous SLA. It also
+requires a valid license for Gurobi to utilize the Gurobi MILP solver
+within <em>tscluster</em>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#import the OptTSCluster class from tscluster.opttscluster</span>
+<span class="kn">from</span> <span class="nn">tscluster.opttscluster</span> <span class="kn">import</span> <span class="n">OptTSCluster</span>
+<span class="c1"># initialize the OptTSCluster with the number of clusters = 4 and select BDC (z1c1) as the clustering method</span>
+<span class="n">bdc</span> <span class="o">=</span> <span class="n">OptTSCluster</span><span class="p">(</span>
+    <span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">scheme</span><span class="o">=</span><span class="s1">&#39;z1c1&#39;</span><span class="p">,</span> <span class="c1"># dynamic centers, dynamic assignment</span>
+    <span class="n">n_allow_assignment_change</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="c1"># set number of changes to allow as 1</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">warm_start</span><span class="o">=</span><span class="kc">False</span> <span class="c1"># warm start is not used</span>
+<span class="p">)</span>
+<span class="c1"># clustering the normalized temporal data with BDC</span>
+<span class="n">bdc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">temporal_data_scaled</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Obj</span> <span class="n">val</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.8185369</span><span class="p">]</span>
+
+<span class="n">Total</span> <span class="n">time</span> <span class="ow">is</span> <span class="mf">3773.44</span><span class="n">secs</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">tscluster</span><span class="o">.</span><span class="n">opttscluster</span><span class="o">.</span><span class="n">opttscluster</span><span class="o">.</span><span class="n">OptTSCluster</span> <span class="n">at</span> <span class="mh">0x3080444a0</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>If the <code class="docutils literal notranslate"><span class="pre">label_dict</span></code> was not provided when initilizing the
+<code class="docutils literal notranslate"><span class="pre">OptTSCluster</span></code> object, the label of entities and features will be
+index instead of actual names</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># label_dict was not defined when initilizating the OptTSCluster object for BDC</span>
+<span class="n">bdc</span><span class="o">.</span><span class="n">label_dict_</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">][:</span><span class="mi">5</span><span class="p">],</span> <span class="n">bdc</span><span class="o">.</span><span class="n">label_dict_</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">][:</span><span class="mi">5</span><span class="p">],</span> <span class="n">bdc</span><span class="o">.</span><span class="n">label_dict_</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">][:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># label_dict was defined when initilizating the GlobalKMeans object for SLA</span>
+<span class="n">sla</span><span class="o">.</span><span class="n">label_dict_</span><span class="p">[</span><span class="s1">&#39;T&#39;</span><span class="p">][:</span><span class="mi">5</span><span class="p">],</span> <span class="n">sla</span><span class="o">.</span><span class="n">label_dict_</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">][:</span><span class="mi">5</span><span class="p">],</span> <span class="n">sla</span><span class="o">.</span><span class="n">label_dict_</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">][:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">([</span><span class="s1">&#39;1996&#39;</span><span class="p">,</span> <span class="s1">&#39;2001&#39;</span><span class="p">,</span> <span class="s1">&#39;2006&#39;</span><span class="p">,</span> <span class="s1">&#39;2011&#39;</span><span class="p">,</span> <span class="s1">&#39;2016&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="s1">&#39;M1B&#39;</span><span class="p">,</span> <span class="s1">&#39;M1C&#39;</span><span class="p">,</span> <span class="s1">&#39;M1E&#39;</span><span class="p">,</span> <span class="s1">&#39;M1G&#39;</span><span class="p">,</span> <span class="s1">&#39;M1H&#39;</span><span class="p">],</span>
+ <span class="p">[</span><span class="s1">&#39;Population Density&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;Visible Minority&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;Median Total Income&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;Young Population&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>similiar to SLA, we can obtain the cluster label from the clustering
+result using BDC</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">cluster_label_bdc</span> <span class="o">=</span> <span class="n">bdc</span><span class="o">.</span><span class="n">labels_</span>
+<span class="c1"># the cluster labels for the first 5 entities</span>
+<span class="n">cluster_label_bdc</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>And the FSA that has more than one cluster label (i.e. changed cluster)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#FSAs that exhibit cluster label changes</span>
+<span class="n">cluster_label_bdc</span><span class="p">[</span><span class="n">bdc</span><span class="o">.</span><span class="n">get_dynamic_entities</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">label_dict</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">][</span><span class="n">bdc</span><span class="o">.</span><span class="n">get_dynamic_entities</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]]</span>
+ <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">bdc</span><span class="o">.</span><span class="n">get_dynamic_entities</span><span class="p">()[</span><span class="mi">0</span><span class="p">]))]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;M5E&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Since we bounded the maximum number of allowed changes to 1, there is
+only one FSA that exhibited a change in its cluster label, and this FSA
+is ‘M5E’</p>
+</section>
+</section>
+<section id="interpreting">
+<h2>Interpreting<a class="headerlink" href="#interpreting" title="Link to this heading"></a></h2>
+<p>To identify different types of clusters, we can either use the mean of
+each feature across timestamps within each cluster to interpret the
+clusters’ characteristics, which is a common approach in neighborhood
+change analysis. Or use the cluster centers from the clustering result
+as the defining characteristics. Since the cluster centers in BDC is
+dynamic over time, it represents a temporal trend of each feature,
+instead of static points in SLA.</p>
+<p>To interpret the cluster label change and identifying FSA with most
+diverged change, we can utilize the <code class="docutils literal notranslate"><span class="pre">tsplot</span></code> module within <em>tscluster</em>
+to visualize the cluster results (e.g., cluster centers and labels) as a
+group of univariate time series plots for each of the four features.
+This approach helps validate whether FSAs exhibiting changes in cluster
+labels transition from one temporal trend to another in their original
+time series.</p>
+<section id="clustering-result-using-sla">
+<h3>Clustering result using SLA<a class="headerlink" href="#clustering-result-using-sla" title="Link to this heading"></a></h3>
+<section id="cluster-definition">
+<h4>Cluster definition<a class="headerlink" href="#cluster-definition" title="Link to this heading"></a></h4>
+<p>Using the mean of each feature across timestamps within the same cluster
+from the clustering result of SLA, we constructed a heatmap with the
+value of four feature in each cluster.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plot_cluster_heatmap</span><span class="p">(</span><span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                         <span class="n">cluster_result</span><span class="p">:</span> <span class="n">OptTSCluster</span><span class="o">|</span><span class="n">TSGlobalKmeans</span><span class="o">|</span><span class="n">KMeans</span><span class="p">,</span>
+                         <span class="n">n_clusters</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span>
+                         <span class="n">cluster_labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">|</span><span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                         <span class="n">label_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="o">|</span><span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                         <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">plt</span><span class="o">.</span><span class="n">Figure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot the cluster heatmap for the temporal data based on the cluster result.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    temporal_data : np.ndarray</span>
+<span class="sd">        The temporal data with shape (n_timesteps, n_samples, n_features).</span>
+<span class="sd">    cluster_result : OptTSCluster|TSGlobalKmeans|KMeans</span>
+<span class="sd">        The cluster result from three clustering method of *tscluster*</span>
+<span class="sd">    n_clusters : int</span>
+<span class="sd">        The number of clusters in the cluster result.</span>
+<span class="sd">    cluster_labels : List[str], optional</span>
+<span class="sd">        The cluster labels, by default None.</span>
+<span class="sd">        If None, the cluster labels will be &#39;Cluster 1&#39;, &#39;Cluster 2&#39;, ...</span>
+<span class="sd">    label_dict : dict, optional</span>
+<span class="sd">        The label dictionary of the temporal data, by default None</span>
+<span class="sd">        If None, the label dictionary of the cluster result will be used.</span>
+
+<span class="sd">    figsize : tuple, optional</span>
+<span class="sd">        The figure size of the heatmap, by default (10, 7)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    plt.Figure</span>
+<span class="sd">        The heatmap figure.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">label_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">label_dict</span> <span class="o">=</span> <span class="n">cluster_result</span><span class="o">.</span><span class="n">label_dict_</span>
+
+    <span class="n">z_score_matrix</span> <span class="o">=</span> <span class="p">[[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">])]</span>
+                      <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_clusters</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">fsa</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">current_fsa</span> <span class="o">=</span> <span class="n">cluster_result</span><span class="o">.</span><span class="n">labels_</span><span class="p">[</span><span class="n">fsa</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]):</span>
+                <span class="n">z_score_matrix</span><span class="p">[</span><span class="n">current_fsa</span><span class="p">[</span><span class="n">year</span><span class="p">]][</span><span class="n">feature</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">year</span><span class="p">,</span><span class="n">fsa</span><span class="p">,</span><span class="n">feature</span><span class="p">])</span>
+    <span class="n">z_score_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">z_score_matrix</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">object</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">z_score_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">z_score_matrix</span><span class="p">[</span><span class="n">feature</span><span class="p">][</span><span class="n">cluster</span><span class="p">])</span>
+                                <span class="k">for</span> <span class="n">cluster</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_clusters</span><span class="p">)]</span>
+                               <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">])])</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">z_score_matrix</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">label_dict</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">])</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cluster_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">cluster_labels</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Cluster &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cluster_result</span><span class="o">.</span><span class="n">n_clusters</span><span class="p">)]</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;.2f&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plot_cluster_heatmap</span><span class="p">(</span><span class="n">X</span> <span class="o">=</span> <span class="n">temporal_data_scaled</span><span class="p">,</span>
+                           <span class="n">cluster_result</span><span class="o">=</span><span class="n">sla</span><span class="p">,</span>
+                           <span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                           <span class="n">cluster_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Marginal&#39;</span><span class="p">,</span><span class="s1">&#39;Minority&#39;</span><span class="p">,</span><span class="s1">&#39;Young Urban&#39;</span><span class="p">,</span><span class="s1">&#39;Old Suburban&#39;</span><span class="p">])</span>
+                           <span class="c1"># assign the cluster labels</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Heatmap of four features by clusters using SLA (Z-score normalized)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Clusters&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Features&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../../_images/toronto_neighborhood_change_56_0.png" src="../../../_images/toronto_neighborhood_change_56_0.png" />
+<p>Using the heatmap above, we can obtain four different types of FSA:</p>
+<ul class="simple">
+<li><p>Cluster 1 Marginal: This type of FSA exhibits the lowest values
+across all four features and is located within Toronto’s suburbs,
+lacking clear geographical characteristics.</p></li>
+<li><p>Cluster 2 Visual Minority: This type of suburban FSA has the highest
+percentage of visual minorities with the lowest median income. This
+cluster is situated in the peripheral regions of Toronto’s suburbs</p></li>
+<li><p>Cluster 3 Young Urban: Concentrated in the central city, this type of
+FSA has the highest average population density and exhibits an
+exceptionally high youth population.</p></li>
+<li><p>Cluster 4 Old Suburban: Predominantly comprising suburban FSAs
+concentrated within the southeast corner and midtown of Toronto with
+the lowest average percentage of young adults, while boasting the
+high average median total income.</p></li>
+</ul>
+</section>
+<section id="atypical-change-analysis">
+<h4>Atypical change analysis<a class="headerlink" href="#atypical-change-analysis" title="Link to this heading"></a></h4>
+<p>We visulized all FSAs that exhibit change in cluster labels using the
+<code class="docutils literal notranslate"><span class="pre">tsplot</span></code> module within <em>tscluster</em>. The <code class="docutils literal notranslate"><span class="pre">tsplot.plot()</span></code> function
+visualizes the time series of each feature within the selected FSA.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">tsplot</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">X</span><span class="o">=</span><span class="n">temporal_data_scaled</span><span class="p">,</span> <span class="c1"># the normalized temporal data</span>
+    <span class="n">cluster_centers</span><span class="o">=</span><span class="n">sla</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">,</span> <span class="c1"># the cluster centers</span>
+    <span class="n">labels</span><span class="o">=</span><span class="n">sla</span><span class="o">.</span><span class="n">labels_</span><span class="p">,</span> <span class="n">label_dict</span><span class="o">=</span><span class="n">label_dict</span><span class="p">,</span> <span class="c1"># the cluster labels and the label dictionary</span>
+    <span class="n">entity_idx</span><span class="o">=</span><span class="p">[</span><span class="n">label_dict</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sla</span><span class="o">.</span><span class="n">get_dynamic_entities</span><span class="p">()[</span><span class="mi">0</span><span class="p">]],</span> <span class="c1"># the entities that exhibit cluster label changes</span>
+    <span class="n">show_all_entities</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">16</span><span class="p">),</span> <span class="n">annot_fontsize</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Normalized Values&#39;</span>
+    <span class="p">)</span> <span class="c1"># show only the entities that exhibit cluster label changes</span>
+</pre></div>
+</div>
+<img alt="../../../_images/toronto_neighborhood_change_59_0.png" src="../../../_images/toronto_neighborhood_change_59_0.png" />
+<p>It is challenging to distinguish which FSAs contain the most divergent
+changes in the plot above, as there are too many FSAs changing clusters
+in this unbounded scheme. Instead, we can use the frequency of cluster
+label changes to identify the FSAs with the most divergent changes from
+one temporal trend to another. In this case, the FSA with the highest
+frequency of label changes will be considered as the sample that
+exhibits the most divergent change in temporal trend.</p>
+<p>The FSA that exhibits the most frequent cluster label changes can be
+directly obtained using the <code class="docutils literal notranslate"><span class="pre">get_dynamic_entities()</span></code> function in
+<em>tscluster</em>. It returns a tuple consisting of a list of labels of
+samples that exhibit more than 0 cluster label changes and the number of
+cluster labels each sample exhibited, sorted in descending order.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># The label of the top 5 FSA entites that exhibit the most frequent cluster label changes</span>
+<span class="n">sla</span><span class="o">.</span><span class="n">get_dynamic_entities</span><span class="p">()[</span><span class="mi">0</span><span class="p">][:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;M3B&#39;</span><span class="p">,</span> <span class="s1">&#39;M9R&#39;</span><span class="p">,</span> <span class="s1">&#39;M4S&#39;</span><span class="p">,</span> <span class="s1">&#39;M8Y&#39;</span><span class="p">,</span> <span class="s1">&#39;M6R&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># The number of cluster label changes for the top 5 FSA</span>
+<span class="n">sla</span><span class="o">.</span><span class="n">get_dynamic_entities</span><span class="p">()[</span><span class="mi">1</span><span class="p">][:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>In the example provided, among the top 5 FSAs that exhibit the most
+frequent cluster label changes, the FSA ‘M3B’ exhibits 3 changes, while
+the rest of the FSAs exhibit 2 changes each. Therefore, ‘M3B’ will be
+considered as the FSA with the most divergent change based on our
+definition.</p>
+<p>To check the cluster label of ‘M3B’, we could utilize the <code class="docutils literal notranslate"><span class="pre">labels_</span></code>
+entity in the clustering result</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sla</span><span class="o">.</span><span class="n">labels_</span><span class="p">[</span><span class="n">sla</span><span class="o">.</span><span class="n">get_index_of_label</span><span class="p">(</span><span class="n">sla</span><span class="o">.</span><span class="n">get_dynamic_entities</span><span class="p">()[</span><span class="mi">0</span><span class="p">][:</span><span class="mi">1</span><span class="p">])]</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="c1"># since python index start from 0, we add 1 to match with the index we used in cluster definition.</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">int32</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Based on the previous cluster definitions and cluster labels, we
+observed that ‘M3B’ transitioned from ‘Old Suburban’ to ‘Marginal’. To
+validate this atypical change, we used the <code class="docutils literal notranslate"><span class="pre">tsplot.plot()</span></code> function to
+visualize the time series of ‘M3B’ for each feature.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">tsplot</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">X</span><span class="o">=</span><span class="n">temporal_data_scaled</span><span class="p">,</span> <span class="c1"># the normalized temporal data</span>
+    <span class="n">cluster_centers</span><span class="o">=</span><span class="n">sla</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">,</span> <span class="c1"># the cluster centers</span>
+    <span class="n">labels</span><span class="o">=</span><span class="n">sla</span><span class="o">.</span><span class="n">labels_</span><span class="p">,</span> <span class="n">label_dict</span><span class="o">=</span><span class="n">label_dict</span><span class="p">,</span> <span class="c1"># the cluster labels and the label dictionary</span>
+    <span class="n">entity_idx</span><span class="o">=</span> <span class="p">[</span><span class="n">label_dict</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;M3B&#39;</span><span class="p">)],</span> <span class="c1"># show &#39;M3B&#39; only</span>
+    <span class="n">show_all_entities</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">16</span><span class="p">),</span> <span class="n">annot_fontsize</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Normalized Values&#39;</span><span class="p">,</span>
+    <span class="n">cluster_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Marginal&#39;</span><span class="p">,</span><span class="s1">&#39;Minority&#39;</span><span class="p">,</span><span class="s1">&#39;Young Urban&#39;</span><span class="p">,</span><span class="s1">&#39;Old Suburban&#39;</span><span class="p">])</span> <span class="c1"># the cluster labels (i.e. four type of FSA we defined)</span>
+</pre></div>
+</div>
+<img alt="../../../_images/toronto_neighborhood_change_66_0.png" src="../../../_images/toronto_neighborhood_change_66_0.png" />
+<p>M3B’s features, particularly ‘Median Total Income’, do not show
+pronounced changes, although the cluster centers suggest a significant
+difference.</p>
+<p>To uncover the reason behind this discrepancy, we visualized the
+distribution of timestamps within ‘Marginal’ and ‘Old Suburban’ based on
+their values in ‘Median Total Income’.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">cluster1</span><span class="p">:</span> <span class="nb">int</span><span class="o">|</span><span class="nb">str</span><span class="p">,</span> <span class="n">cluster2</span><span class="p">:</span> <span class="nb">int</span><span class="o">|</span><span class="nb">str</span><span class="p">,</span> <span class="n">feature</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
+             <span class="n">cluster_result</span><span class="p">:</span> <span class="n">OptTSCluster</span><span class="o">|</span><span class="n">TSGlobalKmeans</span><span class="o">|</span><span class="n">KMeans</span><span class="p">,</span>
+             <span class="n">cluster_labels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">|</span><span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">entity_idx</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">|</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span><span class="o">|</span><span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">label_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="o">|</span><span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="n">plt</span><span class="o">.</span><span class="n">Figure</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Visualizing the distribution of timestamps within two clusters based on a seletecd feature.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    X : np.ndarray</span>
+<span class="sd">        The temporal data with shape (n_timesteps, n_samples, n_features).</span>
+<span class="sd">    cluster1 : int|str</span>
+<span class="sd">        The cluster number of the first cluster.</span>
+<span class="sd">        If cluster_labels is not None, cluster1 can also be a string within cluster label.</span>
+<span class="sd">    cluster2 : int|str</span>
+<span class="sd">        The cluster number of the second cluster.</span>
+<span class="sd">        If cluster_labels is not None, cluster2 can also be a string within cluster label.</span>
+<span class="sd">    feature : str</span>
+<span class="sd">        The feature name.</span>
+<span class="sd">    cluster_result : OptTSCluster|TSGlobalKmeans|KMeans</span>
+<span class="sd">        The cluster result from three clustering method of *tscluster*</span>
+<span class="sd">    cluster_labels : List[str], optional</span>
+<span class="sd">        The cluster labels, by default None.</span>
+<span class="sd">        If None, the cluster labels will be &#39;Cluster 1&#39;, &#39;Cluster 2&#39;, ...</span>
+<span class="sd">        If not None, the cluster labels will be shown in the legend.</span>
+<span class="sd">    entity_idx : List[str]|List[int], optional</span>
+<span class="sd">        The entities to show in the scatter plot, by default None.</span>
+<span class="sd">        If None, no entities will be shown.</span>
+<span class="sd">    label_dict : dict, optional</span>
+<span class="sd">        The label dictionary of the temporal data, by default None</span>
+<span class="sd">        If None, the label dictionary of the cluster result will be used.</span>
+<span class="sd">    figsize : tuple, optional</span>
+<span class="sd">        The figure size of the heatmap, by default (10, 7)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    plt.Figure</span>
+<span class="sd">        The scatter plot figure.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">label_dict</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">label_dict</span> <span class="o">=</span> <span class="n">cluster_result</span><span class="o">.</span><span class="n">label_dict_</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">cluster1</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cluster2</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">cluster1</span> <span class="o">&gt;=</span> <span class="n">cluster_result</span><span class="o">.</span><span class="n">n_clusters</span> <span class="ow">or</span> <span class="n">cluster2</span> <span class="o">&gt;=</span> <span class="n">cluster_result</span><span class="o">.</span><span class="n">n_clusters</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The cluster number is out of range.&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">cluster_labels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;cluster1 and cluster2 is String but the cluster labels are not provided.&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cluster1</span> <span class="ow">in</span> <span class="n">cluster_labels</span><span class="p">:</span>
+                <span class="n">cluster1</span> <span class="o">=</span> <span class="n">cluster_labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cluster1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The cluster1 label is not in the cluster labels.&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">cluster2</span> <span class="ow">in</span> <span class="n">cluster_labels</span><span class="p">:</span>
+                <span class="n">cluster2</span> <span class="o">=</span> <span class="n">cluster_labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">cluster2</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The cluster2 label is not in the cluster labels.&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">feature</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">label_dict</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">]:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The feature is not in the feature list.&#39;</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">entity_idx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">entity_idx</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">entity_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">entity_idx</span> <span class="o">=</span> <span class="p">[</span><span class="n">label_dict</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">entity_idx</span><span class="p">]</span>
+        <span class="n">cluster1_lst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">cluster2_lst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">sample_lst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">fsa</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="n">current_fsa</span> <span class="o">=</span> <span class="n">cluster_result</span><span class="o">.</span><span class="n">labels_</span><span class="p">[</span><span class="n">fsa</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                <span class="k">if</span> <span class="n">current_fsa</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">==</span> <span class="n">cluster1</span><span class="p">:</span>
+                    <span class="n">cluster1_lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">year</span><span class="p">,</span><span class="n">fsa</span><span class="p">,</span><span class="n">label_dict</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">feature</span><span class="p">)])</span>
+                <span class="k">elif</span> <span class="n">current_fsa</span><span class="p">[</span><span class="n">year</span><span class="p">]</span> <span class="o">==</span> <span class="n">cluster2</span><span class="p">:</span>
+                    <span class="n">cluster2_lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">year</span><span class="p">,</span><span class="n">fsa</span><span class="p">,</span><span class="n">label_dict</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">feature</span><span class="p">)])</span>
+                <span class="k">if</span> <span class="n">fsa</span> <span class="ow">in</span> <span class="n">entity_idx</span><span class="p">:</span>
+                    <span class="n">sample_lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">year</span><span class="p">,</span><span class="n">fsa</span><span class="p">,</span><span class="n">label_dict</span><span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">feature</span><span class="p">)])</span>
+        <span class="k">if</span> <span class="n">cluster_labels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">cluster1</span> <span class="o">=</span> <span class="n">cluster_labels</span><span class="p">[</span><span class="n">cluster1</span><span class="p">]</span>
+            <span class="n">cluster2</span> <span class="o">=</span> <span class="n">cluster_labels</span><span class="p">[</span><span class="n">cluster2</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cluster1</span> <span class="o">=</span> <span class="s1">&#39;Cluster &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cluster1</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">cluster2</span> <span class="o">=</span> <span class="s1">&#39;Cluster &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">cluster2</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span> <span class="n">cluster1_lst</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cluster1_lst</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">cluster1</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span> <span class="n">cluster2_lst</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cluster2_lst</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">cluster2</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">sample_lst</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.5</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sample_lst</span><span class="p">))],</span>
+                    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">label_dict</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">][</span><span class="n">entity_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">feature</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="n">cluster2</span><span class="p">,</span> <span class="s1">&#39;Selected Entity&#39;</span><span class="p">,</span> <span class="n">cluster1</span><span class="p">])</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">scatter</span><span class="p">(</span><span class="n">X</span> <span class="o">=</span> <span class="n">temporal_data_scaled</span><span class="p">,</span>
+              <span class="n">cluster1</span> <span class="o">=</span> <span class="s1">&#39;Marginal&#39;</span><span class="p">,</span><span class="n">cluster2</span> <span class="o">=</span> <span class="s1">&#39;Old Suburban&#39;</span><span class="p">,</span>
+              <span class="n">feature</span><span class="o">=</span><span class="s1">&#39;Median Total Income&#39;</span><span class="p">,</span>
+              <span class="n">cluster_result</span><span class="o">=</span><span class="n">sla</span><span class="p">,</span>
+              <span class="n">cluster_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Marginal&#39;</span><span class="p">,</span><span class="s1">&#39;Minority&#39;</span><span class="p">,</span><span class="s1">&#39;Young Urban&#39;</span><span class="p">,</span><span class="s1">&#39;Old Suburban&#39;</span><span class="p">],</span>
+              <span class="n">entity_idx</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;M3B&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Scatter plot of Median Total Income for Marignal and Old Suburban clusters&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../../_images/toronto_neighborhood_change_69_0.png" src="../../../_images/toronto_neighborhood_change_69_0.png" />
+<p>The red encoded scatter represents timestamps within the ‘Marginal’
+cluster, which exhibit a lower median total income (x-axis) compared to
+the timestamps within the ‘Old Suburban’ cluster (blue encoded scatter).
+However, ‘M3B’ (marked as a cross) is located on the boundary between
+these two clusters, making it sensitive to statistical noise when
+clustering without global optimality (i.e., SLA).</p>
+<p>Without incorporating limitation on the maximum allowable label changes,
+entities like M3B risk transitioning repeatedly between cluster
+boundaries without meaningful data changes.</p>
+</section>
+</section>
+<section id="clustering-result-using-bdc">
+<h3>Clustering result using BDC<a class="headerlink" href="#clustering-result-using-bdc" title="Link to this heading"></a></h3>
+<section id="id1">
+<h4>Cluster definition<a class="headerlink" href="#id1" title="Link to this heading"></a></h4>
+<p>To maintain consistency, we used the same method as Sequence Label
+Analysis (SLA), which involves calculating the mean of each feature
+across timestamps, to define each cluster in the result of Bounded
+Dynamic Clustering (BDC).</p>
+<p><strong>Note: The order of cluster might not be consistent across methods due
+to initialization. Please validate the mean of each feature in the
+heatmap with the detailed cluster definitions provided in the SLA
+section to determine the correct order.</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plot_cluster_heatmap</span><span class="p">(</span><span class="n">X</span> <span class="o">=</span> <span class="n">temporal_data_scaled</span><span class="p">,</span>
+                           <span class="n">cluster_result</span><span class="o">=</span><span class="n">bdc</span><span class="p">,</span>
+                           <span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                           <span class="n">cluster_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Old Suburban&#39;</span><span class="p">,</span><span class="s1">&#39;High Density Urban&#39;</span><span class="p">,</span><span class="s1">&#39;Visual Minority&#39;</span><span class="p">,</span><span class="s1">&#39;Young Urban&#39;</span><span class="p">],</span>
+                           <span class="c1"># assign the cluster labels</span>
+                           <span class="n">label_dict</span> <span class="o">=</span> <span class="n">label_dict</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Heatmap of four features by clusters using BDC (Z-score normalized)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Clusters&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Features&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../../_images/toronto_neighborhood_change_73_0.png" src="../../../_images/toronto_neighborhood_change_73_0.png" />
+<p>Compared to the result of the SLA, the ‘Young Urban’ exhibits a
+significantly lower population density. An additional cluster named
+‘High Density Urban’ has a high population density in central Toronto.</p>
+</section>
+<section id="id2">
+<h4>Atypical change analysis<a class="headerlink" href="#id2" title="Link to this heading"></a></h4>
+<p>The only FSA that exhibits change in cluster labels is ‘M5E’. We checked
+the cluster label of ‘M5E’</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#cluster label of M5E</span>
+<span class="n">cluster_label_bdc</span><span class="p">[</span><span class="n">label_dict</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;M5E&#39;</span><span class="p">)]</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="c1"># since python index start from 0, we add 1 to match with the index we used in cluster definition.</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>M5E spans King Street to Lake Ontario and west from Yonge to Jarvis
+Street, incorporating Waterfront Toronto, a major redevelopment project.
+The 2000 Toronto Waterfront Revitalization Initiative transformed the
+lakeshore into high-density condos, likely influencing population
+density trends in M5E from 2000 onwards. This initiative also likely
+impacted the distribution of young professionals, who have a high demand
+in the condominium market .</p>
+<p>In clustering results, M5E transitioned from ‘Old Suburban’ to ‘Young
+Urban’ in 2006. Among the four socioeconomic features we used in
+clustering, this transition is captured by changes in ‘young population’
+and `population density.’</p>
+<p>We can validate this change with its time series in these two features.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tsplot</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">X</span><span class="o">=</span><span class="n">temporal_data_scaled</span><span class="p">,</span> <span class="c1"># the normalized temporal data</span>
+    <span class="n">cluster_centers</span><span class="o">=</span><span class="n">bdc</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">,</span> <span class="c1"># the cluster centers</span>
+    <span class="n">labels</span><span class="o">=</span><span class="n">bdc</span><span class="o">.</span><span class="n">labels_</span><span class="p">,</span> <span class="n">label_dict</span><span class="o">=</span><span class="n">label_dict</span><span class="p">,</span> <span class="c1"># the cluster labels and the label dictionary</span>
+    <span class="n">entity_idx</span><span class="o">=</span> <span class="p">[</span><span class="n">label_dict</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;M5E&#39;</span><span class="p">),</span> <span class="n">label_dict</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;M3B&#39;</span><span class="p">)],</span> <span class="c1"># show &#39;M5E&#39; and &#39;M3B&#39; only</span>
+    <span class="n">show_all_entities</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">16</span><span class="p">),</span> <span class="n">annot_fontsize</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Normalized Values&#39;</span><span class="p">,</span>
+    <span class="n">cluster_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Old Suburban&#39;</span><span class="p">,</span><span class="s1">&#39;High Density Urban&#39;</span><span class="p">,</span><span class="s1">&#39;Visual Minority&#39;</span><span class="p">,</span><span class="s1">&#39;Young Urban&#39;</span><span class="p">])</span> <span class="c1"># the cluster labels (i.e. four type of FSA we defined)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../../_images/toronto_neighborhood_change_78_0.png" src="../../../_images/toronto_neighborhood_change_78_0.png" />
+<p>We compared the time series of ‘M3B’ with ‘M5E’ across the four
+features. In ‘M5E’, significant increases in both features are observed
+from 2006 onward, coinciding with its transition from ‘Old Suburban’ to
+‘Young Urban’ under BDC. From the scatter plot below, we observed a
+clear boundary in ‘M5E’ timestamps indicating the transition from one
+cluster to another.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">scatter</span><span class="p">(</span><span class="n">X</span> <span class="o">=</span> <span class="n">temporal_data_scaled</span><span class="p">,</span>
+              <span class="n">cluster1</span> <span class="o">=</span> <span class="s1">&#39;Young Urban&#39;</span><span class="p">,</span><span class="n">cluster2</span> <span class="o">=</span> <span class="s1">&#39;Old Suburban&#39;</span><span class="p">,</span>
+              <span class="n">feature</span><span class="o">=</span><span class="s1">&#39;Young Population&#39;</span><span class="p">,</span>
+              <span class="n">cluster_result</span><span class="o">=</span><span class="n">bdc</span><span class="p">,</span>
+              <span class="n">cluster_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Old Suburban&#39;</span><span class="p">,</span><span class="s1">&#39;High Density Urban&#39;</span><span class="p">,</span><span class="s1">&#39;Visual Minority&#39;</span><span class="p">,</span><span class="s1">&#39;Young Urban&#39;</span><span class="p">],</span>
+              <span class="n">entity_idx</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;M5E&#39;</span><span class="p">],</span>
+              <span class="n">label_dict</span> <span class="o">=</span> <span class="n">label_dict</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Distribution of timestamps within &#39;Young Urban&#39; and &#39;Old Suburban&#39; clusters based on &#39;Young Population&#39; feature&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../../_images/toronto_neighborhood_change_80_0.png" src="../../../_images/toronto_neighborhood_change_80_0.png" />
+<p>It is worth noting that M5E is located in the Toronto Urban Area, which
+contradicts the geographical definition of `Old Suburban’, one of the
+neighbourhood types it belongs. Since geographical locations are not one
+of the four features we used in clustering, the geographical definition
+of each FSA type is based on a post-hoc evaluation of FSAs within each
+cluster. Therefore, only differences in the four features should be
+considered when we analyzed cluster label changes, and M5E correctly
+reflects these differences.</p>
+<p>In short, BDC, a novel temporal clustering method in `tscluster’,
+demonstrates significant advantages over SLA in identifying atypical
+FSAs in this case study. BDC successfully captures the most divergent
+transition of M5E, reflecting the real-world impact of the Toronto
+Waterfront Revitalization Initiative, while avoiding misidentifying FSAs
+such as M3B that are susceptible to statistical noise. Moreover, BDC
+retains the ability to summarize cluster definitions similar to SLA.</p>
+</section>
+</section>
+</section>
+<section id="appendix-1-clustering-result-using-sla-with-global-optimality">
+<h2>Appendix 1: Clustering result using SLA with global optimality<a class="headerlink" href="#appendix-1-clustering-result-using-sla-with-global-optimality" title="Link to this heading"></a></h2>
+<p>Another potential solution for the statistical noise problem on the
+boundary of two clusters, which we encountered when using SLA with
+K-means (i.e. <code class="docutils literal notranslate"><span class="pre">GlobalKmeans</span></code> in <em>tscluster</em>), is to use MILP
+formulation for the SLA method. This method guarantees optimality and is
+available in <em>tscluster</em>. We applied this clustering method in the
+Toronto neighbourhood changes case study.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using OptTsCluster</span>
+<span class="kn">from</span> <span class="nn">tscluster.opttscluster</span> <span class="kn">import</span> <span class="n">OptTSCluster</span>
+<span class="c1"># initialize the OptTSCluster with the number of clusters = 4</span>
+<span class="n">sla_opt</span> <span class="o">=</span> <span class="n">OptTSCluster</span><span class="p">(</span>
+    <span class="n">k</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="c1"># 4 cluster</span>
+    <span class="n">scheme</span><span class="o">=</span><span class="s1">&#39;z0c1&#39;</span><span class="p">,</span> <span class="c1"># static center, dynamic assignment</span>
+    <span class="n">n_allow_assignment_change</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="c1"># unbounded number of allowed assignment changes</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">warm_start</span><span class="o">=</span><span class="kc">False</span> <span class="c1"># warm start is not used</span>
+<span class="p">)</span>
+<span class="c1"># clustering the normalized temporal data with SLA</span>
+<span class="n">sla_opt</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">temporal_data_scaled</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Obj</span> <span class="n">val</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.95967354</span><span class="p">]</span>
+
+<span class="n">Total</span> <span class="n">time</span> <span class="ow">is</span> <span class="mf">103.24</span><span class="n">secs</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">tscluster</span><span class="o">.</span><span class="n">opttscluster</span><span class="o">.</span><span class="n">opttscluster</span><span class="o">.</span><span class="n">OptTSCluster</span> <span class="n">at</span> <span class="mh">0x3e2b41580</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<section id="id3">
+<h3>Cluster definition<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plot_cluster_heatmap</span><span class="p">(</span><span class="n">X</span> <span class="o">=</span> <span class="n">temporal_data_scaled</span><span class="p">,</span>
+                           <span class="n">cluster_result</span><span class="o">=</span><span class="n">sla_opt</span><span class="p">,</span>
+                           <span class="n">n_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                           <span class="n">cluster_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;High Density Urban&#39;</span><span class="p">,</span><span class="s1">&#39;Young Urban&#39;</span><span class="p">,</span>
+                                           <span class="s1">&#39;Old Suburban&#39;</span><span class="p">,</span><span class="s1">&#39;Visual Minority&#39;</span><span class="p">],</span>
+                           <span class="c1"># assign the cluster labels</span>
+                           <span class="n">label_dict</span> <span class="o">=</span> <span class="n">label_dict</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Heatmap of four features by clusters using MILP based SLA (Z-score normalized)&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../../_images/toronto_neighborhood_change_86_0.png" src="../../../_images/toronto_neighborhood_change_86_0.png" />
+<p>The clustering definition from SLA with global optimality shows a
+similiar result as BDC, which includes ‘High Density Urban’ and elimates
+the ‘Marginal Cluster’.</p>
+</section>
+<section id="id4">
+<h3>Atypical change analysis<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p>Top 5 FSAs with the most frequent label change</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sla_opt</span><span class="o">.</span><span class="n">labels_</span><span class="p">[</span><span class="n">sla_opt</span><span class="o">.</span><span class="n">get_dynamic_entities</span><span class="p">()[</span><span class="mi">0</span><span class="p">]][:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+       <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">label_dict</span><span class="p">[</span><span class="s1">&#39;N&#39;</span><span class="p">][</span><span class="n">i</span><span class="p">][:</span><span class="mi">5</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sla_opt</span><span class="o">.</span><span class="n">get_dynamic_entities</span><span class="p">()[</span><span class="mi">0</span><span class="p">]][:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;M2M&#39;</span><span class="p">,</span> <span class="s1">&#39;M5E&#39;</span><span class="p">,</span> <span class="s1">&#39;M6J&#39;</span><span class="p">,</span> <span class="s1">&#39;M6H&#39;</span><span class="p">,</span> <span class="s1">&#39;M9W&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>number of changes each FSA has</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sla_opt</span><span class="o">.</span><span class="n">get_dynamic_entities</span><span class="p">()[</span><span class="mi">1</span><span class="p">][:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Note that SLA with global optimality is able to identify ‘M5E’ as one of
+the FSAs with the most divergent change. We also visualized another FSA
+with the most frequent number of changes: ‘M2M’.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tsplot</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">X</span><span class="o">=</span><span class="n">temporal_data_scaled</span><span class="p">,</span> <span class="c1"># the normalized temporal data</span>
+    <span class="n">cluster_centers</span><span class="o">=</span><span class="n">sla_opt</span><span class="o">.</span><span class="n">cluster_centers_</span><span class="p">,</span> <span class="c1"># the cluster centers</span>
+    <span class="n">labels</span><span class="o">=</span><span class="n">sla_opt</span><span class="o">.</span><span class="n">labels_</span><span class="p">,</span> <span class="n">label_dict</span><span class="o">=</span><span class="n">label_dict</span><span class="p">,</span> <span class="c1"># the cluster labels and the label dictionary</span>
+    <span class="n">entity_idx</span><span class="o">=</span> <span class="n">sla_opt</span><span class="o">.</span><span class="n">get_dynamic_entities</span><span class="p">()[</span><span class="mi">0</span><span class="p">][:</span><span class="mi">2</span><span class="p">],</span> <span class="c1"># show the entities that exhibit cluster label changes</span>
+    <span class="n">show_all_entities</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">16</span><span class="p">),</span> <span class="n">annot_fontsize</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">cluster_labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;High Density Urban&#39;</span><span class="p">,</span><span class="s1">&#39;Young Urban&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;Old Suburban&#39;</span><span class="p">,</span><span class="s1">&#39;Visual Minority&#39;</span><span class="p">],</span> <span class="c1"># the cluster labels (i.e. four type of FSA we defined)</span>
+    <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Year&#39;</span><span class="p">,</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Normalized Values&#39;</span><span class="p">)</span> <span class="c1"># the cluster labels (i.e. four type of FSA we defined)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img alt="../../../_images/toronto_neighborhood_change_95_0.png" src="../../../_images/toronto_neighborhood_change_95_0.png" />
+<p>When using SLA with global optimality, two FSAs exhibit the same most
+frequent changes in their cluster labels. These FSAs include M5E, which
+was identified with BDC, and M2M, which also exhibits 4 changes in its
+cluster labels.</p>
+<p>However, compared to BDC, there are two disadvantages. First, the change
+in cluster labels does not fully match the change in time series
+features. Due to the unbounded nature, there are more changes in cluster
+labels than changes in the features’ time series. Second, the cluster
+centers remain static points, which limits our ability to fully identify
+temporal trends from the cluster centers, unlike BDC.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../tscluster_tutorial.html" class="btn btn-neutral float-left" title="Tutorial" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../with_synthetic_data/notebook.html" class="btn btn-neutral float-right" title="Tutorial with Synthetic Data" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, tscluster.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

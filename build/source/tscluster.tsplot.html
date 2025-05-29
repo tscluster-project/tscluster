@@ -1,0 +1,232 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tsplot module &mdash; tscluster  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="User Guide" href="../user_guide.html" />
+    <link rel="prev" title="tskmeans module" href="tscluster.tskmeans.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            tscluster
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../API.html">API Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="tscluster.html">modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="tscluster.metrics.html">metrics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tscluster.opttscluster.html">opttscluster module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tscluster.greedytscluster.html">greedytscluster module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tscluster.preprocessing.html">preprocessing module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tscluster.tskmeans.html">tskmeans module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">tsplot module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#tscluster.tsplot.plot"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tscluster.tsplot.waterfall_plot"><code class="docutils literal notranslate"><span class="pre">waterfall_plot()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide.html">User Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">tscluster</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../API.html">API Guide</a></li>
+          <li class="breadcrumb-item"><a href="tscluster.html">modules</a></li>
+      <li class="breadcrumb-item active">tsplot module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/tscluster.tsplot.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-tscluster.tsplot">
+<span id="tsplot-module"></span><h1>tsplot module<a class="headerlink" href="#module-tscluster.tsplot" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="tscluster.tsplot.plot">
+<span class="sig-prename descclassname"><span class="pre">tscluster.tsplot.</span></span><span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_centers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entity_idx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entities_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">annot_fontsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arrow_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.01</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_all_entities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape_of_subplot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlabel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'timesteps'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'value'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_all_xticklabels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_rotation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">45</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_X_marker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_cluster_center_marker</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tscluster.tsplot.plot" title="Link to this definition"></a></dt>
+<dd><p>Function to plot subplots of the time series data, cluster centers and label assignemnts. One subplot per feature. This is built on top of matplotlib.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X</strong><span class="classifier">numpy array, default=None</span></dt><dd><p>The time series data in TNF format.</p>
+</dd>
+<dt><strong>cluster_centers</strong><span class="classifier">numpy array, default=None</span></dt><dd><p>If numpy array, it is expected to be a 3D in TNF format. Here, N is the number of clusters. 
+If 2-D array, then it is interpreted as a K x F array where K is the number of clusters, and F is the number of features. Suitable for fixed cluster centers clustering.</p>
+</dd>
+<dt><strong>labels</strong><span class="classifier">numpy array, default=None</span></dt><dd><p>It is expected to be a 2D array of shape (N, T) . Where N is the number of entities and T is the number of time steps. The value of the ith row at the t-th column is the label (cluster index) entity i was assigned to at time t.
+If 1-D array, it is interpreted as an array of length N. Where N is the number of entities. In such case, the i-th element is the cluster the i-th entity was assigned to across all time steps. Suitable for fixed assignment clustering.</p>
+</dd>
+<dt><strong>entity_idx</strong><span class="classifier">list, default=None</span></dt><dd><p>list of index of entities to display in the plot. If <cite>show_all_entities</cite> is True, <cite>entity_idx</cite> will be interpreted as the index of entities to be annonated.</p>
+</dd>
+<dt><strong>entities_labels</strong><span class="classifier">list, default=None</span></dt><dd><p>list of labels for annotating the entities in <cite>entity_idx</cite>. If None, then labels of <cite>entity_idx</cite> in <cite>label_dict</cite> are used.</p>
+</dd>
+<dt><strong>label_dict dict, default=None</strong></dt><dd><p>a dictionary whose keys are ‘T’, ‘N’, and ‘F’ (which are the number of time steps, entities, and features respectively). Value of each key is a list such that the value of key:
+- ‘T’ is a list of names/labels of each time step to be used as index of each dataframe. If None, range(0, T) is used. Where T is the number of time steps in the fitted data
+- ‘N’ is a list of names/labels of each entity. If None, range(0, N) is used. Where N is the number of entities/observations in the fitted data 
+- ‘F’ is a list of names/labels of each feature to be used as column of each dataframe. If None, range(0, F) is used. Where F is the number of features in the fitted data 
+If label_dict is not None, it is used to label timestep, entities, and features in the plot.</p>
+</dd>
+<dt><strong>annot_fontsize</strong><span class="classifier">float|int, default=10</span></dt><dd><p>The font size to be used for annotating entities in <cite>entity_idx</cite>.</p>
+</dd>
+<dt><strong>arrow_scale</strong><span class="classifier">float, default=0.01</span></dt><dd><p>Scales the size of the arrow used in indicating entities.</p>
+</dd>
+<dt><strong>show_all_entities</strong><span class="classifier">bool, default=True</span></dt><dd><p>If True, displays all the entities in <cite>X</cite> in the plot. If False, only entities in <cite>entity_idx</cite> are plotted.</p>
+</dd>
+<dt><strong>figsize</strong><span class="classifier">tuple, default=None</span></dt><dd><p>The size of the figure. Should be tuple of length 2, where the first value is width of the figure, while the second value is the height of the figure.</p>
+</dd>
+<dt><strong>shape_of_subplot</strong><span class="classifier">tuple, default=None</span></dt><dd><p>The shape of the subplots. Should be tuple of length 2, where the first value is number of rows, while the second value is the of columns in the figure.
+If None, (F, 1) is used. Where F is the number of features in <cite>X</cite> or <cite>cluster_centers</cite>.</p>
+</dd>
+<dt><strong>xlabel</strong><span class="classifier">str, default=’timesteps’</span></dt><dd><p>The label for the x-axis of each subplots</p>
+</dd>
+<dt><strong>ylabel</strong><span class="classifier">str, default=’timesteps’</span></dt><dd><p>The label for the y-axis of each subplots</p>
+</dd>
+<dt><strong>cluster_labels</strong><span class="classifier">list, default=None</span></dt><dd><p>The labels to use for the clusters. If None, list(range(K)) is used. Where <cite>K</cite> is the number of clusters in <cite>cluster_centers</cite> or <cite>labels</cite>.</p>
+</dd>
+<dt><strong>title_list</strong><span class="classifier">list, default=None</span></dt><dd><p>The title of each subplot (or feature).</p>
+</dd>
+<dt><strong>show_all_xticklabels</strong><span class="classifier">bool, default=True</span></dt><dd><p>If True, shows labels of all time steps in the plot. If False, some may be suppressed (depending on the size of the plot)</p>
+</dd>
+<dt><strong>x_rotation</strong><span class="classifier">float or int, default=45</span></dt><dd><p>The angle (in degrees) to rotate the timestep labels</p>
+</dd>
+<dt><strong>show_X_marker</strong><span class="classifier">bool, default=False</span></dt><dd><p>If True, show markers in the time series plot of X.</p>
+</dd>
+<dt><strong>show_cluster_center_marker</strong><span class="classifier">bool, default=False</span></dt><dd><p>If True, show markers in the time series plot of the cluster centers.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>matplotlib.figure.Figure</dt><dd><p>the matplotlib figure object</p>
+</dd>
+<dt>list</dt><dd><p>a list of the matplotlib axes, one axes per subplot.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="tscluster.tsplot.waterfall_plot">
+<span class="sig-prename descclassname"><span class="pre">tscluster.tsplot.</span></span><span class="sig-name descname"><span class="pre">waterfall_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_series</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlabel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'time-axis'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylabel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Features-axis'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zlabel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Feature</span> <span class="pre">Values'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Axes3D</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tscluster.tsplot.waterfall_plot" title="Link to this definition"></a></dt>
+<dd><p>Function to plot a waterfall plot of a single time series data. This data can be a time series of a single entity or cluster center.
+To make the plot interactive, use a suitable matplotlib’s magic command. E.g. <cite>%matplotlib widget</cite>. See this site for more: <a class="reference external" href="https://matplotlib.org/stable/users/explain/figure/interactive.html">https://matplotlib.org/stable/users/explain/figure/interactive.html</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>time_series</strong><span class="classifier">numpy array</span></dt><dd><p>The time series data to plot. This data can be a time series of a single entity or cluster center.
+Data should be a 2-D array of shape (T, F), where T and F are the number of timesteps and features respectively.</p>
+</dd>
+<dt><strong>label_dict</strong><span class="classifier">dict, default=None</span></dt><dd><p>a dictionary whose keys are ‘T’, ‘N’, and ‘F’ (which are the number of time steps, entities, and features respectively). Value of each key is a list such that the value of key:
+- ‘T’ is a list of names/labels of each time step to be used as index of each dataframe. If None, range(0, T) is used. Where T is the number of time steps in the fitted data
+- ‘N’ (ignored) is a list of names/labels of each entity. If None, range(0, N) is used. Where N is the number of entities/observations in the fitted data 
+- ‘F’ is a list of names/labels of each feature to be used as column of each dataframe. If None, range(0, F) is used. Where F is the number of features in the fitted data 
+If label_dict is not None, it is used to label timestep and features in the plot.</p>
+</dd>
+<dt><strong>xlabel</strong><span class="classifier">str, default=’time-axis’</span></dt><dd><p>The label of the x-axis (time axis)</p>
+</dd>
+<dt><strong>ylabel</strong><span class="classifier">str, default=’Features-axis’</span></dt><dd><p>The label of the y-axis (feature axis)</p>
+</dd>
+<dt><strong>zlabel</strong><span class="classifier">str, default=’Feature Values’</span></dt><dd><p>The label of the z-axis (axis for the values of the features)</p>
+</dd>
+<dt><strong>title</strong><span class="classifier">str, default=None</span></dt><dd><p>The title of the plot</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>matplotlib.figure.Figure</dt><dd><p>the matplotlib figure object</p>
+</dd>
+<dt>mpl_toolkits.mplot3d.axes3d.Axes3D</dt><dd><p>the matplotlib’s 3-D axes object.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tscluster.tskmeans.html" class="btn btn-neutral float-left" title="tskmeans module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../user_guide.html" class="btn btn-neutral float-right" title="User Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, tscluster.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

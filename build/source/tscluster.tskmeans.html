@@ -1,0 +1,511 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tskmeans module &mdash; tscluster  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="tsplot module" href="tscluster.tsplot.html" />
+    <link rel="prev" title="preprocessing module" href="tscluster.preprocessing.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            tscluster
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../API.html">API Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="tscluster.html">modules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="tscluster.metrics.html">metrics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tscluster.opttscluster.html">opttscluster module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tscluster.greedytscluster.html">greedytscluster module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tscluster.preprocessing.html">preprocessing module</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">tskmeans module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#tsglobalkmeans-class">TSGlobalKmeans class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tskmeans-class">TSKmeans class</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tscluster.tsplot.html">tsplot module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../user_guide.html">User Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">tscluster</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../API.html">API Guide</a></li>
+          <li class="breadcrumb-item"><a href="tscluster.html">modules</a></li>
+      <li class="breadcrumb-item active">tskmeans module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/source/tscluster.tskmeans.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tskmeans-module">
+<h1>tskmeans module<a class="headerlink" href="#tskmeans-module" title="Link to this heading"></a></h1>
+<section id="tsglobalkmeans-class">
+<h2>TSGlobalKmeans class<a class="headerlink" href="#tsglobalkmeans-class" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="tscluster.tskmeans.TSGlobalKmeans">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tscluster.tskmeans.</span></span><span class="sig-name descname"><span class="pre">TSGlobalKmeans</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_clusters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">8</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'k-means++'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy_x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lloyd'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tscluster.tskmeans.TSGlobalKmeans" title="Link to this definition"></a></dt>
+<dd><p>Applies sklearn’s K-Means clustering to the version of a data  reshaped from a 3D array of shape T x N x F to a 2D array of shape (TxN) x F</p>
+<p>Read more in the Sklearn’s user guide. The follow parameters are from sklearn’s K-Means constructor.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>n_clusters</strong><span class="classifier">int, default=8</span></dt><dd><p>The number of clusters to form as well as the number of centroids to generate.</p>
+<p>For an example of how to choose an optimal value for n_clusters refer to
+sphx_glr_auto_examples_cluster_plot_kmeans_silhouette_analysis.py.</p>
+</dd>
+<dt><strong>init</strong><span class="classifier">{‘k-means++’, ‘random’}, callable or array-like of shape (n_clusters, n_features), default=’k-means++’</span></dt><dd><p>Method for initialization:</p>
+</dd>
+<dt><strong>‘k-means++’</strong><span class="classifier">selects initial cluster centroids using sampling based on an empirical probability distribution of the points’ contribution to the overall inertia. This technique speeds up convergence. The algorithm implemented is “greedy k-means++”. It differs from the vanilla k-means++ by making several trials at each sampling step and choosing the best centroid among them.</span></dt><dd></dd>
+<dt><strong>‘random’: choose n_clusters observations (rows) at random from data for the initial centroids.</strong></dt><dd></dd>
+<dt><strong>If an array is passed, it should be of shape (n_clusters, n_features) and gives the initial centers.</strong></dt><dd></dd>
+<dt><strong>If a callable is passed, it should take arguments X, n_clusters and a random state and return an initialization.</strong></dt><dd><p>For an example of how to use the different init strategy, see the example
+entitled sphx_glr_auto_examples_cluster_plot_kmeans_digits.py.</p>
+</dd>
+<dt><strong>n_init</strong><span class="classifier">‘auto’ or int, default=’auto’</span></dt><dd><p>Number of times the k-means algorithm is run with different centroid seeds. The final results is the best output of n_init consecutive runs in terms of inertia. Several runs are recommended for sparse
+high-dimensional problems (see kmeans_sparse_high_dim).</p>
+<p>When n_init=’auto’, the number of runs depends on the value of init: 10 if using init=’random’ or init is a callable; 1 if using init=’k-means++’ or init is an array-like.</p>
+</dd>
+<dt><strong>max_iter</strong><span class="classifier">int, default=300</span></dt><dd><p>Maximum number of iterations of the k-means algorithm for a single run.</p>
+</dd>
+<dt><strong>tol</strong><span class="classifier">float, default=1e-4</span></dt><dd><p>Relative tolerance with regards to Frobenius norm of the difference in the cluster centers of two consecutive iterations to declare convergence.</p>
+</dd>
+<dt><strong>verbose</strong><span class="classifier">int, default=0</span></dt><dd><p>Verbosity mode.</p>
+</dd>
+<dt><strong>random_state</strong><span class="classifier">int, RandomState instance or None, default=None</span></dt><dd><p>Determines random number generation for centroid initialization. Use an int to make the randomness deterministic.
+See Glossary &lt;random_state&gt;.</p>
+</dd>
+<dt><strong>copy_x</strong><span class="classifier">bool, default=True</span></dt><dd><p>When pre-computing distances it is more numerically accurate to center the data first. If copy_x is True (default), then the original data is not modified. If False, the original data is modified, and put back before the function returns, but small numerical differences may be introduced by subtracting and then adding the data mean. Note that if the original data is not C-contiguous, a copy will be made even if copy_x is False. If the original data is sparse, but not in CSR format, a copy will be made even if copy_x is False.</p>
+</dd>
+<dt><strong>algorithm</strong><span class="classifier">{“lloyd”, “elkan”}, default=”lloyd”</span></dt><dd><p>K-means algorithm to use. The classical EM-style algorithm is “lloyd”. The “elkan” variation can be more efficient on some datasets with well-defined clusters, by using the triangle inequality. However it’s more memory intensive due to the allocation of an extra array of shape (n_samples, n_clusters).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">cluster_centers_</span></code></dt><dd><p>returns the cluster centers. If scheme is fixed centers, returns a k x F 2D array. Where k is the number of clusters and F is the number of features. If scheme is changing centers, returns a T x k x F 3D array. Where T is the number of time stesp, k is the number of clusters and F is the number of features.</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">fitted_data_shape_</span></code></dt><dd><p>returns a tuple of the shape of the fitted data in TNF format. E.g (T, N, F) where T, N, and F are the number of timesteps, observations, and features respectively.</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">labels_</span></code></dt><dd><p>returns the assignment labels. values are integers in range [0, k-1], where k is the number of clusters. If scheme is fixed assignment, returns a 1D array of size N. Where N is the number of entities. A value of j at the i-th index means that entity i is assigned to the j-th cluster at all time steps. If scheme is changing assignment, returns a N x T 2D array. Where N is the number of entities and T is the number of time steps. A value of j at the i-th row and t-th column means that entity i is assigned to the j-th cluster at the t-th time step.</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">label_dict_</span></code></dt><dd><p>returns a dictionary of the labels whose keys are ‘T’, ‘N’, and ‘F’ (which are the number of time steps, entities, and features respectively). Value of each key is a list such that the value of key:</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">n_changes_</span></code></dt><dd><p>returns the total number of label changes</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tscluster.tskmeans.TSGlobalKmeans.fit" title="tscluster.tskmeans.TSGlobalKmeans.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[, label_dict])</p></td>
+<td><p>Method for fitting the model on the data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tscluster.tskmeans.TSGlobalKmeans.get_dynamic_entities" title="tscluster.tskmeans.TSGlobalKmeans.get_dynamic_entities"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dynamic_entities</span></code></a>()</p></td>
+<td><p>returns the dynamic entities and their number of changes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tscluster.tskmeans.TSGlobalKmeans.get_named_cluster_centers" title="tscluster.tskmeans.TSGlobalKmeans.get_named_cluster_centers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_named_cluster_centers</span></code></a>([label_dict])</p></td>
+<td><p>Method to return the cluster centers with custom names of time steps and features.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tscluster.tskmeans.TSGlobalKmeans.get_named_labels" title="tscluster.tskmeans.TSGlobalKmeans.get_named_labels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_named_labels</span></code></a>([label_dict])</p></td>
+<td><p>Method to return the a data frame of the label assignments with custom names of time steps and entities.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tscluster.tskmeans.TSGlobalKmeans.set_label_dict" title="tscluster.tskmeans.TSGlobalKmeans.set_label_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_label_dict</span></code></a>(value)</p></td>
+<td><p>Method to manually set the <a href="#id1"><span class="problematic" id="id2">label_dict_</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.tskmeans.TSGlobalKmeans.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#tscluster.tskmeans.TSGlobalKmeans" title="tscluster.tskmeans.tsglobalkmeans.TSGlobalKmeans"><span class="pre">TSGlobalKmeans</span></a></span></span><a class="headerlink" href="#tscluster.tskmeans.TSGlobalKmeans.fit" title="Link to this definition"></a></dt>
+<dd><p>Method for fitting the model on the data.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>X</strong><span class="classifier">numpy array</span></dt><dd><p>Input time series data. Should be a 3 dimensional array in TNF fromat.</p>
+</dd>
+<dt><strong>label_dict</strong><span class="classifier">dict, default=None</span></dt><dd><dl class="simple">
+<dt>A dictionary of the labels of X. Keys should be ‘T’, ‘N’, and ‘F’ (which are the number of time steps, entities, and features respectively). Value of each key is a list such that the value of key:</dt><dd><ul class="simple">
+<li><p>‘T’ is a list of names/labels of each time step used as index of each dataframe during fit. Default is range(0, T). Where T is the number of time steps in the fitted data</p></li>
+<li><p>‘N’ is a list of names/labels of each entity used as index of the dataframe. Default is range(0, N). Where N is the number of entities/observations in the fitted data</p></li>
+<li><p>‘F’ is a list of names/labels of each feature used as column of each dataframe. Default is range(0, F). Where F is the number of features in the fitted data</p></li>
+</ul>
+</dd>
+</dl>
+<p>data_loader function from tscluster.preprocessing.utils can help in getting label_dict of a data.</p>
+</dd>
+<dt><strong>**kwargs keyword arguments to be passed to skleanr’s kmeans fit method</strong></dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>self:</dt><dd><p>The fitted TSGlobalKmeans object.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.tskmeans.TSGlobalKmeans.get_dynamic_entities">
+<span class="sig-name descname"><span class="pre">get_dynamic_entities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tscluster.tskmeans.TSGlobalKmeans.get_dynamic_entities" title="Link to this definition"></a></dt>
+<dd><p>returns the dynamic entities and their number of changes. Both lists are sorted by the number of cluster changes in descending order.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>dynamic entities</strong><span class="classifier">list</span></dt><dd><p>a 1-D array of the indexes of the entities that change cluster at least once.</p>
+</dd>
+<dt><strong>number of changes</strong><span class="classifier">list</span></dt><dd><p>a 1-D array of the number of changes for each dynamic entity such that the i-th element is the number of cluster changes for the i-th dynamic entity</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.tskmeans.TSGlobalKmeans.get_named_cluster_centers">
+<span class="sig-name descname"><span class="pre">get_named_cluster_centers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tscluster.tskmeans.TSGlobalKmeans.get_named_cluster_centers" title="Link to this definition"></a></dt>
+<dd><p>Method to return the cluster centers with custom names of time steps and features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>label_dict dict, default=None</strong></dt><dd><p>a dictionary whose keys are ‘T’, ‘N’, and ‘F’ (which are the number of time steps, entities, and features respectively). Value of each key is a list such that the value of key:
+- ‘T’ is a list of names/labels of each time step to be used as index of each dataframe. If None, range(0, T) is used. Where T is the number of time steps in the fitted data
+- ‘N’ is a list of names/labels of each entity to be used as index of the dataframe. If None, range(0, N) is used. Where N is the number of entities/observations in the fitted data 
+- ‘F’ is a list of names/labels of each feature to be used as column of each dataframe. If None, range(0, F) is used. Where F is the number of features in the fitted data 
+If label_dict is None, the result of <a href="#id3"><span class="problematic" id="id4">self.label_dict_</span></a> is used.</p>
+</dd>
+<dt><strong>Returns</strong></dt><dd></dd>
+<dt><strong>——</strong></dt><dd></dd>
+<dt><strong>list</strong></dt><dd><p>A list of k pandas DataFrames. Where k is the number of clusters. The i-th dataframe in the list is a T x F dataframe of the values of the cluster centers of the i-th cluster.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.tskmeans.TSGlobalKmeans.get_named_labels">
+<span class="sig-name descname"><span class="pre">get_named_labels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#tscluster.tskmeans.TSGlobalKmeans.get_named_labels" title="Link to this definition"></a></dt>
+<dd><p>Method to return the a data frame of the label assignments with custom names of time steps and entities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>label_dict</strong><span class="classifier">dict, default=None</span></dt><dd><p>a dictionary whose keys are ‘T’, ‘N’, and ‘F’ (which are the number of time steps, entities, and features respectively). Value of each key is a list such that the value of key:
+- ‘T’ is a list of names/labels of each time step to be used as index of each dataframe. If None, range(0, T) is used. Where T is the number of time steps in the fitted data
+- ‘N’ is a list of names/labels of each entity to be used as index of the dataframe. If None, range(0, N) is used. Where N is the number of entities/observations in the fitted data 
+- ‘F’ is a list of names/labels of each feature to be used as column of each dataframe. If None, range(0, F) is used. Where F is the number of features in the fitted data 
+If label_dict is None, the result of <a href="#id5"><span class="problematic" id="id6">self.label_dict_</span></a> is used.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>pd.DataFrame</dt><dd><p>A pandas DataFrame with shape (N, T). The value in the n-th row and t-th column is an integer indicating the custer assignment of the n-th entity/observation at time t.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.tskmeans.TSGlobalKmeans.set_label_dict">
+<span class="sig-name descname"><span class="pre">set_label_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#tscluster.tskmeans.TSGlobalKmeans.set_label_dict" title="Link to this definition"></a></dt>
+<dd><p>Method to manually set the <a href="#id7"><span class="problematic" id="id8">label_dict_</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">dict</span></dt><dd><p>the value to set as <a href="#id9"><span class="problematic" id="id10">label_dict_</span></a>. Should be a dict with all of ‘T’, ‘N’, and ‘F’ (case sensitive, which are number of time steps, entities, and features respectively) as key. The value of each key is a list of labels for the key in the data.  If your data don’t have values for any of the keys, set its value to None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>dict</dt><dd><p>a dictionary whose keys are ‘T’, ‘N’, and ‘F’; and values are lists of the labels of each key.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="tskmeans-class">
+<h2>TSKmeans class<a class="headerlink" href="#tskmeans-class" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="tscluster.tskmeans.TSKmeans">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tscluster.tskmeans.</span></span><span class="sig-name descname"><span class="pre">TSKmeans</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_clusters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'euclidean'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter_barycenter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtw_inertia</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_state</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'k-means++'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#tscluster.tskmeans.TSKmeans" title="Link to this definition"></a></dt>
+<dd><p>Applies tslearn’s TimeSeriesKMeans clustering to the data.</p>
+<p>Read more in the tslearn’s user guide. The follow parameters are from tslearn’s TimeSeriesKMeans constructor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>n_clusters</strong><span class="classifier">int (default: 3)</span></dt><dd><p>Number of clusters to form.</p>
+</dd>
+<dt><strong>max_iter</strong><span class="classifier">int (default: 50)</span></dt><dd><p>Maximum number of iterations of the k-means algorithm for a single run.</p>
+</dd>
+<dt><strong>tol</strong><span class="classifier">float (default: 1e-6)</span></dt><dd><p>Inertia variation threshold. If at some point, inertia varies less than this threshold between two consecutive iterations, the model is considered to have converged and the algorithm stops.</p>
+</dd>
+<dt><strong>n_init</strong><span class="classifier">int (default: 1)</span></dt><dd><p>Number of time the k-means algorithm will be run with different centroid seeds. The final results will be the best output of n_init consecutive runs in terms of inertia.</p>
+</dd>
+<dt><strong>metric</strong><span class="classifier">{“euclidean”, “dtw”, “softdtw”} (default: “euclidean”)</span></dt><dd><p>Metric to be used for both cluster assignment and barycenter computation. If “dtw”, DBA is used for barycenter computation.</p>
+</dd>
+<dt><strong>max_iter_barycenter</strong><span class="classifier">int (default: 100)</span></dt><dd><p>Number of iterations for the barycenter computation process. Only used if metric=”dtw” or metric=”softdtw”.</p>
+</dd>
+<dt><strong>metric_params</strong><span class="classifier">dict or None (default: None)</span></dt><dd><p>Parameter values for the chosen metric. For metrics that accept parallelization of the cross-distance matrix computations, n_jobs key passed in metric_params is overridden by the n_jobs argument.</p>
+</dd>
+<dt><strong>n_jobs</strong><span class="classifier">int or None, optional (default=None)</span></dt><dd><p>The number of jobs to run in parallel for cross-distance matrix computations. Ignored if the cross-distance matrix cannot be computed using parallelization.
+None means 1 unless in a joblib.parallel_backend context. -1 means using all processors. See scikit-learns’     Glossary &lt;<a class="reference external" href="https://scikit-learn.org/stable/glossary.html#term-n-jobs">https://scikit-learn.org/stable/glossary.html#term-n-jobs</a>&gt;_ for more details.</p>
+</dd>
+<dt><strong>dtw_inertia: bool (default: False)</strong></dt><dd><p>Whether to compute DTW inertia even if DTW is not the chosen metric.</p>
+</dd>
+<dt><strong>verbose</strong><span class="classifier">int (default: 0)</span></dt><dd><p>If nonzero, print information about the inertia while learning the model and joblib progress messages are printed.</p>
+</dd>
+<dt><strong>random_state</strong><span class="classifier">integer or numpy.RandomState, optional</span></dt><dd><p>Generator used to initialize the centers. If an integer is given, it fixes the seed. Defaults to the global numpy random number generator.</p>
+</dd>
+<dt><strong>init</strong><span class="classifier">{‘k-means++’, ‘random’ or an ndarray} (default: ‘k-means++’)</span></dt><dd><p>Method for initialization:
+‘k-means++’ : use k-means++ heuristic. See scikit-learn’s <a href="#id11"><span class="problematic" id="id12">k_init_</span></a> &lt;<a class="reference external" href="https://github.com/scikit-learn/scikit-learn/blob/master/sklearn/">https://github.com/scikit-learn/scikit-learn/blob/master/sklearn/</a> cluster/<a href="#id13"><span class="problematic" id="id14">k_means_</span></a>.py&gt;_ for more.
+‘random’: choose k observations (rows) at random from data for the initial centroids. If an ndarray is passed, it should be of shape (n_clusters, ts_size, d) and gives the initial centers.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">cluster_centers_</span></code></dt><dd><p>returns the cluster centers. If scheme is fixed centers, returns a k x F 2D array. Where k is the number of clusters and F is the number of features. If scheme is changing centers, returns a T x k x F 3D array. Where T is the number of time stesp, k is the number of clusters and F is the number of features.</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">fitted_data_shape_</span></code></dt><dd><p>returns a tuple of the shape of the fitted data in TNF format. E.g (T, N, F) where T, N, and F are the number of timesteps,</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">labels_</span></code></dt><dd><p>Returns the assignment labels.</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">label_dict_</span></code></dt><dd><p>returns a dictionary of the labels whose keys are ‘T’, ‘N’, and ‘F’ (which are the number of time steps, entities, and features respectively). Value of each key is a list such that the value of key:</p>
+</dd>
+<dt><code class="xref py py-obj docutils literal notranslate"><span class="pre">n_changes_</span></code></dt><dd><p>returns the total number of label changes</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tscluster.tskmeans.TSKmeans.fit" title="tscluster.tskmeans.TSKmeans.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(X[, label_dict])</p></td>
+<td><p>Method for fitting the model on the data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tscluster.tskmeans.TSKmeans.get_dynamic_entities" title="tscluster.tskmeans.TSKmeans.get_dynamic_entities"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_dynamic_entities</span></code></a>()</p></td>
+<td><p>returns the dynamic entities and their number of changes.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tscluster.tskmeans.TSKmeans.get_named_cluster_centers" title="tscluster.tskmeans.TSKmeans.get_named_cluster_centers"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_named_cluster_centers</span></code></a>([label_dict])</p></td>
+<td><p>Method to return the cluster centers with custom names of time steps and features.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tscluster.tskmeans.TSKmeans.get_named_labels" title="tscluster.tskmeans.TSKmeans.get_named_labels"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_named_labels</span></code></a>([label_dict])</p></td>
+<td><p>Method to return the a data frame of the label assignments with custom names of time steps and entities.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tscluster.tskmeans.TSKmeans.set_label_dict" title="tscluster.tskmeans.TSKmeans.set_label_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_label_dict</span></code></a>(value)</p></td>
+<td><p>Method to manually set the <a href="#id15"><span class="problematic" id="id16">label_dict_</span></a>.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.tskmeans.TSKmeans.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dtype</span><span class="p"><span class="pre">[</span></span><span class="pre">float64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#tscluster.tskmeans.TSKmeans" title="tscluster.tskmeans.tskmeans.TSKmeans"><span class="pre">TSKmeans</span></a></span></span><a class="headerlink" href="#tscluster.tskmeans.TSKmeans.fit" title="Link to this definition"></a></dt>
+<dd><p>Method for fitting the model on the data.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>X</strong><span class="classifier">numpy array</span></dt><dd><p>Input time series data.Should be a 3 dimensional array in TNF fromat.</p>
+</dd>
+<dt><strong>label_dict</strong><span class="classifier">dict, default=None</span></dt><dd><dl class="simple">
+<dt>A dictionary of the labels of X. Keys should be ‘T’, ‘N’, and ‘F’ (which are the number of time steps, entities, and features respectively). Value of each key is a list such that the value of key:</dt><dd><ul class="simple">
+<li><p>‘T’ is a list of names/labels of each time step used as index of each dataframe during fit. Default is range(0, T). Where T is the number of time steps in the fitted data</p></li>
+<li><p>‘N’ is a list of names/labels of each entity used as index of the dataframe. Default is range(0, N). Where N is the number of entities/observations in the fitted data</p></li>
+<li><p>‘F’ is a list of names/labels of each feature used as column of each dataframe. Default is range(0, F). Where F is the number of features in the fitted data</p></li>
+</ul>
+</dd>
+</dl>
+<p>data_loader function from tscluster.preprocessing.utils can help in getting label_dict of a data.</p>
+</dd>
+<dt><strong>**kwargs keyword arguments to be passed to tslearn’s kmeans fit method</strong></dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>self:</dt><dd><p>The fitted TSKmeans object.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.tskmeans.TSKmeans.get_dynamic_entities">
+<span class="sig-name descname"><span class="pre">get_dynamic_entities</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int64</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tscluster.tskmeans.TSKmeans.get_dynamic_entities" title="Link to this definition"></a></dt>
+<dd><p>returns the dynamic entities and their number of changes. Both lists are sorted by the number of cluster changes in descending order.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>dynamic entities</strong><span class="classifier">list</span></dt><dd><p>a 1-D array of the indexes of the entities that change cluster at least once.</p>
+</dd>
+<dt><strong>number of changes</strong><span class="classifier">list</span></dt><dd><p>a 1-D array of the number of changes for each dynamic entity such that the i-th element is the number of cluster changes for the i-th dynamic entity</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.tskmeans.TSKmeans.get_named_cluster_centers">
+<span class="sig-name descname"><span class="pre">get_named_cluster_centers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#tscluster.tskmeans.TSKmeans.get_named_cluster_centers" title="Link to this definition"></a></dt>
+<dd><p>Method to return the cluster centers with custom names of time steps and features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>label_dict dict, default=None</strong></dt><dd><p>a dictionary whose keys are ‘T’, ‘N’, and ‘F’ (which are the number of time steps, entities, and features respectively). Value of each key is a list such that the value of key:
+- ‘T’ is a list of names/labels of each time step to be used as index of each dataframe. If None, range(0, T) is used. Where T is the number of time steps in the fitted data
+- ‘N’ is a list of names/labels of each entity to be used as index of the dataframe. If None, range(0, N) is used. Where N is the number of entities/observations in the fitted data 
+- ‘F’ is a list of names/labels of each feature to be used as column of each dataframe. If None, range(0, F) is used. Where F is the number of features in the fitted data 
+If label_dict is None, the result of <a href="#id17"><span class="problematic" id="id18">self.label_dict_</span></a> is used.</p>
+</dd>
+<dt><strong>Returns</strong></dt><dd></dd>
+<dt><strong>——</strong></dt><dd></dd>
+<dt><strong>list</strong></dt><dd><p>A list of k pandas DataFrames. Where k is the number of clusters. The i-th dataframe in the list is a T x F dataframe of the values of the cluster centers of the i-th cluster.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.tskmeans.TSKmeans.get_named_labels">
+<span class="sig-name descname"><span class="pre">get_named_labels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#tscluster.tskmeans.TSKmeans.get_named_labels" title="Link to this definition"></a></dt>
+<dd><p>Method to return the a data frame of the label assignments with custom names of time steps and entities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>label_dict</strong><span class="classifier">dict, default=None</span></dt><dd><p>a dictionary whose keys are ‘T’, ‘N’, and ‘F’ (which are the number of time steps, entities, and features respectively). Value of each key is a list such that the value of key:
+- ‘T’ is a list of names/labels of each time step to be used as index of each dataframe. If None, range(0, T) is used. Where T is the number of time steps in the fitted data
+- ‘N’ is a list of names/labels of each entity to be used as index of the dataframe. If None, range(0, N) is used. Where N is the number of entities/observations in the fitted data 
+- ‘F’ is a list of names/labels of each feature to be used as column of each dataframe. If None, range(0, F) is used. Where F is the number of features in the fitted data 
+If label_dict is None, the result of <a href="#id19"><span class="problematic" id="id20">self.label_dict_</span></a> is used.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>pd.DataFrame</dt><dd><p>A pandas DataFrame with shape (N, T). The value in the n-th row and t-th column is an integer indicating the custer assignment of the n-th entity/observation at time t.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tscluster.tskmeans.TSKmeans.set_label_dict">
+<span class="sig-name descname"><span class="pre">set_label_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#tscluster.tskmeans.TSKmeans.set_label_dict" title="Link to this definition"></a></dt>
+<dd><p>Method to manually set the <a href="#id21"><span class="problematic" id="id22">label_dict_</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>value</strong><span class="classifier">dict</span></dt><dd><p>the value to set as <a href="#id23"><span class="problematic" id="id24">label_dict_</span></a>. Should be a dict with all of ‘T’, ‘N’, and ‘F’ (case sensitive, which are number of time steps, entities, and features respectively) as key. The value of each key is a list of labels for the key in the data.  If your data don’t have values for any of the keys, set its value to None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>dict</dt><dd><p>a dictionary whose keys are ‘T’, ‘N’, and ‘F’; and values are lists of the labels of each key.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tscluster.preprocessing.html" class="btn btn-neutral float-left" title="preprocessing module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tscluster.tsplot.html" class="btn btn-neutral float-right" title="tsplot module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, tscluster.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
