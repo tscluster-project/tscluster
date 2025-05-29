@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from tscluster.base import TSCluster
 from tscluster.interface import TSClusterInterface
 from sklearn.cluster import kmeans_plusplus
