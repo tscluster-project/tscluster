@@ -53,6 +53,23 @@ License
 -------
 This software is distributed under the MIT License.
 
+Cite Our Work
+-------
+If you used this package in your works, please cite the following paper:
+
+Tosanwumi, J., Liang, J., Silver, D., Fosse, E., & Sanner, S. (2025). tscluster: A python package for the optimal temporal clustering framework. Environment and Planning B: Urban Analytics and City Science, 52(4), 1014-1024.
+
+```
+@article{doi:10.1177/23998083241293833,
+author = {Jolomi Tosanwumi and Jiazhou Liang and Daniel Silver and Ethan Fosse and Scott Sanner},
+title ={tscluster: A python package for the optimal temporal clustering framework},
+journal = {Environment and Planning B: Urban Analytics and City Science},
+volume = {52},
+number = {4},
+pages = {1014-1024},
+year = {2025},
+doi = {10.1177/23998083241293833}}
+```
 Installation
 -------------
 To install, run:
