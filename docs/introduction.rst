@@ -30,31 +30,29 @@ Purpose and Benefits
 --------------------
 With tscluster, you can:
 
-- Use opttscluster subpackage to cluster temporal data using any combination of static or fixed cluster labels and centers with optimality guarantees underscored by Mixed Linear Integer Programming.
+- Clustering temporal data using any combination of static or fixed cluster labels and centers with optimality guarantees underscored by Mixed Linear Integer Programming.
+- Finding entities that are most likely to change cluster label assignment if a total number of n label changes is allowed.
 
-- Use opttscluster subpackage to find entities that are most likely to change cluster label assignment if a total number of n label changes are allowed.
+We provide two implementations for different use cases:
 
-Tscluster also encompasses the two existing approaches by proving the following classes available in its tskmeans subpackage:
-- TSKmeans class for TSC (builds on tslearn).
-- TSGlobalKmeans class for SLA (builds on sklearn).
+- **`opttscluster` subpackage**: Offers a **guaranteed globally optimal** solution based on **Mixed Integer Linear Programming (MILP)** formulations, implemented using the `gurobipy` package.  
+  *Requires an active Gurobi license.*
+
+- **`greedytscluster` subpackage**: Provides a **more scalable**, but **non-optimal** alternative based on **Maxima Minimization (MM)** algorithms.  
+  *Does not require a Gurobi license.*
+
+Tscluster also encompasses the two existing approaches by providing the following classes available in its tskmeans subpackage:
+- TSKmeans class for TSC (built on top of tslearn).
+- TSGlobalKmeans class for SLA (built on top of sklearn).
 
 Tscluster implemented some utility tools in the following subpackages to help in temporal clustering tasks.
-- preprocessing: This can be used to preprocess and load temporal data. Data can be loaded from either a directory, a file, a list of Pandas DataFrames, or a numpy array
+- Preprocessing: This can be used to preprocess and load temporal data. Data can be loaded from either a directory, a file, a list of Pandas DataFrames, or a numpy array
 file (.npy).
 
 .. image:: source/images/tscluster_schema.png
 
 - metric: contains useful temporal clustering evaluation metrics such as inertia and max_dist.
 - tsplot: Useful for seamlessly generating 2D time series plots and 3D waterfall plots of all features within temporal data and the cluster centers. 
-
-.. With tscluster, you can:
-
-.. - Cluster time series data with optimality guarantees using ``opttscluster`` subpackage with any of the six shemes in the design space introduced in this paper. 
-.. - Use k-means for time series clustering using the ``TSKmeans`` class (built on top of ``tslean``) in the ``tskmeans`` subpackage.
-.. - Do time-series label analysis (TLA) clustering using the  ``TSGlobalKmeans`` class in the ``tskmeans`` subpackage.
-.. - Preprocess time series data using its ``preprocessing`` subpackage.
-.. - Evaluate clustering alogrithms using ``metrics`` subpackage.
-.. - Seamlessly generate plots of the time series and their cluster using its ``tsplot`` subpackage. 
 
 Example usage
 -------------
@@ -63,6 +61,24 @@ For an example notebook with applications to real world data, see this `Colab no
 License
 -------
 This software is distributed under the MIT License.
+
+Cite Our Work
+-------
+If you used this package in your works, please cite the following paper:
+
+Tosanwumi, J., Liang, J., Silver, D., Fosse, E., & Sanner, S. (2025). tscluster: A python package for the optimal temporal clustering framework. Environment and Planning B: Urban Analytics and City Science, 52(4), 1014-1024.
+
+```
+@article{doi:10.1177/23998083241293833,
+author = {Jolomi Tosanwumi and Jiazhou Liang and Daniel Silver and Ethan Fosse and Scott Sanner},
+title ={tscluster: A python package for the optimal temporal clustering framework},
+journal = {Environment and Planning B: Urban Analytics and City Science},
+volume = {52},
+number = {4},
+pages = {1014-1024},
+year = {2025},
+doi = {10.1177/23998083241293833}}
+```
 
 Contributors
 ------------
