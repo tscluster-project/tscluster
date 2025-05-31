@@ -32,16 +32,23 @@ Purpose and Benefits
 --------------------
 With tscluster, you can:
 
-- Use opttscluster subpackage to cluster temporal data using any combination of static or fixed cluster labels and centers with optimality guarantees underscored by Mixed Linear Integer Programming.
+- Clustering temporal data using any combination of static or fixed cluster labels and centers with optimality guarantees underscored by Mixed Linear Integer Programming.
+- Finding entities that are most likely to change cluster label assignment if a total number of n label changes is allowed.
 
-- Use opttscluster subpackage to find entities that are most likely to change cluster label assignment if a total number of n label changes are allowed.
+We provide two implementations for different use cases:
 
-Tscluster also encompassed the two existing approaches by proving the following classes available in its tskmeans subpackage:
+- **`opttscluster` subpackage**: Offers a **guaranteed globally optimal** solution based on **Mixed Integer Linear Programming (MILP)** formulations, implemented using the `gurobipy` package.  
+  *Requires an active Gurobi license.*
+
+- **`greedytscluster` subpackage**: Provides a **more scalable**, but **non-optimal** alternative based on **Maxima Minimization (MM)** algorithms.  
+  *Does not require a Gurobi license.*
+
+Tscluster also encompasses the two existing approaches by providing the following classes available in its tskmeans subpackage:
 - TSKmeans class for TSC (built on top of tslearn).
 - TSGlobalKmeans class for SLA (built on top of sklearn).
 
 Tscluster implemented some utility tools in the following subpackages to help in temporal clustering tasks.
-- preprocessing: This can be used to preprocess and load temporal data. Data can be loaded from either a directory, a file, a list of Pandas DataFrames, or a numpy array
+- Preprocessing: This can be used to preprocess and load temporal data. Data can be loaded from either a directory, a file, a list of Pandas DataFrames, or a numpy array
 file (.npy).
 
 ![alt](docs/source/images/tscluster_schema.png)
