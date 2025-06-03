@@ -56,7 +56,7 @@ file (.npy).
 
 Example usage
 -------------
-For an example notebook with applications to real world data, see this `Colab notebook  <https://colab.research.google.com/drive/1dH3sj8jybbOomuwQR9eGhNnYqyZ4OKZM?usp=sharing>`_
+For an example notebook with applications to real world data, see this `Colab notebook  <https://colab.research.google.com/drive/1BRQZWbmEZctGUatEOlKJG4hbNWzUvbda?usp=sharing>`_
 
 License
 -------
